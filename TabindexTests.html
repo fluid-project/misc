@@ -45,11 +45,19 @@
     }   // end getImmediateText().
     
     function doOnFocus (what) {
-        document.getElementById ("focusStatus").innerHTML = "Focus:  " + what;
+        what.style.borderColor = "red";
+        what.style.borderStyle = "solid";
+        what.style.fontSize = "150%";
+        var el = document.getElementById ("focusStatus");
+        el.innerHTML = "Focus:  " + getImmediateText (what);
     }
             
     function doOnBlur (what) {
-        document.getElementById ("blurStatus").innerHTML = "Blur:  " + what;
+        what.style.borderColor = "";
+        what.style.borderStyle = "";
+        what.style.fontSize = "100%";
+        var el = document.getElementById ("blurStatus");
+        el.innerHTML = "Blur:  " + getImmediateText (what);
     }
     
 </script>
@@ -60,15 +68,15 @@
 	Both the W3C
 	<a  href="http://www.w3.org/WAI/PF/roadmap/DHTMLRoadmap040506.html#focus"
 	    title="Dynamic Accessible Web Content Roadmap"
-	    onfocus="doOnFocus (getImmediateText (this));"
-	    onblur="doOnBlur (getImmediateText (this));">
+	    onfocus="doOnFocus (this);"
+	    onblur="doOnBlur (this);">
 	    ARIA
 	</a>
 	and the 
 	<a  href="http://dev.w3.org/cvsweb/~checkout~/html5/spec/Overview.html?content-type=text/html;%20charset=utf-8#tabindex"
 	    title="HTML 5"
-	    onfocus="doOnFocus (getImmediateText (this));"
-	    onblur="doOnBlur (getImmediateText (this));">
+	    onfocus="doOnFocus (this);"
+	    onblur="doOnBlur (this);">
 	    HTML 5
 	</a>
 	draft specifications define an improvement to navigating an HTML
@@ -103,37 +111,37 @@
 </div>
 <p>This is a paragraph with no tabindex.</p>
 <p><a   href="#"
-        onfocus="doOnFocus (getImmediateText (this));"
-        onblur="doOnBlur (getImmediateText (this));">
+        onfocus="doOnFocus (this);"
+        onblur="doOnBlur (this);">
             This is a link, no tabindex.
    </a>
 </p>
 <p><a   tabindex="2"
         href="#"
-        onfocus="doOnFocus (getImmediateText (this));"
-        onblur="doOnBlur (getImmediateText (this));">
+        onfocus="doOnFocus (this);"
+        onblur="doOnBlur (this);">
             This is a link, tabindex = 2.
     </a>
 </p>
 <p><a   href="#"
-        onfocus="doOnFocus (getImmediateText (this));"
-        onblur="doOnBlur (getImmediateText (this));">
+        onfocus="doOnFocus (this);"
+        onblur="doOnBlur (this);">
             This is another link, no tabindex.
     </a>
 </p>
 <div    tabindex="0"
-        onfocus="doOnFocus (getImmediateText (this));"
-        onblur="doOnBlur (getImmediateText (this));">
+        onfocus="doOnFocus (this);"
+        onblur="doOnBlur (this);">
             This is a div with &quot;tabindex='0'&quot;
 </div>
-<div    onfocus="doOnFocus (getImmediateText (this));"
-        onblur="doOnBlur (getImmediateText (this));">
+<div    onfocus="doOnFocus (this);"
+        onblur="doOnBlur (this);">
             This is a div with no tabindex.
 </div>
 <div    tabindex="0"
         style="border: 1px dashed blue;"
-        onfocus="doOnFocus (getImmediateText (this));"
-        onblur="doOnBlur (getImmediateText (this));">
+        onfocus="doOnFocus (this);"
+        onblur="doOnBlur (this);">
             This is another (container) div with &quot;tabindex='0'&quot;
             
             <div style="text-indent: 1em;">
@@ -141,8 +149,8 @@
                 <p style="text-indent: 1.5em;">This is a (doubly-contained) paragraph with no tabindex.</p>
                 <p style="text-indent: 1.5em;">
                     <a  href="#"
-                        onfocus="doOnFocus (getImmediateText (this));"
-                        onblur="doOnBlur (getImmediateText (this));">
+                        onfocus="doOnFocus (this);"
+                        onblur="doOnBlur (this);">
                             This is a (triply-contained) link (&lt;a&gt;): no tabindex.
                     </a>
                 </p>
@@ -153,8 +161,8 @@
 	<input	id="checkNoTabindex"
             type="checkbox"
             value="checkNoTabindex"
-            onfocus="doOnFocus (getImmediateText (document.getElementById ('checkNoTabindexLabel')));"
-            onblur="doOnBlur (getImmediateText (document.getElementById ('checkNoTabindexLabel')));"/>
+            onfocus="doOnFocus (document.getElementById ('checkNoTabindexLabel'));"
+            onblur="doOnBlur (document.getElementById ('checkNoTabindexLabel'));"/>
     <label id="checkNoTabindexLabel" for="checkNoTabindex">Check box (no tabindex)</label>
     </p>
     <p>
@@ -162,8 +170,8 @@
             type="checkbox"
             value="checkTabindex1"
             tabindex="1"
-            onfocus="doOnFocus (getImmediateText (document.getElementById ('checkTabindex1Label')));"
-            onblur="doOnBlur (getImmediateText (document.getElementById ('checkTabindex1Label')));"/>
+            onfocus="doOnFocus (document.getElementById ('checkTabindex1Label'));"
+            onblur="doOnBlur (document.getElementById ('checkTabindex1Label'));"/>
 	<label id="checkTabindex1Label" for="checkTabindex1">Check box (tabindex='1')</label>
     </p>
     <p>
@@ -171,14 +179,14 @@
 			type="checkbox"
 			value="checkTabindex0"
 			tabindex="0"
-			onfocus="doOnFocus(getImmediateText (document.getElementById ('checkTabindex0Label')));"
-            onblur="doOnBlur (getImmediateText (document.getElementById ('checkTabindex0Label')));"/>
+			onfocus="doOnFocus (document.getElementById ('checkTabindex0Label'));"
+            onblur="doOnBlur (document.getElementById ('checkTabindex0Label'));"/>
     <label id="checkTabindex0Label" for="checkTabindex0">Check box (tabindex='0')</label>
     </p>
 </form>
 <div    tabindex="2"
-        onfocus="doOnFocus (getImmediateText (this));"
-        onblur="doOnBlur (getImmediateText (this));">
+        onfocus="doOnFocus (this);"
+        onblur="doOnBlur (this);">
             This is a div with &quot;tabindex='2'&quot;
 </div>
 <p>Finis.</p>
