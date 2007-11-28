@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>DOM Modify Event Handling</title>
+<script type="text/javascript">
+    var nextId = 1;
+    function addParagraph() {
+        var currentPara = document.getElementById (nextId);
+        var newPara = document.createElement ("p");
+        nextId++;
+        newPara.setAttribute ("id", nextId);
+        var paraText = document.createTextNode ("Paragraph " + nextId);
+        currentPara.parentNode.appendChild (newPara);
+        newPara.appendChild (paraText);
+    }
+    
+    function mutationListener (Event) {
+        if (Event.relatedNode.id == nextId) {
+            alert ("Node addition detected:  Added " + Event.relatedNode.id);
+        }
+    }
+    
+    function listenerAdder() {
+        var mainDiv = document.getElementById ("mainDiv");
+        mainDiv.addEventListener ("DOMNodeInserted", mutationListener, false);
+    }
+</script>
+</head>
+<body onload="listenerAdder()">
+<h1>DOM Modify Event Handling</h1>
+<ul>
+<li>Below is a <code>&lt;div&gt;</code> element with an id of
+    &quot;mainDiv&quot;.
+</li>
+<li>This <code>&lt;div&gt;</code> has an event listenar attached listening for
+    <code>DOMNodeInserted</code> events.
+</li>
+<li>Pressing the button labelled quot;mainDiv&quot; appends a new paragraph to
+    the end of the <code>&lt;div&gt;</code>.  This should trigger a
+    <code>DOMNodeInserted</code>.
+</li>
+<li>The <code>DOMNodeInserted</code> listener on the <code>&lt;div&gt;</code>
+    should bring up an alert that indicates that the paragraph element was
+    added.
+</li>
+</ul>
+<div id="mainDiv" style="border: 1px dotted blue;">
+    <p id="1">Paragraph 1</p>
+    <p>
+        <form>
+            <input type=button onclick="addParagraph()" value="Add Paragraph">
+        </form>
+    </p>
+</div>
+</body>
+</html>
