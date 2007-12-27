@@ -2,15 +2,12 @@ var fluid = fluid || {};
 
 fluid.accessiblecheckbox =  function () {
     // Private functions.
-	var toggleFocus = function (boxToFocus) {
-        jQuery (boxToFocus).toggleClass ("focussed");
+    var focusCheckbox = function (boxToFocus) {
+    	jQuery (boxToFocus).addClass ("focussed");
     };
     
-    var selectCheckboxHandler = function (boxToCheck) {
-        var checkbox = jQuery (boxToCheck);
-        var childBoxIdSelector = "#" + checkbox.attr ("id") + "_box";
-        var box = jQuery (childBoxIdSelector);
-        toggleBox (box);
+    var blurCheckbox = function (boxToBlur) {
+    	jQuery (boxToBlur).removeClass ("focussed");
     };
     
     var toggleBox = function (box) {
@@ -20,6 +17,13 @@ fluid.accessiblecheckbox =  function () {
         } else if (text == "No") {
             box.text("Yes");    
         }
+    };
+    
+    var selectCheckboxHandler = function (boxToCheck) {
+        var checkbox = jQuery (boxToCheck);
+        var childBoxIdSelector = "#" + checkbox.attr ("id") + "_box";
+        var box = jQuery (childBoxIdSelector, checkbox);
+        toggleBox (box);
     };
     
     // Public members.
@@ -32,8 +36,8 @@ fluid.accessiblecheckbox =  function () {
 	    	// Individual checkboxes should be selectable.
 	    	var boxes = checkboxContainer.children ("p");    	
 	    	var selectionHandlers = {
-	    		focus: toggleFocus,
-	    		blur: toggleFocus
+	    		focus: focusCheckbox,
+	    		blur: blurCheckbox
 	    	};
 	    	fluid.access.makeSelectable (checkboxContainer, boxes, fluid.access.VERTICAL, selectionHandlers);
 	    	fluid.access.makeActivatable (boxes, selectCheckboxHandler);

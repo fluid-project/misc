@@ -3,32 +3,24 @@ var fluid = fluid || {};
 fluid.access = function () {
     // Private functions.
     
-    var activationHandler = function (onActivateHandler) {
-	    return function (e) {
-	        if (e.which == fluid.access.keys.ENTER || e.which == fluid.access.keys.SPACE) {
-	            onActivateHandler (e.target, e);
-	        }
-	    };
-	};
-
-	var arrowKeyHandler = function (elements, keyMap, handlers) {
-	    // Store the currently selected element, which by default will be the first element.
-	    var currentlySelectedElement = elements[0];
+    var doSelection = function (selectionContext, elementFinder, handlers) {
+    	var currentlySelectedElement = selectionContext.activeItem;
+    	
+	    // If something is already selected, unselect it first.
+	    if (currentlySelectedElement) {
+	        fluid.access.unselectElement (currentlySelectedElement, handlers.blur);
+	    }
 	    
-	    return function (e) {    
-	        if (e.which == keyMap.next) {
-	            currentlySelectedElement = selectNextElement (currentlySelectedElement, elements, handlers);
-	        } else if (e.which == keyMap.previous) {
-	            currentlySelectedElement = selectPreviousElement (currentlySelectedElement, elements, handlers);
-	        }
-	        
-	        return false;
-	    };
+	    // Find the element and select it.
+	    var elementToSelect = elementFinder (currentlySelectedElement, selectionContext.selectables);
+	    fluid.access.selectElement (elementToSelect, handlers.focus);
+	    selectionContext.activeItem = elementToSelect;    
 	};
 	
-	var selectNextElement = function (currentlySelectedElement, elements, handlers) {
-	    var nextCalculator = function () {
-	        var nextIndex = elements.index (currentlySelectedElement) + 1;
+	var selectNextElement = function (selectionContext, handlers) {		
+		var elements = selectionContext.selectables;
+	    var findNext = function () {
+	        var nextIndex = elements.index (selectionContext.activeItem) + 1;
 	        if (nextIndex >= elements.length) {
 	            // Wrap around to the beginning.
 	            nextIndex = 0;
@@ -37,12 +29,13 @@ fluid.access = function () {
 	        return elements[nextIndex];
 	    };
 	
-	    return doSelection (currentlySelectedElement, elements, nextCalculator, handlers);
+	    return doSelection (selectionContext, findNext, handlers);
 	};
 	
-	var selectPreviousElement = function (currentlySelectedElement, elements, handlers) {
-	    var previousCalculator = function () {
-	        var previousIndex = elements.index (currentlySelectedElement) - 1;
+	var selectPreviousElement = function (selectionContext, handlers) {
+		var elements = selectionContext.selectables;
+	    var findPrevious = function () {
+	        var previousIndex = elements.index (selectionContext.activeItem) - 1;
 	        if (previousIndex < 0) {
 	            // Wrap around to the end.
 	            previousIndex = elements.length - 1;
@@ -51,26 +44,34 @@ fluid.access = function () {
 	        return elements[previousIndex];
 	    };
 	    
-	    return doSelection (currentlySelectedElement, elements, previousCalculator, handlers); 
+	    return doSelection (selectionContext, findPrevious, handlers); 
 	};
 	
-	var doSelection = function (currentlySelectedElement, elements, elementFinder, handlers) {
-	    // If something is already selected, unselect it first.
-	    if (currentlySelectedElement) {
-	        fluid.access.unselectElement (currentlySelectedElement, handlers.blur);
-	    }
-	    
-	    // Find the element and select it.
-	    var elementToSelect = elementFinder (currentlySelectedElement, elements);
-	    fluid.access.selectElement (elementToSelect, handlers.focus)
-	    
-	    return elementToSelect;    
+    var activationHandler = function (onActivateHandler) {
+	    return function (evt) {	    	
+	        if (evt.which === fluid.access.keys.ENTER || evt.which === fluid.access.keys.SPACE) {
+	            onActivateHandler (evt.target);
+	            return false;
+	        }
+	    };
+	};
+
+	var arrowKeyHandler = function (selectionContext, keyMap, handlers) {
+	    return function (evt) { 
+	        if (evt.which === keyMap.next) {
+	            selectNextElement (selectionContext, handlers);
+	            return false;
+	        } else if (evt.which === keyMap.previous) {
+	            selectPreviousElement (selectionContext, handlers);
+	            return false;
+	        }
+	    };
 	};
 	
 	var getKeyMapForDirection = function (direction) {
 	    // Determine the appropriate mapping for next and previous based on the specified direction.
 	    var keyMap;
-	    if (direction == fluid.access.HORIZONTAL) {
+	    if (direction === fluid.access.HORIZONTAL) {
 	        keyMap = fluid.access.LEFT_RIGHT_KEYMAP;
 	    } else {
 	        // Assume vertical in any other case.
@@ -80,14 +81,17 @@ fluid.access = function () {
 	    return keyMap;
 	};
 	
-	var addContainerFocusHandler = function (container, selectableElements, focusHandler) {
+	var addContainerFocusHandler = function (selectionContext, container, userFocusHandler) {
         // Select the first item when the container first gets focus.
-        var onTabFocusHandler = function (e) {
-            if (e.target === container.get(0)) { 
-              fluid.access.selectElement (selectableElements[0], focusHandler);
-            }               
+        var containerFocusHandler = function (evt) {
+            if (evt.target === container.get(0)) {
+            	var itemToSelect = selectionContext.activeItem;
+              	fluid.access.selectElement (itemToSelect, userFocusHandler);
+              	
+              	return false;
+            }         
         };
-        container.focus (onTabFocusHandler);
+        container.focus (containerFocusHandler);
 	};
 
     var keys = {
@@ -123,7 +127,7 @@ fluid.access = function () {
          * Makes the specified elements available in the tab order by setting its tabindex to "0".
          */
         makeTabFocussable: function (elements) {
-            jQuery (elements).attr ("tabindex", "0");
+            jQuery (elements).attr ("tabIndex", "0");
         },
         
         /**
@@ -131,7 +135,7 @@ fluid.access = function () {
          * Provide your own onActivateHandler for custom behaviour.
          */
         makeActivatable: function (elements, onActivateHandler) {
-            jQuery (elements).keypress (activationHandler (onActivateHandler));
+            jQuery (elements).keydown (activationHandler (onActivateHandler));
         },
         
         /**
@@ -144,25 +148,31 @@ fluid.access = function () {
 		    var jContainer = jQuery (container);
 		    var jSelectables = jQuery (selectableElements);
 		    
-		    // Add the a handler for the arrow keypresses.
-		    jContainer.keypress (arrowKeyHandler(jSelectables, keyMap, handlers));
+		    // Store the currently selected element, which by default will be the first element.
+		    var selectionContext = {
+	    		activeItem: jSelectables[0],
+	    		selectables: jSelectables
+		    };
+		    
+		    // Add the a handler for the arrow keys.
+		    jContainer.keydown (arrowKeyHandler(selectionContext, keyMap, handlers));
 		    
 		    // Add a handler to select the first element when the container gets focus.
-		    addContainerFocusHandler (jContainer, jSelectables, handlers.focus);
+		    addContainerFocusHandler (selectionContext, jContainer, handlers.focus);
 
 		    // Add a tabindex of -1 to each selectable element so the browser can actually focus them.
-		    jSelectables.attr("tabindex", "-1");
+		    jSelectables.attr ("tabIndex", "-1");
         },
         
         /**
          * Actually does the work of selecting an element. Can be overridden for custom behaviour.
          */
         selectElement: function (elementToSelect, handler) {
-		    elementToSelect.focus ();
-		    
+        	elementToSelect.focus ();
+        	
 		    if (handler) {
 		        handler (elementToSelect);
-		    }
+		    } 		    
         },
 
         /**
@@ -177,5 +187,4 @@ fluid.access = function () {
         }
     }; // End of public return.
 }(); // End of fluid.access namespace.
-
 
