@@ -1,50 +1,34 @@
 var fluid = fluid || {};
 
-fluid.access = function () {
-    // Private functions.
-    
-    var doSelection = function (selectionContext, elementFinder, handlers) {
+fluid.access = function () {	
+	// Private functions.        
+	var containerBlurHandler = function (userHandlers) {
+		return function (evt) {
+			if (userHandlers.willLeaveContainer) {
+				userHandlers.willLeaveContainer (evt.target);
+			} else if (userHandlers.willUnselect) {
+				userHandlers.willUnselect (evt.target);
+			}
+    	};
+	};
+	
+    var doSelection = function (selectionContext, elementFinder, userHandlers) {
     	var currentlySelectedElement = selectionContext.activeItem;
     	
-	    // If something is already selected, unselect it first.
-	    if (currentlySelectedElement) {
-	        fluid.access.unselectElement (currentlySelectedElement, handlers.blur);
+    	// Find the new element to select.
+    	var elementToSelect = elementFinder (currentlySelectedElement, selectionContext.selectables);
+    	
+	    // If something else is already selected, unselect it first.
+	    if (currentlySelectedElement && (currentlySelectedElement != elementToSelect)) {
+	        fluid.access.eraseSelection (currentlySelectedElement, userHandlers.willUnselect);
 	    }
 	    
-	    // Find the element and select it.
-	    var elementToSelect = elementFinder (currentlySelectedElement, selectionContext.selectables);
-	    fluid.access.selectElement (elementToSelect, handlers.focus);
+	    // Select the new element.
 	    selectionContext.activeItem = elementToSelect;    
-	};
-	
-	var selectNextElement = function (selectionContext, handlers) {		
-		var elements = selectionContext.selectables;
-	    var findNext = function () {
-	        var nextIndex = elements.index (selectionContext.activeItem) + 1;
-	        if (nextIndex >= elements.length) {
-	            // Wrap around to the beginning.
-	            nextIndex = 0;
-	        }
-	        
-	        return elements[nextIndex];
-	    };
-	
-	    return doSelection (selectionContext, findNext, handlers);
-	};
-	
-	var selectPreviousElement = function (selectionContext, handlers) {
-		var elements = selectionContext.selectables;
-	    var findPrevious = function () {
-	        var previousIndex = elements.index (selectionContext.activeItem) - 1;
-	        if (previousIndex < 0) {
-	            // Wrap around to the end.
-	            previousIndex = elements.length - 1;
-	        }
-	
-	        return elements[previousIndex];
-	    };
-	    
-	    return doSelection (selectionContext, findPrevious, handlers); 
+	   	fluid.access.drawSelection (elementToSelect, userHandlers.willSelect);	   	
+	   	
+	   	// Bind a one-off blur handler to clean up if focus leaves the container altogether.
+    	jQuery (elementToSelect).one ("blur", containerBlurHandler(userHandlers));
 	};
 	
     var activationHandler = function (onActivateHandler) {
@@ -56,13 +40,13 @@ fluid.access = function () {
 	    };
 	};
 
-	var arrowKeyHandler = function (selectionContext, keyMap, handlers) {
+	var arrowKeyHandler = function (selectionContext, keyMap, userHandlers) {
 	    return function (evt) { 
 	        if (evt.which === keyMap.next) {
-	            selectNextElement (selectionContext, handlers);
+	            fluid.access.selectNext (selectionContext, userHandlers);
 	            return false;
 	        } else if (evt.which === keyMap.previous) {
-	            selectPreviousElement (selectionContext, handlers);
+	            fluid.access.selectPrevious (selectionContext, userHandlers);
 	            return false;
 	        }
 	    };
@@ -81,19 +65,23 @@ fluid.access = function () {
 	    return keyMap;
 	};
 	
-	var addContainerFocusHandler = function (selectionContext, container, userFocusHandler) {
+	var containerFocusHandler = function (selectionContext, container, userHandlers) {
         // Select the first item when the container first gets focus.
-        var containerFocusHandler = function (evt) {
+        return function (evt) {
             if (evt.target === container.get(0)) {
-            	var itemToSelect = selectionContext.activeItem;
-              	fluid.access.selectElement (itemToSelect, userFocusHandler);
-              	
+            	if (!selectionContext.activeItem) {
+            		// If there isn't already an active item, call selectNextElement to get it.
+            		fluid.access.selectNext (selectionContext, userHandlers);
+            	} else {
+            		// Otherwise just re-focus what we've got.
+              		fluid.access.drawSelection (selectionContext.activeItem, userHandlers.willSelect);
+            	}
+            	
               	return false;
             }         
         };
-        container.focus (containerFocusHandler);
 	};
-
+	
     var keys = {
 	    UP: 38,
 	    DOWN: 40,
@@ -127,7 +115,15 @@ fluid.access = function () {
          * Makes the specified elements available in the tab order by setting its tabindex to "0".
          */
         makeTabFocussable: function (elements) {
-            jQuery (elements).attr ("tabIndex", "0");
+        	var jElements = jQuery (elements);
+        	
+        	// If the element doesn't have a tabindex, or has one set to a negative value, set it to 0.
+        	jQuery (elements).each (function (idx, element) {
+        		jElement = jQuery (element);
+        		if (!jElement.hasTabIndex () || (jElement.tabIndex () < 0)) {
+        			jElement.tabIndex (0);
+        		}
+        	});
         },
         
         /**
@@ -148,43 +144,92 @@ fluid.access = function () {
 		    var jContainer = jQuery (container);
 		    var jSelectables = jQuery (selectableElements);
 		    
-		    // Store the currently selected element, which by default will be the first element.
+		    // Set up an empty handlers object if it was not specified.
+		 	if (!handlers) {
+		 		handlers = {};
+		 	}
+		 	
+		    // Context stores the currently active item (undefined to start) and list of selectables.
 		    var selectionContext = {
-	    		activeItem: jSelectables[0],
+		    	activeItem: undefined,
 	    		selectables: jSelectables
 		    };
 		    
-		    // Add the a handler for the arrow keys.
-		    jContainer.keydown (arrowKeyHandler(selectionContext, keyMap, handlers));
+		    // Add various handlers to the container.
+		    jContainer.keydown (arrowKeyHandler (selectionContext, keyMap, handlers));
+		    jContainer.focus (containerFocusHandler (selectionContext, jContainer, handlers));		    
 		    
-		    // Add a handler to select the first element when the container gets focus.
-		    addContainerFocusHandler (selectionContext, jContainer, handlers.focus);
-
-		    // Add a tabindex of -1 to each selectable element so the browser can actually focus them.
-		    jSelectables.attr ("tabIndex", "-1");
+		    // Remove selectables from the tab order.
+		    jSelectables.tabIndex(-1);
+		    
+		    return selectionContext;
         },
         
         /**
          * Actually does the work of selecting an element. Can be overridden for custom behaviour.
          */
-        selectElement: function (elementToSelect, handler) {
-        	elementToSelect.focus ();
-        	
-		    if (handler) {
+        drawSelection: function (elementToSelect, handler) {
+        	if (handler) {
 		        handler (elementToSelect);
-		    } 		    
+		    } 	
+		    
+        	elementToSelect.focus ();	    
         },
 
         /**
          * Does does the work of unselecting an element. Can be overridden for custom behaviour.
          */
-        unselectElement: function (selectedElement, handler) {
+        eraseSelection: function (selectedElement, handler) {
 		    if (handler) {
 		        handler (selectedElement);
 		    }
 		    
 		    selectedElement.blur ();
-        }
+        },
+        
+        selectNext: function (selectionContext, userHandlers) {		
+			var elements = selectionContext.selectables;
+		    var findNext = function () {
+		    	var indexOfCurrentSelection;
+		    	if (!selectionContext.activeItem) {
+		    		indexOfCurrentSelection = -1;
+		    	} else {
+		    		indexOfCurrentSelection = elements.index (selectionContext.activeItem);
+		    	}
+		    	
+		        var nextIndex =  indexOfCurrentSelection + 1;
+		        if (nextIndex >= elements.length) {
+		            // Wrap around to the beginning.
+		            nextIndex = 0;
+		        }
+		        
+		        return elements[nextIndex];
+		    };
+		
+		    return doSelection (selectionContext, findNext, userHandlers);
+		},
+	
+		selectPrevious: function (selectionContext, userHandlers) {
+			var elements = selectionContext.selectables;
+		    var findPrevious = function () {
+		    	var indexOfCurrentSelection;
+		    	if (!selectionContext.activeItem) {
+		    		indexOfCurrentSelection = 0;
+		    	} else {
+		    		indexOfCurrentSelection = elements.index (selectionContext.activeItem);
+		    	}
+		    	
+		        var previousIndex = indexOfCurrentSelection - 1;
+		        if (previousIndex < 0) {
+		            // Wrap around to the end.
+		            previousIndex = elements.length - 1;
+		        }
+		
+		        return elements[previousIndex];
+		    };
+		    
+		    return doSelection (selectionContext, findPrevious, userHandlers); 
+		}
     }; // End of public return.
 }(); // End of fluid.access namespace.
 

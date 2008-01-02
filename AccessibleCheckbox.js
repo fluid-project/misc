@@ -2,12 +2,16 @@ var fluid = fluid || {};
 
 fluid.accessiblecheckbox =  function () {
     // Private functions.
-    var focusCheckbox = function (boxToFocus) {
+    var selectCheckbox = function (boxToFocus) {
     	jQuery (boxToFocus).addClass ("focussed");
     };
     
-    var blurCheckbox = function (boxToBlur) {
+    var unselectCheckbox = function (boxToBlur) {
     	jQuery (boxToBlur).removeClass ("focussed");
+    };
+    
+    var leaveCheckboxes = function (selectedBox) {
+    	unselectCheckbox (selectedBox);
     };
     
     var toggleBox = function (box) {
@@ -36,8 +40,9 @@ fluid.accessiblecheckbox =  function () {
 	    	// Individual checkboxes should be selectable.
 	    	var boxes = checkboxContainer.children ("p");    	
 	    	var selectionHandlers = {
-	    		focus: focusCheckbox,
-	    		blur: blurCheckbox
+	    		willSelect: selectCheckbox,
+	    		willUnselect: unselectCheckbox,
+	    		willLeaveContainer: leaveCheckboxes
 	    	};
 	    	fluid.access.makeSelectable (checkboxContainer, boxes, fluid.access.VERTICAL, selectionHandlers);
 	    	fluid.access.makeActivatable (boxes, selectCheckboxHandler);
