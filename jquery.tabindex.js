@@ -5,8 +5,9 @@
 			return null;
 		}
 
-		// Normalize to a number value.
-		return Number(elements.attr ("tabIndex"));
+		// Use getAttribute because IE doesn't seem to like jQuery's .attr function.
+		// Normalize the result to a number value for convenience.
+		return Number(elements[0].getAttribute ("tabIndex"));
 	};
 	
 	var setValue = function (elements, toIndex) {
