@@ -28,10 +28,13 @@ fluid.access = function () {
         jQuery (elementToSelect).one ("blur", focusLeftContainerHandler(userHandlers));
     };
 
-    var activationHandler = function (onActivateHandler) {
+    var activationHandler = function (userActivateHandler) {
         return function (evt) {
             if (evt.which === fluid.access.keys.ENTER || evt.which === fluid.access.keys.SPACE) {
-                onActivateHandler (evt.target);
+                if (userActivateHandler) {
+                    userActivateHandler (evt.target);
+                }
+
                 return false;
             }
         };
