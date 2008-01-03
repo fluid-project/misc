@@ -9,10 +9,8 @@
 			return null;
 		}
 
-		// Use getAttribute because IE doesn't seem to like jQuery's .attr function.
+        // Get the attribute (.attr () doesn't work) and return it as a number value.
 		var value = elements[0].getAttribute (normalizeTabIndexName ());
-
-		// Normalize the result to a number value for convenience.
 		return Number (value);
 	};
 
