@@ -20,7 +20,7 @@
 		});
 	};
 
-	// Public functions.
+	// Public methods.
 	$.fn.tabIndex = function (toIndex) {
 		if (toIndex !== null && toIndex !== undefined) {
 			return setValue (this, toIndex);

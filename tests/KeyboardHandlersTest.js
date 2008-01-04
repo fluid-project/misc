@@ -43,6 +43,12 @@ var KeyboardHandlersTest = {
 	},
 
 	makeMenuSelectable: function (options) {
+        var selectionOptions = {
+            direction: fluid.access.HORIZONTAL
+        };
+        // Mix in any additional options.
+        jQuery.extend (selectionOptions, options);
+
 		var menuContainer = jQuery (KeyboardHandlersTest.MENU_SEL);
 		var menuItems = menuContainer.children (KeyboardHandlersTest.MENU_ITEM_SEL);
 
@@ -51,7 +57,6 @@ var KeyboardHandlersTest = {
 		var handlers = KeyboardHandlersTest.getHandlers ()
 		var selectionContext = fluid.access.makeSelectable(menuContainer,
 														menuItems,
-														fluid.access.HORIZONTAL,
 														handlers,
 														options);
 

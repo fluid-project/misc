@@ -66,11 +66,6 @@ fluid.access = function () {
     };
 
     var addContainerFocusHandler = function (selectionContext, container, userHandlers, shouldSelectOnFocus) {
-        // Default to true if the option wasn't specified.
-        if (shouldSelectOnFocus === null || shouldSelectOnFocus === undefined) {
-            shouldSelectOnFocus = true;
-        }
-
         var focusHandler;
         if (shouldSelectOnFocus.constructor === Function) {
             focusHandler = function (evt) {
@@ -151,17 +146,18 @@ fluid.access = function () {
 
         /**
          * Makes the specified elements selectable with the arrow keys.
-         * Supply your own handlers object with focus: and blur: properties for custom behaviour.
+         * Supply your own handlers object with willSelect: and willUnselect: properties for custom behaviour.
+         * Options provide configurability, including direction: and shouldSelectOnFocus:
          * Currently supported directions are fluid.access.HORIZONTAL and VERTICAL.
          */
-        makeSelectable: function (container, selectableElements, direction, handlers, options) {
-            var keyMap = getKeyMapForDirection (direction);
+        makeSelectable: function (container, selectableElements, handlers, options) {
+            // Create empty an handlers and use default options where not specified.
+            handlers = handlers || {};
+            var mergedOptions = jQuery.extend ({}, this.defaults, options);
+
+            var keyMap = getKeyMapForDirection (mergedOptions.direction);
             var jContainer = jQuery (container);
             var jSelectables = jQuery (selectableElements);
-
-            // Create empty handlers and options objects if either weren't specified.
-            handlers = handlers || {};
-            options = options || {};
 
             // Context stores the currently active item (undefined to start) and list of selectables.
             var selectionContext = {
@@ -171,7 +167,7 @@ fluid.access = function () {
 
             // Add various handlers to the container.
             jContainer.keydown (arrowKeyHandler (selectionContext, keyMap, handlers));
-            addContainerFocusHandler (selectionContext, jContainer, handlers, options.shouldSelectOnFocus);
+            addContainerFocusHandler (selectionContext, jContainer, handlers, mergedOptions.shouldSelectOnFocus);
 
             // Remove selectables from the tab order.
             jSelectables.tabIndex(-1);
@@ -239,6 +235,11 @@ fluid.access = function () {
             elementToSelect =  elements[previousIndex];
 
             return doSelection (selectionContext, elementToSelect, userHandlers);
+        },
+
+        defaults: {
+            direction: this.VERTICAL,
+            shouldSelectOnFocus: true
         }
     }; // End of public return.
 }(); // End of fluid.access namespace.
