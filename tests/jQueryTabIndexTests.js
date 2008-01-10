@@ -57,16 +57,16 @@ function testGetTabIndex () {
 	
 	// And a regular element without a tabindex.
 	element = jQuery (HEADING_WITHOUT_SEL);
-	assertNull ("The heading should have a null tabindex.", element.tabIndex ());
+	assertUndefined ("The heading should have an undefined tabindex.", element.tabIndex ());
 	
 	// And a link without a tabindex.
 	element = jQuery (LINK_WITHOUT_SEL);
-	assertNull ("The link should have a null tabindex.", element.tabIndex ());
+	assertUndefined ("The link should have an undefined tabindex.", element.tabIndex ());
 }
 
 function testSetTabIndex_NoPreviousTabIndex () {
 	var element = jQuery (HEADING_WITHOUT_SEL);
-	assertNull ("The heading should have a null tabindex.", element.tabIndex ());
+	assertUndefined ("The heading should have an undefined tabindex.", element.tabIndex ());
 	
 	// Set a positive string
 	element.tabIndex ("1");
@@ -106,21 +106,21 @@ function testRemoveTabIndex () {
 	var element = jQuery (LINK_WITH_SEL);
 	assertEquals ("Before removing, the link should have a tabindex of 2.", 2, element.tabIndex ());
 	element.removeTabIndex ();
-	assertNull ("After removing it, the link's tabindex should be null.", element.tabIndex ());
+	assertUndefined ("After removing it, the link's tabindex should be undefined.", element.tabIndex ());
 
 	// Grab an element without a tabindex, give it one, then remove it.
 	element = jQuery (LIST_ITEM_WITHOUT_SEL);
-	assertNull("Before adding one, the link should have a null tabindex.", element.tabIndex ());
+	assertUndefined("Before adding one, the link should have an undefined tabindex.", element.tabIndex ());
 	element.tabIndex ("0");
 	assertEquals ("After adding it, the link should have a tabindex of 0.", 0, element.tabIndex ());
 	element.removeTabIndex ();
-	assertNull("After removing it, the link should have a null tabindex again.", element.tabIndex ());
+	assertUndefined("After removing it, the link should have an undefined tabindex again.", element.tabIndex ());
 
 	// Grab an element with no tabindex and try to remove it.
 	element = jQuery (HEADING_WITHOUT_SEL);
-	assertNull ("Before removing it, the headings's tabindex should be null.", element.tabIndex ());
+	assertUndefined ("Before removing it, the headings's tabindex should be undefined.", element.tabIndex ());
 	element.removeTabIndex ();
-	assertNull ("After removing it, the headings's tabindex should still be null.", element.tabIndex ());
+	assertUndefined ("After removing it, the headings's tabindex should still be undefined.", element.tabIndex ());
 }
 
 function testHasTabIndex () {
