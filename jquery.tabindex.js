@@ -1,7 +1,7 @@
 /*
 Copyright 2007 University of Toronto
 
-Licensed under the GNU Public License or the MIT license. 
+Licensed under the GNU General Public License or the MIT license. 
 You may not use this file except in compliance with one these
 Licenses.
 
