@@ -1,3 +1,13 @@
+/*
+Copyright 2007 University of Toronto
+
+Licensed under the GNU Public License or the MIT license. 
+You may not use this file except in compliance with one these
+Licenses.
+
+You may obtain a copy of the GPL and MIT License at
+https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
+*/
 (function ($) {
 	// Private functions.
 	var normalizeTabIndexName = function () {
