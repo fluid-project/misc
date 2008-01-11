@@ -12,9 +12,13 @@
         return this;
     };
 
-    $.fn.activatable = function (fn) {
-        fluid.access.makeActivatable (this, fn);
+    $.fn.activatable = function (fn, options) {
+        fluid.access.makeActivatable (this, fn, options);
         return this;
+    };
+
+    $.fn.select = function (elemenToSelect) {
+        fluid.access.select(elementToSelect, this.selectable.selectionContext, this.selectable.userHandlers);
     };
 
     $.fn.selectNext = function () {

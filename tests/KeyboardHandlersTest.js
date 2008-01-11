@@ -6,12 +6,17 @@ function exposeTestFunctionNames () {
         "testSelectsFirstItemOnFocusExplict",
         "testDoesntSelectFirstItemOnFocus",
         "testDoesntSelectFirstItemOnFocus_Function",
+        "testSelect",
+        "testSelectingNonSelectables",
         "testSelectNext",
         "testSelectPrevious",
         "testSelectNext_Wrapping",
         "testSelectPrevious_Wrapping",
         "testPersistFocus",
-        "testCleanupOnBlur"
+        "testCleanupOnBlur",
+        "testActivatableEnterKey",
+        "testActivatableSpaceBar",
+        "testCustomActivatable"
     ];
 }
 
@@ -66,7 +71,19 @@ var KeyboardHandlersTest = {
 			context: selectionContext,
 			handlers: handlers
 		}
-	}
+	},
+
+	createAndFocusMenu: function () {
+        var menu = KeyboardHandlersTest.makeMenuSelectable ();
+        menu.container.focus ();
+
+        // Sanity check.
+        assertSelected (getFirstMenuItem ());
+        assertNotSelected (getSecondMenuItem ());
+        assertNotSelected (getThirdMenuItem ());
+
+        return menu;
+    }
 };
 
 var setUpPageStatus;
@@ -114,8 +131,8 @@ function testMakeSelectable_TabIndexes () {
 	fluid.access.makeSelectable(menuContainer, menuItems, null, null);
 
 	// Ensure their tabindexes are set to -1, regardless of previous values
-	menuItems.each (function (idx, item) {
-		assertEquals ("Each menu item should have a tabindex of -1", -1, jQuery(item).tabIndex());
+	menuItems.each (function () {
+		assertEquals ("Each menu item should have a tabindex of -1", -1, jQuery(this).tabIndex());
 	});
 
 	// Just in case, check that the non-selectable child does not have its tabindex set.
@@ -189,14 +206,34 @@ function testDoesntSelectFirstItemOnFocus_Function () {
 	assertNothingSelected ();
 };
 
-function testSelectNext () {
-	var menu = KeyboardHandlersTest.makeMenuSelectable();
-	menu.container.focus ();
+function testSelect () {
+    var menu = KeyboardHandlersTest.createAndFocusMenu ();
 
-	// Sanity check.
-	assertSelected (getFirstMenuItem ());
-	assertNotSelected (getSecondMenuItem ());
-	assertNotSelected (getThirdMenuItem ());
+    // Select the third item and ensure it was actually selected.
+    fluid.access.select (getThirdMenuItem (), menu.context, menu.handlers);
+    assertSelected (getThirdMenuItem ());
+    assertNotSelected (getFirstMenuItem ());
+    assertNotSelected (getSecondMenuItem ());
+
+    // Now select the second.
+    fluid.access.select (getSecondMenuItem (), menu.context, menu.handlers);
+    assertSelected (getSecondMenuItem ());
+    assertNotSelected (getThirdMenuItem ());
+};
+
+// Checks behaviour when a user attempts to select something that wasn't initially denoted as selectable.
+function testSelectingNonSelectables () {
+    var menu = KeyboardHandlersTest.createAndFocusMenu ();
+
+    // Try selecting something that isn't selectable. Assume things stay the same.
+    var nonSelectable = jQuery (KeyboardHandlersTest.NON_ITEM_SEL);
+    fluid.access.select (nonSelectable, menu.context, menu.handlers);
+    assertNotSelected (nonSelectable);
+    assertSelected (getFirstMenuItem ());
+};
+
+function testSelectNext () {
+	var menu = KeyboardHandlersTest.createAndFocusMenu ();
 
 	// Select the next item.
 	fluid.access.selectNext(menu.context, menu.handlers);
@@ -208,13 +245,7 @@ function testSelectNext () {
 };
 
 function testSelectPrevious () {
-	var menu = KeyboardHandlersTest.makeMenuSelectable();
-	menu.container.focus ();
-
-	// Sanity check.
-	assertSelected (getFirstMenuItem ());
-	assertNotSelected (getSecondMenuItem ());
-	assertNotSelected (getThirdMenuItem ());
+	var menu = KeyboardHandlersTest.createAndFocusMenu ();
 
 	// Select the next item.
 	fluid.access.selectNext(menu.context, menu.handlers);
@@ -244,12 +275,7 @@ function testSelectNext_Wrapping () {
 };
 
 function testSelectPrevious_Wrapping () {
-	var menu = KeyboardHandlersTest.makeMenuSelectable ();
-	menu.container.focus ();
-
-	// Sanity check.
-	assertSelected (getFirstMenuItem ());
-	assertNotSelected (getLastMenuItem ());
+    var menu = KeyboardHandlersTest.createAndFocusMenu ();
 
 	// Select the previous element.
 	fluid.access.selectPrevious (menu.context, menu.handlers);
@@ -260,11 +286,7 @@ function testSelectPrevious_Wrapping () {
 };
 
 function testPersistFocus () {
-	var menu = KeyboardHandlersTest.makeMenuSelectable();
-	menu.container.focus ();
-
-	// Sanity check.
-	assertSelected (getFirstMenuItem ());
+	var menu = KeyboardHandlersTest.createAndFocusMenu ();
 
 	// Select the middle child.
 	fluid.access.selectNext(menu.context, menu.handlers);
@@ -282,10 +304,7 @@ function testPersistFocus () {
 }
 
 function testCleanupOnBlur () {
-	var menu = KeyboardHandlersTest.makeMenuSelectable();
-	// Sanity check.
-	menu.container.focus ();
-	assertSelected (getFirstMenuItem ());
+	var menu = KeyboardHandlersTest.createAndFocusMenu ();
 
 	// Move focus to another element altogether.
 	// Need to simulate browser behaviour by calling blur on the selected item, which is scary.
@@ -295,6 +314,73 @@ function testCleanupOnBlur () {
 
 	// Now check to see that the item isn't still selected once we've moved focus off the widget.
 	assertNotSelected (getFirstMenuItem ());
+}
+
+function testActivatableEnterKey () {
+    // This test can only be run on FF, due to reliance on DOM 2 for synthizing events.
+    if (jQuery.browser.msie) {
+        return;
+    }
+
+    var menu = KeyboardHandlersTest.createAndFocusMenu ();
+    fluid.access.makeActivatable (menu.selectables, function (element) {
+       menu.wasActivated = true;
+    });
+
+    simulateKeyDown (getFirstMenuItem (), fluid.access.keys.ENTER);
+    assertNotUndefined (menu.wasActivated);
+    assertTrue (menu.wasActivated);
+}
+
+function testActivatableSpaceBar () {
+    // This test can only be run on FF, due to reliance on DOM 2 for synthizing events.
+    if (jQuery.browser.msie) {
+        return;
+    }
+
+    var menu = KeyboardHandlersTest.createAndFocusMenu ();
+    fluid.access.makeActivatable (menu.selectables, function (element) {
+       menu.wasActivated = true;
+    });
+
+    simulateKeyDown (getFirstMenuItem (), fluid.access.keys.SPACE);
+    assertNotUndefined (menu.wasActivated);
+    assertTrue (menu.wasActivated);
+}
+
+function testCustomActivatable () {
+    // This test can only be run on FF, due to reliance on DOM 2 for synthizing events.
+    if (jQuery.browser.msie) {
+        return;
+    }
+
+    var menu = KeyboardHandlersTest.createAndFocusMenu ();
+
+    var activateFunction = function (element) {
+        menu.wasActivated = true;
+    };
+
+    var options = {
+        additionalActivationKeys: [fluid.access.keys.DOWN]
+    };
+
+    fluid.access.makeActivatable (menu.selectables, activateFunction, options);
+
+    simulateKeyDown (getFirstMenuItem (), fluid.access.keys.DOWN);
+
+    assertNotUndefined (menu.wasActivated);
+    assertTrue (menu.wasActivated);
+}
+
+function simulateKeyDown (onElement, withKeycode) {
+    var keyEvent = document.createEvent ("KeyEvents")
+    keyEvent.initKeyEvent ("keydown", true, true, window, false, false, false, false, withKeycode, 0);
+
+    if (onElement.jquery) {
+        onElement = onElement[0];
+    }
+
+    onElement.dispatchEvent (keyEvent);
 }
 
 function getFirstMenuItem () {

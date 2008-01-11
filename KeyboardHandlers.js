@@ -14,28 +14,16 @@ fluid.access = function () {
         };
     };
 
-    var doSelection = function (selectionContext, elementToSelect, userHandlers) {
-        // If something else is already selected, unselect it first.
-        if (selectionContext.activeItem && (selectionContext.activeItem != elementToSelect)) {
-            fluid.access.eraseSelection (selectionContext.activeItem, userHandlers.willUnselect);
-        }
+    var activationHandler = function (userActivateHandler, additionalKeys) {
+        var keys = [fluid.access.keys.ENTER, fluid.access.keys.SPACE]; // Default activation keys.
+        additionalKeys ? keys = keys.concat (additionalKeys) : keys; // Merge with any additions from user.
 
-        // Select the new element.
-        selectionContext.activeItem = elementToSelect;
-        fluid.access.drawSelection (elementToSelect, userHandlers.willSelect);
-
-        // Bind a one-off blur handler to clean up if focus leaves the container altogether.
-        jQuery (elementToSelect).one ("blur", focusLeftContainerHandler(userHandlers));
-    };
-
-    var activationHandler = function (userActivateHandler) {
         return function (evt) {
-            if (evt.which === fluid.access.keys.ENTER || evt.which === fluid.access.keys.SPACE) {
-                if (userActivateHandler) {
-                    userActivateHandler (evt.target);
+            for (var i = 0; i < keys.length; i++) {
+                if (evt.which === keys[i] && userActivateHandler) {
+                    userActivateHandler (evt.target, evt);
+                    evt.preventDefault ();
                 }
-
-                return false;
             }
         };
     };
@@ -44,10 +32,10 @@ fluid.access = function () {
         return function (evt) {
             if (evt.which === keyMap.next) {
                 fluid.access.selectNext (selectionContext, userHandlers);
-                return false;
+                evt.preventDefault ();
             } else if (evt.which === keyMap.previous) {
                 fluid.access.selectPrevious (selectionContext, userHandlers);
-                return false;
+                evt.preventDefault ();
             }
         };
     };
@@ -87,7 +75,7 @@ fluid.access = function () {
                 fluid.access.selectNext (selectionContext, userHandlers);
             } else {
                 // Otherwise just re-focus what we've got.
-                doSelection (selectionContext, selectionContext.activeItem, userHandlers);
+                fluid.access.select (selectionContext.activeItem, selectionContext, userHandlers);
             }
 
             return false;
@@ -140,8 +128,12 @@ fluid.access = function () {
          * Allows the the specified elements to be activated with the Space and Enter keys.
          * Provide your own onActivateHandler for custom behaviour.
          */
-        makeActivatable: function (elements, onActivateHandler) {
-            jQuery (elements).keydown (activationHandler (onActivateHandler));
+        makeActivatable: function (elements, onActivateHandler, options) {
+            if (!options) {
+                options = {};
+            }
+
+            jQuery (elements).keydown (activationHandler (onActivateHandler, options.additionalActivationKeys));
         },
 
         /**
@@ -197,6 +189,28 @@ fluid.access = function () {
             selectedElement.blur ();
         },
 
+	    select: function (elementToSelect, selectionContext, userHandlers) {
+	        // Unwrap the element if it's a jQuery.
+	        elementToSelect = (elementToSelect.jquery) ? elementToSelect[0] : elementToSelect;
+
+	        // Next check if the element is a selectable. If not, do nothing.
+	        if (selectionContext.selectables.index(elementToSelect) === -1) {
+	           return;
+	        }
+
+	        // If something else is already selected, unselect it first.
+	        if (selectionContext.activeItem && (selectionContext.activeItem != elementToSelect)) {
+	            fluid.access.eraseSelection (selectionContext.activeItem, userHandlers.willUnselect);
+	        }
+
+	        // Select the new element.
+	        selectionContext.activeItem = elementToSelect;
+	        fluid.access.drawSelection (elementToSelect, userHandlers.willSelect);
+
+	        // Bind a one-off blur handler to clean up if focus leaves the container altogether.
+	        jQuery (elementToSelect).one ("blur", focusLeftContainerHandler(userHandlers));
+	    },
+
         selectNext: function (selectionContext, userHandlers) {
             var elements = selectionContext.selectables;
             var indexOfCurrentSelection;
@@ -214,7 +228,7 @@ fluid.access = function () {
 
             elementToSelect = elements[nextIndex];
 
-            return doSelection (selectionContext, elementToSelect, userHandlers);
+            return fluid.access.select (elementToSelect, selectionContext, userHandlers);
         },
 
         selectPrevious: function (selectionContext, userHandlers) {
@@ -234,7 +248,7 @@ fluid.access = function () {
 
             elementToSelect =  elements[previousIndex];
 
-            return doSelection (selectionContext, elementToSelect, userHandlers);
+            return fluid.access.select (elementToSelect, selectionContext, userHandlers);
         },
 
         defaults: {
