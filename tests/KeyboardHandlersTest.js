@@ -22,7 +22,6 @@ function exposeTestFunctionNames () {
 
 var KeyboardHandlersTest = {
 	// Constants.
-	TABINDEX: "tabIndex",
 	PAGE_CONTENTS_SEL: "#pageContents",
 	MENU_SEL: "#menuNoTabIndex",
 	MENU_ITEM_SEL: "#menuItem0,#menuItem1,#menuItem2",
@@ -103,21 +102,21 @@ function testMakeTabFocussable () {
 	// Test an element that has no tabindex set.
 	var element = jQuery (KeyboardHandlersTest.MENU_SEL);
 	fluid.access.makeTabFocussable(element);
-	assertEquals ("A tabindex of 0 should have been added.", 0, element.tabIndex ());
+	assertEquals ("A tabindex of 0 should have been added.", 0, element.tabindex ());
 
 	// Test an element that already has a tabindex of 0. It should still be there.
 	element = jQuery ("#containerWithExisting0TabIndex");
-	assertEquals ("Tabindex should still be 0.", 0, element.tabIndex ());
+	assertEquals ("Tabindex should still be 0.", 0, element.tabindex ());
 
 	// Test an element that has a positive tabindex. It should remain as-is.
 	element = jQuery ("#containerWithExistingPositiveTabIndex");
 	fluid.access.makeTabFocussable(element);
-	assertEquals ("Tabindex should remain 1.", 1, element.tabIndex ());
+	assertEquals ("Tabindex should remain 1.", 1, element.tabindex ());
 
 	// Test an element that has a negative tabindex. It should be reset to 0.
 	element = jQuery ("#containerWithExistingNegativeTabIndex");
 	fluid.access.makeTabFocussable(element);
-	assertEquals ("Tabindex should be reset to 0.", 0, element.tabIndex ());
+	assertEquals ("Tabindex should be reset to 0.", 0, element.tabindex ());
 };
 
 function testMakeSelectable_TabIndexes () {
@@ -132,12 +131,12 @@ function testMakeSelectable_TabIndexes () {
 
 	// Ensure their tabindexes are set to -1, regardless of previous values
 	menuItems.each (function () {
-		assertEquals ("Each menu item should have a tabindex of -1", -1, jQuery(this).tabIndex());
+		assertEquals ("Each menu item should have a tabindex of -1", -1, jQuery(this).tabindex());
 	});
 
 	// Just in case, check that the non-selectable child does not have its tabindex set.
 	var nonSelectableItem = jQuery (KeyboardHandlersTest.NON_ITEM_SEL);
-	assertFalse (nonSelectableItem.hasTabIndex ());
+	assertFalse (nonSelectableItem.hasTabindex ());
 };
 
 function testSelectsFirstItemOnFocusImplicit () {

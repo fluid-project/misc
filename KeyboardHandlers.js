@@ -118,8 +118,8 @@ fluid.access = function () {
             // If the element doesn't have a tabindex, or has one set to a negative value, set it to 0.
             jQuery (elements).each (function (idx, element) {
                 jElement = jQuery (element);
-                if (!jElement.hasTabIndex () || (jElement.tabIndex () < 0)) {
-                    jElement.tabIndex (0);
+                if (!jElement.hasTabindex () || (jElement.tabindex () < 0)) {
+                    jElement.tabindex (0);
                 }
             });
         },
@@ -162,7 +162,7 @@ fluid.access = function () {
             addContainerFocusHandler (selectionContext, jContainer, handlers, mergedOptions.shouldSelectOnFocus);
 
             // Remove selectables from the tab order.
-            jSelectables.tabIndex(-1);
+            jSelectables.tabindex(-1);
 
             return selectionContext;
         },
