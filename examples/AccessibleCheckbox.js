@@ -38,7 +38,7 @@ fluid.accessiblecheckbox =  function () {
 	    	checkboxContainer.tabbable(checkboxContainer);
 
 	    	// Individual checkboxes should be selectable.
-	    	var boxes = checkboxContainer.children ("p");
+	    	var boxes = checkboxContainer.children ("#checkboxes_0,#checkboxes_1,#checkboxes_2,#checkboxes_3");
 	    	var selectionHandlers = {
 	    		willSelect: selectCheckbox,
 	    		willUnselect: unselectCheckbox,
