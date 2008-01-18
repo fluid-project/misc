@@ -16,9 +16,9 @@ fluid.accessiblecheckbox =  function () {
 
     var toggleBox = function (box) {
         var text = box.text();
-        if (text == "Yes") {
+        if (text === "Yes") {
             box.text("No");
-        } else if (text == "No") {
+        } else if (text === "No") {
             box.text("Yes");
         }
     };
