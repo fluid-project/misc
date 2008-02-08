@@ -1,6 +1,8 @@
 var fluid = fluid || {};
 
 fluid.accessiblemenubar = function () {
+    var wasSubMenuOpen = false;
+
 	var getSubMenuForMenuItem = function (menuItem) {
 		return jQuery ("ol", menuItem);
 	};
@@ -21,11 +23,23 @@ fluid.accessiblemenubar = function () {
 
 	var toggleSubMenu = function (activeMenuItem) {
 	    var subMenu = getSubMenuForMenuItem (activeMenuItem);
+
+	    if (subMenu.hasClass ("closed")) {
+	        wasSubMenuOpen = true;
+	    } else {
+	        wasSubMenuOpen = false;
+	    }
+
 	    subMenu.toggleClass ("closed");
 	};
 
 	var selectElement = function (elementToSelect) {
-	    jQuery (elementToSelect).addClass ("focussed");
+	    elementToSelect = jQuery (elementToSelect);
+	    elementToSelect.addClass ("focussed");
+
+	    if (elementToSelect.hasClass ("menu") && wasSubMenuOpen) {
+	        activateSubMenu (elementToSelect);
+	    }
 	};
 
 	var unselectElement = function (selectedElement) {
@@ -34,6 +48,7 @@ fluid.accessiblemenubar = function () {
 		// Close the submenu before moving on.
 		if (isSubMenuOpen (selectedElement)) {
 		   toggleSubMenu (selectedElement);
+		   wasSubMenuOpen = true;
 		}
 	};
 
