@@ -14,6 +14,11 @@ fluid.accessiblemenubar = function () {
 	    return true;
 	};
 
+    var activateSubMenu = function (activeMenuItem) {
+        var subMenu = getSubMenuForMenuItem (activeMenuItem);
+        subMenu.removeClass ("closed");
+    };
+
 	var toggleSubMenu = function (activeMenuItem) {
 	    var subMenu = getSubMenuForMenuItem (activeMenuItem);
 	    subMenu.toggleClass ("closed");
@@ -44,6 +49,15 @@ fluid.accessiblemenubar = function () {
        willLeaveContainer: function (selectedElement) { }
     };
 
+    var setupDownKeyMap = function () {
+        return {
+            key: jQuery.a11y.keys.DOWN,
+            activateHandler: function (menuItem) {
+                activateSubMenu (menuItem);
+            }
+        }
+    };
+
 	var initializeMenuBar = function (menuBarId) {
 	   var menuBar = jQuery("#" + menuBarId);
        // Make sure the menu bar is in the tab order.
@@ -55,7 +69,7 @@ fluid.accessiblemenubar = function () {
        };
 
        var activationOptions = {
-           additionalActivationKeys: [jQuery.a11y.keys.DOWN]
+           additionalBindings: setupDownKeyMap ()
        };
 
        var topLevelMenuItems = jQuery("#menubar > li");

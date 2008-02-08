@@ -20,7 +20,10 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         RIGHT: 39,
         SPACE: 32,
         ENTER: 13,
-        TAB: 9
+        TAB: 9,
+        CTRL: 17,
+        SHIFT: 16,
+        ALT: 18
     };
 
     $.a11y.directions = {
@@ -53,13 +56,25 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         };
     };
 
-    var activationHandler = function (userActivateHandler, keys) {
+    var checkForModifier = function (binding, evt) {
+        // If no modifier was specified, just return true.
+        if (!binding.modifier) {
+            return true;
+        }
+
+        var modifierKey = binding.modifier;
+        var isCtrlKeyPresent = (modifierKey && evt.ctrlKey);
+        var isAltKeyPresent = (modifierKey && evt.altKey);
+        var isShiftKeyPresent = (modifierKey && evt.shiftKey);
+
+        return (isCtrlKeyPresent || isAltKeyPresent || isShiftKeyPresent);
+    };
+
+    var activationHandler = function (binding) {
         return function (evt) {
-            for (var i = 0; i < keys.length; i++) {
-                if (evt.which === keys[i] && userActivateHandler) {
-                    userActivateHandler (evt.target, evt);
-                    evt.preventDefault ();
-                }
+            if (evt.which === binding.key && binding.activateHandler && checkForModifier (binding, evt)) {
+                binding.activateHandler (evt.target, evt);
+                evt.preventDefault ();
             }
         };
     };
@@ -213,15 +228,26 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
     };
 
     var makeElementsActivatable = function (elements, onActivateHandler, defaultKeys, options) {
-        // Merge the default keys with any additions from user.
-        var keys;
-        if (options && options.additionalActivationKeys) {
-            keys = defaultKeys.concat (options.additionalActivationKeys);
-        } else {
-            keys = defaultKeys;
+        // Create bindings for each default key.
+        var bindings = [];
+        jQuery (defaultKeys).each (function (index, key) {
+            bindings.push ({
+                modifier: null,
+                key: key,
+                activateHandler: onActivateHandler
+            });
+        });
+
+        // Merge with any additional key bindings.
+        if (options && options.additionalBindings) {
+            bindings = bindings.concat (options.additionalBindings);
         }
 
-        elements.keydown (activationHandler (onActivateHandler, keys));
+        // Add listeners for each key binding.
+        for (var i = 0; i < bindings.length; i++) {
+            var binding = bindings[i];
+            elements.keydown (activationHandler (binding));
+        }
     };
 
     var makeElementsSelectable = function (container, selectableElements, handlers, defaults, options) {

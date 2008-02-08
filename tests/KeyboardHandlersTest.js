@@ -1,3 +1,4 @@
+
 function exposeTestFunctionNames () {
     return [
         "testMakeTabFocussable",
@@ -16,7 +17,8 @@ function exposeTestFunctionNames () {
         "testCleanupOnBlur",
         "testActivatableEnterKey",
         "testActivatableSpaceBar",
-        "testCustomActivatable"
+        "testOneCustomActivatable",
+        "testMultipleCustomActivatable"
     ];
 }
 
@@ -347,32 +349,93 @@ function testActivatableSpaceBar () {
     assertTrue (menu.wasActivated);
 }
 
-function testCustomActivatable () {
+function testOneCustomActivatable () {
     // This test can only be run on FF, due to reliance on DOM 2 for synthizing events.
     if (jQuery.browser.msie) {
         return;
     }
 
-    var menu = KeyboardHandlersTest.createAndFocusMenu ();
+    var defaultActivate = function (element) {
+        menu.wasActivated = false;
+    };
 
-    var activateFunction = function (element) {
+    var alternateActivate = function (element) {
         menu.wasActivated = true;
     };
 
-    var options = {
-        additionalActivationKeys: [jQuery.a11y.keys.DOWN]
+    var downKeyBinding = {
+        modifier: null,
+        key: jQuery.a11y.keys.DOWN,
+        activateHandler: alternateActivate
     };
 
-    menu.items.activatable (activateFunction, options);
+    var options = {
+        additionalBindings: downKeyBinding
+    };
+
+    var menu = KeyboardHandlersTest.createAndFocusMenu ();
+    menu.items.activatable (defaultActivate, options);
 
     simulateKeyDown (getFirstMenuItem (), jQuery.a11y.keys.DOWN);
     assertNotUndefined (menu.wasActivated);
     assertTrue (menu.wasActivated);
 }
 
-function simulateKeyDown (onElement, withKeycode) {
+function testMultipleCustomActivatable () {
+    // This test can only be run on FF, due to reliance on DOM 2 for synthizing events.
+    if (jQuery.browser.msie) {
+        return;
+    }
+
+    // Define additional key bindings.
+    var downBinding = {
+        key: jQuery.a11y.keys.DOWN,
+        activateHandler:  function (element) {
+            menu.wasActivated = true;
+        }
+    };
+
+    var upBinding = {
+        modifier: jQuery.a11y.keys.CTRL,
+        key: jQuery.a11y.keys.UP,
+        activateHandler: function (element) {
+            menu.wasActivated = "foo";
+        }
+    };
+
+    var defaultActivate = function () {
+        menu.wasActivated = false;
+    }
+
+    var options = {
+        additionalBindings: [downBinding, upBinding]
+    };
+
+    // Set up the menu.
+    var menu = KeyboardHandlersTest.createAndFocusMenu ();
+    menu.items.activatable (defaultActivate, options);
+
+    // Test that the down arrow works.
+    simulateKeyDown (getFirstMenuItem (), jQuery.a11y.keys.DOWN);
+    assertNotUndefined (menu.wasActivated);
+    assertTrue (menu.wasActivated);
+
+    // Reset and try the other key map.
+    menu.wasActivated = false;
+    simulateKeyDown (getFirstMenuItem (), jQuery.a11y.keys.UP, jQuery.a11y.keys.CTRL);
+    assertNotUndefined (menu.wasActivated);
+    assertEquals ("foo", menu.wasActivated);
+}
+
+function simulateKeyDown (onElement, withKeycode, modifier) {
+    var modifiers = {
+        ctrl: (modifier === jQuery.a11y.keys.CTRL) ? true : false,
+        shift: (modifier === jQuery.a11y.keys.SHIFT) ? true : false,
+        alt: (modifier === jQuery.a11y.keys.ALT) ? true : false
+    };
+
     var keyEvent = document.createEvent ("KeyEvents")
-    keyEvent.initKeyEvent ("keydown", true, true, window, false, false, false, false, withKeycode, 0);
+    keyEvent.initKeyEvent ("keydown", true, true, window, modifiers.ctrl, modifiers.alt, modifiers.shift, false, withKeycode, 0);
 
     if (onElement.jquery) {
         onElement = onElement[0];
