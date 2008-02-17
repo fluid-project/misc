@@ -44,12 +44,16 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
     };
 
     // Private functions.
-    var focusLeftContainerHandler = function (userHandlers) {
+    var focusLeftContainerHandler = function (userHandlers, selectionContext) {
         return function (evt) {
             if (userHandlers.willLeaveContainer) {
                 userHandlers.willLeaveContainer (evt.target);
             } else if (userHandlers.willUnselect) {
                 userHandlers.willUnselect (evt.target);
+            }
+
+            if (!selectionContext.rememberSelectionState) {
+                selectionContext.activeItem = null;
             }
 
             return false;
@@ -120,7 +124,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         drawSelection (elementToSelect, userHandlers.willSelect);
 
         // Bind a one-off blur handler to clean up if focus leaves the container altogether.
-        $ (elementToSelect).one ("blur", focusLeftContainerHandler(userHandlers));
+        $ (elementToSelect).one ("blur", focusLeftContainerHandler(userHandlers, selectionContext));
     };
 
    var selectNextElement = function (selectionContext, userHandlers) {
@@ -134,12 +138,10 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
 
         var nextIndex =  indexOfCurrentSelection + 1;
         if (nextIndex >= elements.length) {
-            // Wrap around to the beginning.
-            nextIndex = 0;
+            nextIndex = 0; // Wrap around to the beginning.
+
         }
-
         var elementToSelect = elements[nextIndex];
-
         return selectElement (elementToSelect, selectionContext, userHandlers);
     };
 
@@ -157,7 +159,6 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
             // Wrap around to the end.
             previousIndex = elements.length - 1;
         }
-
         var elementToSelect =  elements[previousIndex];
 
         return selectElement (elementToSelect, selectionContext, userHandlers);
@@ -260,12 +261,16 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         // Context stores the currently active item (undefined to start) and list of selectables.
         var selectionContext = {
             activeItem: undefined,
-            selectables: selectableElements
+            selectables: selectableElements,
+            rememberSelectionState: mergedOptions.rememberSelectionState
         };
 
         // Add various handlers to the container.
         container.keydown (arrowKeyHandler (selectionContext, keyMap, handlers));
-        addContainerFocusHandler (selectionContext, container, handlers, mergedOptions.shouldSelectOnFocus);
+        addContainerFocusHandler (selectionContext,
+                                  container,
+                                  handlers,
+                                  mergedOptions.shouldSelectOnFocus);
 
         // Remove selectables from the tab order.
         selectableElements.tabindex(-1);
@@ -338,6 +343,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
 
     $.fn.selectable.defaults = {
         direction: this.VERTICAL,
-        shouldSelectOnFocus: true
+        shouldSelectOnFocus: true,
+        rememberSelectionState: true
     };
 }) (jQuery);
