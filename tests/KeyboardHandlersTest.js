@@ -8,6 +8,7 @@ function exposeTestFunctionNames () {
         "testDoesntSelectFirstItemOnFocus",
         "testDoesntSelectFirstItemOnFocus_Function",
         "testSelect",
+        "testSelectViaProgrammaticFocus",
         "testSelectingNonSelectables",
         "testSelectNext",
         "testSelectPrevious",
@@ -18,8 +19,7 @@ function exposeTestFunctionNames () {
         "testActivatableEnterKey",
         "testActivatableSpaceBar",
         "testOneCustomActivatable",
-        "testMultipleCustomActivatable",
-        "testDoesntPersistFocus"
+        "testMultipleCustomActivatable"
     ];
 }
 
@@ -32,6 +32,8 @@ var KeyboardHandlersTest = {
 	SECOND_MENU_ITEM_SEL: "#menuItem1",
 	LAST_MENU_ITEM_SEL: "#menuItem2",
 	NON_ITEM_SEL: "#notAMenuItem",
+	LINK_BEFORE_SEL: "#linkBefore",
+	LINK_AFTER_SEL: "#linkAfter",
 
 	// Helper functions.
 	getHandlers: function () {
@@ -79,7 +81,11 @@ var KeyboardHandlersTest = {
         menu.container.focus ();
 
         // Sanity check.
-        assertSelected (getFirstMenuItem ());
+        if (!selectionOptions || selectionOptions.shouldSelectOnFocus) {
+            assertSelected (getFirstMenuItem ());
+        } else {
+            assertNotSelected (getFirstMenuItem ());
+        }
         assertNotSelected (getSecondMenuItem ());
         assertNotSelected (getThirdMenuItem ());
 
@@ -145,7 +151,6 @@ function testMakeSelectable_TabIndexes () {
 function testSelectsFirstItemOnFocusImplicit () {
 	// Don't specify any options, just use the default behaviour.
 	var menu = KeyboardHandlersTest.makeMenuSelectable();
-
 	assertFirstMenuItemIsSelectedOnFocus (menu);
 }
 
@@ -238,6 +243,39 @@ function testSelectingNonSelectables () {
     assertSelected (getFirstMenuItem ());
 }
 
+function testSelectViaProgrammaticFocus () {
+    // Setup a menu, then programmatically throw focus onto the selectables. They should be correctly selected.
+
+    var options = {
+        shouldSelectOnFocus: false
+    };
+    var menu = KeyboardHandlersTest.createAndFocusMenu (options);
+
+    // Programmatically throw focus onto the first menu item. It should be selected.
+    getThirdMenuItem ().focus ();
+    assertSelected (getThirdMenuItem ());
+    assertNotSelected (getFirstMenuItem ());
+    assertNotSelected (getSecondMenuItem ());
+
+    // Now try another. It should still work.
+    getFirstMenuItem ().focus ();
+    assertSelected (getFirstMenuItem ());
+    assertNotSelected (getSecondMenuItem ());
+    assertNotSelected (getThirdMenuItem ());
+
+    // Now switch to selection via the plugin API. It should know the current state.
+    menu.items.selectNext ();
+    assertSelected (getSecondMenuItem ());
+    assertNotSelected (getFirstMenuItem ());
+    assertNotSelected (getThirdMenuItem ());
+
+    // And finally, switch back to programmatically calling focus.
+    getThirdMenuItem ().focus ();
+    assertSelected (getThirdMenuItem ());
+    assertNotSelected (getFirstMenuItem ());
+    assertNotSelected (getSecondMenuItem ());
+}
+
 function testSelectNext () {
 	var menu = KeyboardHandlersTest.createAndFocusMenu ();
 
@@ -296,7 +334,7 @@ function selectMiddleChildThenLeaveAndRefocus (menu) {
 
     // Move focus to another element altogether.
     getSecondMenuItem ().blur ();
-    var link = jQuery ("#link");
+    var link = jQuery (KeyboardHandlersTest.LINK_AFTER_SEL);
     link.focus ();
     assertNothingSelected ();
 
@@ -312,34 +350,12 @@ function testPersistFocus () {
 	assertSelected (getSecondMenuItem ());
 }
 
-function testDoesntPersistFocus () {
-    // Tell the plugin not to store selection state.
-    var options = {
-        rememberSelectionState: false
-    };
-
-    var menu = KeyboardHandlersTest.createAndFocusMenu (options);
-
-    // Make sure the selection state flag is passed through to the context.
-    assertNotUndefined (menu.context.rememberSelectionState);
-    assertFalse (menu.context.rememberSelectionState);
-
-    // Select the first item, then the second, then drop focus and return.
-    menu.items.select (getFirstMenuItem ());
-    selectMiddleChildThenLeaveAndRefocus (menu);
-
-    // Ensure that the middle child does not still have focus, and that the first child does.
-    assertSelected (getFirstMenuItem ());
-    assertNotSelected (getSecondMenuItem ());
-    assertNotSelected (getThirdMenuItem ());
-}
-
 function testCleanupOnBlur () {
 	var menu = KeyboardHandlersTest.createAndFocusMenu ();
 
 	// Move focus to another element altogether.
 	// Need to simulate browser behaviour by calling blur on the selected item, which is scary.
-	var link = jQuery ("#link");
+	var link = jQuery (KeyboardHandlersTest.LINK_AFTER_SEL);
 	jQuery (menu.context.activeItem).blur ();
 	link.focus ();
 
@@ -351,7 +367,7 @@ function testCleanupOnBlur () {
 }
 
 function testActivatableEnterKey () {
-    // This test can only be run on FF, due to reliance on DOM 2 for synthizing events.
+    // This test can only be run on FF, due to reliance on DOM 2 for synthesizing events.
     if (!jQuery.browser.mozilla) {
         return;
     }
@@ -367,7 +383,7 @@ function testActivatableEnterKey () {
 }
 
 function testActivatableSpaceBar () {
-    // This test can only be run on FF, due to reliance on DOM 2 for synthizing events.
+    // This test can only be run on FF, due to reliance on DOM 2 for synthesizing events.
     if (!jQuery.browser.mozilla) {
         return;
     }
@@ -383,7 +399,7 @@ function testActivatableSpaceBar () {
 }
 
 function testOneCustomActivatable () {
-    // This test can only be run on FF, due to reliance on DOM 2 for synthizing events.
+    // This test can only be run on FF, due to reliance on DOM 2 for synthesizing events.
     if (!jQuery.browser.mozilla) {
         return;
     }
@@ -415,7 +431,7 @@ function testOneCustomActivatable () {
 }
 
 function testMultipleCustomActivatable () {
-    // This test can only be run on FF, due to reliance on DOM 2 for synthizing events.
+    // This test can only be run on FF, due to reliance on DOM 2 for synthesizing events.
     if (!jQuery.browser.mozilla) {
         return;
     }

@@ -44,20 +44,16 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
     };
 
     // Private functions.
-    var focusLeftContainerHandler = function (userHandlers, selectionContext) {
-        return function (evt) {
-            if (userHandlers.willLeaveContainer) {
-                userHandlers.willLeaveContainer (evt.target);
-            } else if (userHandlers.willUnselect) {
-                userHandlers.willUnselect (evt.target);
-            }
+    var cleanUpWhenLeavingContainer = function (userHandlers, selectionContext, shouldRememberSelectionState) {
+        if (userHandlers.willLeaveContainer) {
+            userHandlers.willLeaveContainer (selectionContext.activeItem);
+        } else if (userHandlers.willUnselect) {
+            userHandlers.willUnselect (selectionContext.activeItem);
+        }
 
-            if (!selectionContext.rememberSelectionState) {
-                selectionContext.activeItem = null;
-            }
-
-            return false;
-        };
+        if (!shouldRememberSelectionState) {
+            selectionContext.activeItem = null;
+        }
     };
 
     var checkForModifier = function (binding, evt) {
@@ -90,8 +86,6 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         if (handler) {
             handler (elementToSelect);
         }
-
-        elementToSelect.focus ();
     };
 
     /**
@@ -101,90 +95,73 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         if (handler) {
             handler (selectedElement);
         }
+    };
 
-        selectedElement.blur ();
+    var selectableFocusHandler = function (selectionContext, userHandlers) {
+        return function (evt) {
+            selectElement (evt.target, selectionContext, userHandlers);
+        };
+    };
+
+    var selectableBlurHandler = function (selectionContext, userHandlers) {
+        return function (evt) {
+            unselectElement (evt.target, selectionContext, userHandlers);
+        };
+    };
+
+    var unselectElement = function (selectedElement, selectionContext, userHandlers) {
+        eraseSelection (selectedElement, userHandlers.willUnselect);
     };
 
     var selectElement = function (elementToSelect, selectionContext, userHandlers) {
+        // It's possible that we're being called programmatically, in which case we should clear any previous selection.
+        if (selectionContext.activeItem) {
+            unselectElement (selectionContext.activeItem, selectionContext, userHandlers);
+        }
+
         // Unwrap the element if it's a jQuery.
         elementToSelect = (elementToSelect.jquery) ? elementToSelect[0] : elementToSelect;
 
-        // Next check if the element is a selectable. If not, do nothing.
+        // Next check if the element is a known selectable. If not, do nothing.
         if (selectionContext.selectables.index(elementToSelect) === -1) {
            return;
-        }
-
-        // If something else is already selected, unselect it first.
-        if (selectionContext.activeItem && (selectionContext.activeItem !== elementToSelect)) {
-            eraseSelection (selectionContext.activeItem, userHandlers.willUnselect);
         }
 
         // Select the new element.
         selectionContext.activeItem = elementToSelect;
         drawSelection (elementToSelect, userHandlers.willSelect);
-
-        // Bind a one-off blur handler to clean up if focus leaves the container altogether.
-        $ (elementToSelect).one ("blur", focusLeftContainerHandler(userHandlers, selectionContext));
     };
 
-   var selectNextElement = function (selectionContext, userHandlers) {
+
+    var focusNextElement = function (selectionContext) {
         var elements = selectionContext.selectables;
-        var indexOfCurrentSelection;
-        if (!selectionContext.activeItem) {
-            indexOfCurrentSelection = -1;
-        } else {
-            indexOfCurrentSelection = elements.index (selectionContext.activeItem);
-        }
+        var activeItem = selectionContext.activeItem;
 
-        var nextIndex =  indexOfCurrentSelection + 1;
-        if (nextIndex >= elements.length) {
-            nextIndex = 0; // Wrap around to the beginning.
+        var currentSelectionIdx = (!activeItem) ? -1 : elements.index (activeItem);
+        var nextIndex = currentSelectionIdx + 1;
+        nextIndex = (nextIndex >= elements.length) ? nextIndex = 0 : nextIndex; // Wrap around to the beginning if needed.
 
-        }
-        var elementToSelect = elements[nextIndex];
-        return selectElement (elementToSelect, selectionContext, userHandlers);
+        elements[nextIndex].focus ();
     };
 
-    var selectPreviousElement = function (selectionContext, userHandlers) {
+    var focusPreviousElement = function (selectionContext) {
         var elements = selectionContext.selectables;
-        var indexOfCurrentSelection;
-        if (!selectionContext.activeItem) {
-            indexOfCurrentSelection = 0;
-        } else {
-            indexOfCurrentSelection = elements.index (selectionContext.activeItem);
-        }
+        var activeItem = selectionContext.activeItem;
 
-        var previousIndex = indexOfCurrentSelection - 1;
-        if (previousIndex < 0) {
-            // Wrap around to the end.
-            previousIndex = elements.length - 1;
-        }
-        var elementToSelect =  elements[previousIndex];
+        var currentSelectionIdx = (!activeItem) ? 0 : elements.index (activeItem);
+        var previousIndex = currentSelectionIdx - 1;
+        previousIndex = (previousIndex < 0) ? elements.length - 1 : previousIndex; // Wrap around to the end if necessary.
 
-        return selectElement (elementToSelect, selectionContext, userHandlers);
-    };
-
-    var selectOnFocus = function (shouldSelect, target, selectionContext, container, userHandlers) {
-        if (shouldSelect && (target === container.get(0))) {
-            if (!selectionContext.activeItem) {
-                // If there isn't already an active item, call selectNextElement to get it.
-                selectNextElement (selectionContext, userHandlers);
-            } else {
-                // Otherwise just re-focus what we've got.
-                selectElement (selectionContext.activeItem, selectionContext, userHandlers);
-            }
-
-            return false;
-        }
+        elements[previousIndex].focus ();
     };
 
     var arrowKeyHandler = function (selectionContext, keyMap, userHandlers) {
         return function (evt) {
             if (evt.which === keyMap.next) {
-                selectNextElement (selectionContext, userHandlers);
+                focusNextElement (selectionContext);
                 evt.preventDefault ();
             } else if (evt.which === keyMap.previous) {
-                selectPreviousElement (selectionContext, userHandlers);
+                focusPreviousElement (selectionContext);
                 evt.preventDefault ();
             }
         };
@@ -203,15 +180,33 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         return keyMap;
     };
 
-    var addContainerFocusHandler = function (selectionContext, container, userHandlers, shouldSelectOnFocus) {
+
+    var selectOnFocus = function (shouldSelect, selectionContext) {
+        // This target check works around the fact that sometimes focus bubbles, even though it shouldn't.
+        if (shouldSelect) {
+            if (!selectionContext.activeItem) {
+                focusNextElement (selectionContext);
+            } else {
+                selectionContext.activeItem.focus ();
+            }
+
+            return false;
+        }
+    };
+
+    var addContainerFocusHandler = function (selectionContext, container, shouldSelectOnFocus) {
         var focusHandler;
         if (shouldSelectOnFocus.constructor === Function) {
             focusHandler = function (evt) {
-                selectOnFocus (shouldSelectOnFocus (), evt.target, selectionContext, container, userHandlers);
+                if (evt.target === container.get(0)) {
+                    selectOnFocus (shouldSelectOnFocus (), selectionContext);
+                }
             };
         } else {
             focusHandler = function (evt) {
-                selectOnFocus (shouldSelectOnFocus, evt.target, selectionContext, container, userHandlers);
+                if (evt.target === container.get(0)) {
+                    selectOnFocus (shouldSelectOnFocus, selectionContext);
+                }
             };
         }
 
@@ -251,6 +246,18 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         }
     };
 
+    var tabKeyHandler = function (userHandlers, selectionContext, shouldRememberSelectionState) {
+        return function (evt) {
+            if (evt.which !== jQuery.a11y.keys.TAB) {
+                return;
+            }
+
+            cleanUpWhenLeavingContainer (userHandlers, selectionContext, shouldRememberSelectionState);
+
+            // TODO: Catch Shift-Tab and briefly disable auto-select on focus.
+        };
+    };
+
     var makeElementsSelectable = function (container, selectableElements, handlers, defaults, options) {
         // Create empty an handlers and use default options where not specified.
         handlers = handlers || {};
@@ -262,18 +269,19 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         var selectionContext = {
             activeItem: undefined,
             selectables: selectableElements,
-            rememberSelectionState: mergedOptions.rememberSelectionState
         };
 
         // Add various handlers to the container.
         container.keydown (arrowKeyHandler (selectionContext, keyMap, handlers));
+        container.keydown (tabKeyHandler (handlers, selectionContext, mergedOptions.rememberSelectionState));
         addContainerFocusHandler (selectionContext,
                                   container,
-                                  handlers,
                                   mergedOptions.shouldSelectOnFocus);
 
-        // Remove selectables from the tab order.
+        // Remove selectables from the tab order and add focus/blur handlers
         selectableElements.tabindex(-1);
+        selectableElements.focus (selectableFocusHandler (selectionContext, handlers));
+        selectableElements.blur (selectableBlurHandler (selectionContext, handlers));
 
         return selectionContext;
     };
@@ -317,14 +325,15 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
      * Selects the specified element.
      */
     $.fn.select = function (elementToSelect) {
-        selectElement (elementToSelect, this.selectable.selectionContext, this.selectable.userHandlers);
+        elementToSelect.focus ();
+        return this;
     };
 
     /**
      * Selects the next matched element.
      */
     $.fn.selectNext = function () {
-        selectNextElement (this.selectable.selectionContext, this.selectable.userHandlers);
+        focusNextElement (this.selectable.selectionContext);
         return this;
     };
 
@@ -332,7 +341,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
      * Selects the previous matched element.
      */
     $.fn.selectPrevious = function () {
-        selectPreviousElement (this.selectable.selectionContext, this.selectable.userHandlers);
+        focusPreviousElement (this.selectable.selectionContext);
         return this;
     };
 

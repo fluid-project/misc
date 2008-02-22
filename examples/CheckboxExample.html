@@ -4,6 +4,7 @@
         <script type="text/javascript" src="../jquery.tabindex.js"></script>
         <script type="text/javascript" src="../jquery.keyboard-a11y.js"></script>
         <script type="text/javascript" src="AccessibleCheckbox.js"></script>
+        <script type="text/javascript" src="../../components/src/webapp/component-templates/test/utils/DebugFocus.js"></script>
 
         <link rel="stylesheet" type="text/css" href="Focus.css" />
         <link rel="stylesheet" type="text/css" href="Checkboxes.css" />
@@ -31,10 +32,17 @@
           </p>
 	    </form>
 
-	    <h1>Another Item to Focus</h1>
+	    <h1>Other Items to Focus</h1>
 	    <a href="http://en.wikipedia.org/wiki/Twelve-tone_technique">What is Dodecaphony?</a> <br />
 	    <p>The link above is naturally focussable by the browser, and provides us with something
 	    to prove that our keyboard accessibility library will happily surrender focus.</p>
+
+        <p>Here's a form element to help test mouse-based changes in focus.</p>
+
+        <form action="#">
+            <label for="textbox">Who killed Anton von Webern?</label>
+            <input type="text" id="textbox" />
+        </form>
 
 	    <script type="text/javascript">
 	        fluid.accessiblecheckbox.initializeCheckboxes("checkboxes");

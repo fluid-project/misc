@@ -35,6 +35,12 @@ fluid.accessiblecheckbox =  function () {
         boxes.each (replaceFn);
     };
 
+    var clickable = function (boxes) {
+        boxes.click (function (evt) {
+            boxes.select (this)
+        });
+    };
+
     // Public members.
     return {
         initializeCheckboxes: function (checkboxContainerId) {
@@ -54,6 +60,7 @@ fluid.accessiblecheckbox =  function () {
             };
             boxes.selectable (checkboxContainer, selectionHandlers);
             boxes.activatable (selectCheckboxHandler);
+            clickable (boxes);
         }
     }; // End public return.
 }(); // End fluid.accessiblecheckbox namespace.
