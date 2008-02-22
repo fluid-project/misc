@@ -61,7 +61,7 @@ function testGetTabIndex () {
 
 	// And a link without a tabindex.
 	element = jQuery (LINK_WITHOUT_SEL);
-	assertUndefined ("The link should have an undefined tabindex.", element.tabindex ());
+	assertEquals ("The link should have an undefined tabindex.", 0, element.tabindex ());
 }
 
 function testSetTabIndex_NoPreviousTabIndex () {
@@ -102,11 +102,16 @@ function testSetTabIndex_ExistingTabIndex () {
 }
 
 function testRemoveTabIndex () {
-	// Grab an element that already has a tabindex and remove it.
-	var element = jQuery (LINK_WITH_SEL);
+	// Grab an element that isn't naturally focussable but already has a tabindex and remove it.
+	var element = jQuery (LIST_WITH_SEL);
+    assertEquals ("Before removing, the list should have a tabindex of 0.", 0, element.tabindex ());
+    element.removeTabindex ();
+    assertUndefined ("After removing it, the list's tabindex should be undefined.", element.tabindex ());
+
+	element = jQuery (LINK_WITH_SEL);
 	assertEquals ("Before removing, the link should have a tabindex of 2.", 2, element.tabindex ());
 	element.removeTabindex ();
-	assertUndefined ("After removing it, the link's tabindex should be undefined.", element.tabindex ());
+	assertEquals ("After removing it, the link's tabindex should revert to the default.", 0, element.tabindex ());
 
 	// Grab an element without a tabindex, give it one, then remove it.
 	element = jQuery (LIST_ITEM_WITHOUT_SEL);
@@ -141,5 +146,5 @@ function testHasTabIndex () {
 	assertFalse ("A heading without a tabindex should not report as having a tabindex.", element.hasTabindex());
 
 	element = jQuery (LINK_WITHOUT_SEL);
-	assertFalse ("A link without a tabindex should not report as having a tabindex.", element.hasTabindex());
+	assertTrue ("A link without a tabindex should still report as having a tabindex.", element.hasTabindex());
 }
