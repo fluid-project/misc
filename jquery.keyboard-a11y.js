@@ -44,6 +44,10 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
     };
 
     // Private functions.
+    var unwrap = function (element) {
+        return (element.jquery) ? element[0] : element; // Unwrap the element if it's a jQuery.
+    };
+
     var cleanUpWhenLeavingContainer = function (userHandlers, selectionContext, shouldRememberSelectionState) {
         if (userHandlers.willLeaveContainer) {
             userHandlers.willLeaveContainer (selectionContext.activeItem);
@@ -97,18 +101,6 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         }
     };
 
-    var selectableFocusHandler = function (selectionContext, userHandlers) {
-        return function (evt) {
-            selectElement (evt.target, selectionContext, userHandlers);
-        };
-    };
-
-    var selectableBlurHandler = function (selectionContext, userHandlers) {
-        return function (evt) {
-            unselectElement (evt.target, selectionContext, userHandlers);
-        };
-    };
-
     var unselectElement = function (selectedElement, selectionContext, userHandlers) {
         eraseSelection (selectedElement, userHandlers.willUnselect);
     };
@@ -119,8 +111,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
             unselectElement (selectionContext.activeItem, selectionContext, userHandlers);
         }
 
-        // Unwrap the element if it's a jQuery.
-        elementToSelect = (elementToSelect.jquery) ? elementToSelect[0] : elementToSelect;
+        elementToSelect = unwrap (elementToSelect);
 
         // Next check if the element is a known selectable. If not, do nothing.
         if (selectionContext.selectables.index(elementToSelect) === -1) {
@@ -132,6 +123,17 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         drawSelection (elementToSelect, userHandlers.willSelect);
     };
 
+    var selectableFocusHandler = function (selectionContext, userHandlers) {
+        return function (evt) {
+            selectElement (evt.target, selectionContext, userHandlers);
+        };
+    };
+
+    var selectableBlurHandler = function (selectionContext, userHandlers) {
+        return function (evt) {
+            unselectElement (evt.target, selectionContext, userHandlers);
+        };
+    };
 
     var focusNextElement = function (selectionContext) {
         var elements = selectionContext.selectables;
@@ -226,7 +228,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
     var makeElementsActivatable = function (elements, onActivateHandler, defaultKeys, options) {
         // Create bindings for each default key.
         var bindings = [];
-        jQuery (defaultKeys).each (function (index, key) {
+        $ (defaultKeys).each (function (index, key) {
             bindings.push ({
                 modifier: null,
                 key: key,
@@ -240,7 +242,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         }
 
         // Add listeners for each key binding.
-        for (var i = 0; i < bindings.length; i++) {
+        for (var i = 0; i < bindings.length; i = i + 1) {
             var binding = bindings[i];
             elements.keydown (activationHandler (binding));
         }
@@ -248,7 +250,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
 
     var tabKeyHandler = function (userHandlers, selectionContext, shouldRememberSelectionState) {
         return function (evt) {
-            if (evt.which !== jQuery.a11y.keys.TAB) {
+            if (evt.which !== $.a11y.keys.TAB) {
                 return;
             }
 
@@ -268,7 +270,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         // Context stores the currently active item (undefined to start) and list of selectables.
         var selectionContext = {
             activeItem: undefined,
-            selectables: selectableElements,
+            selectables: selectableElements
         };
 
         // Add various handlers to the container.
@@ -286,6 +288,20 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         return selectionContext;
     };
 
+    var createDefaultActivationHandler = function (activatables, userActivateHandler) {
+        return function (elementToActivate) {
+            if (!userActivateHandler) {
+                return;
+            }
+
+            elementToActivate = unwrap (elementToActivate);
+            if (activatables.index (elementToActivate) === -1) {
+                return;
+            }
+
+            userActivateHandler (elementToActivate);
+        };
+    };
 
     // Public API.
     /**
@@ -318,6 +334,10 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
      */
     $.fn.activatable = function (fn, options) {
         makeElementsActivatable (this, fn, this.activatable.defaults.keys, options);
+
+        // TODO: This also needs to be stored somewhere much more sensible.
+        this.activatable.defaultActivateHandler = createDefaultActivationHandler (this, fn);
+
         return this;
     };
 
@@ -342,6 +362,14 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
      */
     $.fn.selectPrevious = function () {
         focusPreviousElement (this.selectable.selectionContext);
+        return this;
+    };
+
+    /**
+     * Activates the specified element.
+     */
+    $.fn.activate = function (elementToActivate) {
+        this.activatable.defaultActivateHandler (elementToActivate);
         return this;
     };
 

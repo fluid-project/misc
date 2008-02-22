@@ -36,8 +36,8 @@ fluid.accessiblecheckbox =  function () {
     };
 
     var clickable = function (boxes) {
-        boxes.click (function (evt) {
-            boxes.select (this)
+        boxes.mousedown (function (evt) {
+            boxes.activate (this);
         });
     };
 

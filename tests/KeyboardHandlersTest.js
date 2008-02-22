@@ -16,6 +16,7 @@ function exposeTestFunctionNames () {
         "testSelectPrevious_Wrapping",
         "testPersistFocus",
         "testCleanupOnBlur",
+        "testActivate",
         "testActivatableEnterKey",
         "testActivatableSpaceBar",
         "testOneCustomActivatable",
@@ -88,6 +89,18 @@ var KeyboardHandlersTest = {
         }
         assertNotSelected (getSecondMenuItem ());
         assertNotSelected (getThirdMenuItem ());
+
+        return menu;
+    },
+
+    createActivatableMenu: function () {
+        var menu = KeyboardHandlersTest.createAndFocusMenu ();
+        menu.items.activatable (function (element) {
+            menu.activatedItem = element;
+        });
+
+        // Sanity check.
+        assertUndefined ("The menu wasActivated flag should be undefined to start.", menu.wasActivated);
 
         return menu;
     }
@@ -366,20 +379,25 @@ function testCleanupOnBlur () {
 	assertNothingSelected ();
 }
 
+function testActivate () {
+    // Tests that we can programmatically activate elements with the default handler.
+    var menu = KeyboardHandlersTest.createActivatableMenu ();
+    menu.items.activate (getFirstMenuItem ());
+    assertEquals ("The menu.activatedItem should be set to the first item.", getFirstMenuItem ()[0], menu.activatedItem);
+
+    menu.items.activate (getThirdMenuItem ());
+    assertEquals ("The menu.activatedItem should be set to the third item.", getThirdMenuItem ()[0], menu.activatedItem);
+}
+
 function testActivatableEnterKey () {
     // This test can only be run on FF, due to reliance on DOM 2 for synthesizing events.
     if (!jQuery.browser.mozilla) {
         return;
     }
 
-    var menu = KeyboardHandlersTest.createAndFocusMenu ();
-    menu.items.activatable (function (element) {
-       menu.wasActivated = true;
-    });
-
+    var menu = KeyboardHandlersTest.createActivatableMenu ();
     simulateKeyDown (getFirstMenuItem (), jQuery.a11y.keys.ENTER);
-    assertNotUndefined (menu.wasActivated);
-    assertTrue (menu.wasActivated);
+    assertEquals ("The menu.activatedItem should be set to the first item.", getFirstMenuItem ()[0], menu.activatedItem);
 }
 
 function testActivatableSpaceBar () {
@@ -388,14 +406,9 @@ function testActivatableSpaceBar () {
         return;
     }
 
-    var menu = KeyboardHandlersTest.createAndFocusMenu ();
-    menu.items.activatable (function (element) {
-       menu.wasActivated = true;
-    });
-
+    var menu = KeyboardHandlersTest.createActivatableMenu ();
     simulateKeyDown (getFirstMenuItem (), jQuery.a11y.keys.SPACE);
-    assertNotUndefined (menu.wasActivated);
-    assertTrue (menu.wasActivated);
+    assertEquals ("The menu.activatedItem should be set to the first item.", getFirstMenuItem ()[0], menu.activatedItem);
 }
 
 function testOneCustomActivatable () {
