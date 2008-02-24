@@ -1,28 +1,55 @@
-// Eventually these should be moved into the TestCase object.
-function assertEquals (msg, expected, actual) {
-    equals (actual, expected, msg);
-}
+var jqUnit = function () {
+    // TestCase object
+    function TestCase (moduleName, setUpFn, tearDownFn) {
+        this.moduleName = moduleName;
+        this.setUp = setUpFn || null;
+        this.tearDown = tearDownFn || null;
 
-function assertTrue (msg, expected) {
-    ok (expected, msg);
-}
+        module(this.moduleName);
+    };
 
-function assertFalse(msg, expected) {
-    ok (!expected, msg);
-}
+    TestCase.prototype.test = function (string, testFn) {
+        if (this.setUp) {
+            this.setUp ();
+        }
 
-function assertUndefined(msg, expected) {
-    equals ((typeof expected), 'undefined', msg);
-}
+        test (string, testFn);
 
-function assertNotUndefined (msg, expected) {
-    ok (!(typeof expected === 'undefined'), msg);
-}
+        if (this.tearDown) {
+            this.tearDown ();
+        }
+    };
 
-function assertNull (msg, expected) {
-    equals (expected, null, msg);
-}
+    TestCase.prototype.assertEquals = function (msg, expected, actual) {
+        equals (actual, expected, msg);
+    };
 
-function assertNotNull (msg, expected) {
-    ok (!(expcted === null), msg);
-}
+    TestCase.prototype.assertTrue = function (msg, expected) {
+        ok (expected, msg);
+    };
+
+    TestCase.prototype.assertFalse = function (msg, expected) {
+        ok (!expected, msg);
+    };
+
+    TestCase.prototype.assertUndefined = function (msg, expected) {
+        equals ((typeof expected), 'undefined', msg);
+    };
+
+    TestCase.prototype.assertNotUndefined = function (msg, expected) {
+        ok (!(typeof expected === 'undefined'), msg);
+    }
+
+    TestCase.prototype.assertNull = function (msg, expected) {
+        equals (expected, null, msg);
+    };
+
+    TestCase.prototype.assertNotNull = function (msg, expected) {
+        ok (!(expcted === null), msg);
+    };
+
+    //  jqUnit namespace.
+    return {
+        TestCase: TestCase
+    };
+} ();
