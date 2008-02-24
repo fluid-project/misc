@@ -149,7 +149,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         var nextIndex = currentSelectionIdx + 1;
         nextIndex = (nextIndex >= elements.length) ? nextIndex = 0 : nextIndex; // Wrap around to the beginning if needed.
 
-        elements[nextIndex].focus ();
+        elements.eq (nextIndex).focus ();
     };
 
     var focusPreviousElement = function (selectionContext) {
@@ -160,7 +160,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         var previousIndex = currentSelectionIdx - 1;
         previousIndex = (previousIndex < 0) ? elements.length - 1 : previousIndex; // Wrap around to the end if necessary.
 
-        elements[previousIndex].focus ();
+        elements.eq (previousIndex).focus ();
     };
 
     var arrowKeyHandler = function (selectionContext, keyMap, userHandlers) {
@@ -202,7 +202,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
                 if (!selectionContext.activeItem) {
                     focusNextElement (selectionContext);
                 } else {
-                    selectionContext.activeItem.focus ();
+                    jQuery (selectionContext.activeItem).focus ();
                 }
             }
 

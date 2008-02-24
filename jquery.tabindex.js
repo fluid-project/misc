@@ -15,6 +15,10 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
 	}
 
 	var getValue = function (elements) {
+        if (elements.length <= 0) {
+            return undefined;
+        }
+
 		if (!elements.hasTabindexAttr ()) {
 		    return canHaveDefaultTabindex (elements) ? Number (0) : undefined;
 		}
@@ -31,6 +35,10 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
 	};
 
 	var canHaveDefaultTabindex = function (elements) {
+       if (elements.length <= 0) {
+           return false;
+       }
+
 	   return jQuery (elements[0]).is ("a, input, button, select, area, textarea, object");
 	}
 
@@ -50,6 +58,10 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
 	};
 
 	$.fn.hasTabindexAttr = function () {
+	    if (this.length <= 0) {
+	        return false;
+	    }
+
 	    var attributeNode = this[0].getAttributeNode (normalizeTabindexName ());
         return attributeNode ? attributeNode.specified : false;
 	};

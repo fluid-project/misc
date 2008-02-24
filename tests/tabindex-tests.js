@@ -1,4 +1,4 @@
-module("tabindex");
+module ("tabindex");
 
 // Constants.
 var TabindexTests = {
@@ -10,24 +10,9 @@ var TabindexTests = {
         LINK_WITHOUT_SEL: "#linkNoTabIndex",
         LIST_ITEM_WITHOUT_SEL: "#foodNoTabIndex"
     },
-
-    cleanPageContents: null,
-
-    setUp: function () {
-        // Grab a snapshot of the page in its clean state.
-        this.cleanPageContents = jQuery ("#pageContents").clone (true);
-    },
-
-    tearDown: function () {
-        // After a test has run, swap out the current, dirty page with the clean one.
-        var pageClone = jQuery (this.cleanPageContents).clone (true);
-        jQuery ("#pageContents").replaceWith (pageClone);
-    }
 };
 
 test("getTabindex", function () {
-    TabindexTests.setUp ();
-
     expect (5);
 
     // Test an element with a tabindex of 0.
@@ -49,15 +34,9 @@ test("getTabindex", function () {
     // And a link without a tabindex.
     element = jQuery (TabindexTests.constants.LINK_WITHOUT_SEL);
     equals (element.tabindex (), 0, "The link should have an undefined tabindex.");
-
-    TabindexTests.tearDown ();
-
 });
 
 test ("setTabIndex() on element with no previous tabindex", function () {
-    TabindexTests.setUp ();
-
-
     expect (7);
 
     var element = jQuery (TabindexTests.constants.HEADING_WITHOUT_SEL);
@@ -86,27 +65,18 @@ test ("setTabIndex() on element with no previous tabindex", function () {
     // Set a negative string
     element.tabindex (-1);
     equals (element.tabindex (), -1, "The heading should now have a tabindex of -1.");
-
-    TabindexTests.tearDown ();
 });
 
 test ("setTabIndex() on element with existing tabindex", function () {
-    TabindexTests.setUp ();
-
     expect (2);
     var element = jQuery (TabindexTests.constants.LINK_WITH_SEL);
     equals (element.tabindex (), 2, "To start with, the link should have a tabindex of 2.");
 
     element.tabindex (-1);
     equals (element.tabindex (), -1, "After setting it, the link should now have a tabindex of -1.");
-
-    TabindexTests.tearDown ();
-
 });
 
 test ("removeTabindex()", function () {
-    TabindexTests.setUp ();
-
     expect (9);
 
     // Grab an element that isn't naturally focussable but already has a tabindex and remove it.
@@ -133,13 +103,9 @@ test ("removeTabindex()", function () {
     equals ((typeof element.tabindex ()), 'undefined', "Before removing it, the headings's tabindex should be undefined.");
     element.removeTabindex ();
     equals ((typeof element.tabindex ()), 'undefined', "After removing it, the headings's tabindex should still be undefined.");
-
-    TabindexTests.tearDown ();
 });
 
 test ("hasTabindex()", function () {
-    TabindexTests.setUp ();
-
     expect (5);
     // Test an element with a positive tab index.
     var element = jQuery (TabindexTests.constants.LINK_WITH_SEL);
@@ -159,6 +125,4 @@ test ("hasTabindex()", function () {
 
     element = jQuery (TabindexTests.constants.LINK_WITHOUT_SEL);
     ok (element.hasTabindex(), "A link without a tabindex should still report as having a tabindex.");
-
-    TabindexTests.tearDown ();
 });
