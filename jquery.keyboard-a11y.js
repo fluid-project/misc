@@ -126,12 +126,18 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
     var selectableFocusHandler = function (selectionContext, userHandlers) {
         return function (evt) {
             selectElement (evt.target, selectionContext, userHandlers);
+
+            // Force focus not to bubble on some browsers.
+            return evt.stopPropagation ();
         };
     };
 
     var selectableBlurHandler = function (selectionContext, userHandlers) {
         return function (evt) {
             unselectElement (evt.target, selectionContext, userHandlers);
+
+            // Force blur not to bubble on some browsers.
+            return evt.stopPropagation ();
         };
     };
 
@@ -182,37 +188,36 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         return keyMap;
     };
 
+    var containerFocusHandler = function (selectionContext, container, shouldSelectOnFocus) {
+        return function (evt) {
+            var shouldSelect = (shouldSelectOnFocus.constructor === Function) ? shouldSelectOnFocus () : shouldSelectOnFocus;
 
-    var selectOnFocus = function (shouldSelect, selectionContext) {
-        // This target check works around the fact that sometimes focus bubbles, even though it shouldn't.
-        if (shouldSelect) {
-            if (!selectionContext.activeItem) {
-                focusNextElement (selectionContext);
-            } else {
-                selectionContext.activeItem.focus ();
+            // Override the autoselection if we're on the way out of the container.
+            if (selectionContext.focusIsLeavingContainer) {
+                shouldSelect = false;
             }
 
-            return false;
-        }
+            // This target check works around the fact that sometimes focus bubbles, even though it shouldn't.
+            if (shouldSelect && evt.target === container.get(0)) {
+                if (!selectionContext.activeItem) {
+                    focusNextElement (selectionContext);
+                } else {
+                    selectionContext.activeItem.focus ();
+                }
+            }
+
+           // Force focus not to bubble on some browsers.
+           return evt.stopPropagation ();
+        };
     };
 
-    var addContainerFocusHandler = function (selectionContext, container, shouldSelectOnFocus) {
-        var focusHandler;
-        if (shouldSelectOnFocus.constructor === Function) {
-            focusHandler = function (evt) {
-                if (evt.target === container.get(0)) {
-                    selectOnFocus (shouldSelectOnFocus (), selectionContext);
-                }
-            };
-        } else {
-            focusHandler = function (evt) {
-                if (evt.target === container.get(0)) {
-                    selectOnFocus (shouldSelectOnFocus, selectionContext);
-                }
-            };
-        }
+    var containerBlurHandler = function (selectionContext) {
+        return function (evt) {
+            selectionContext.focusIsLeavingContainer = false;
 
-        container.focus (focusHandler);
+            // Force blur not to bubble on some browsers.
+            return evt.stopPropagation ();
+        };
     };
 
     var makeElementsTabFocussable = function (elements) {
@@ -256,7 +261,10 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
 
             cleanUpWhenLeavingContainer (userHandlers, selectionContext, shouldRememberSelectionState);
 
-            // TODO: Catch Shift-Tab and briefly disable auto-select on focus.
+            // Catch Shift-Tab and note that focus is on its way out of the container.
+            if (evt.shiftKey) {
+                selectionContext.focusIsLeavingContainer = true;
+            }
         };
     };
 
@@ -270,15 +278,15 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         // Context stores the currently active item (undefined to start) and list of selectables.
         var selectionContext = {
             activeItem: undefined,
-            selectables: selectableElements
+            selectables: selectableElements,
+            focusIsLeavingContainer: false
         };
 
         // Add various handlers to the container.
         container.keydown (arrowKeyHandler (selectionContext, keyMap, handlers));
         container.keydown (tabKeyHandler (handlers, selectionContext, mergedOptions.rememberSelectionState));
-        addContainerFocusHandler (selectionContext,
-                                  container,
-                                  mergedOptions.shouldSelectOnFocus);
+        container.focus (containerFocusHandler (selectionContext, container, mergedOptions.shouldSelectOnFocus));
+        container.blur (containerBlurHandler (selectionContext));
 
         // Remove selectables from the tab order and add focus/blur handlers
         selectableElements.tabindex(-1);
