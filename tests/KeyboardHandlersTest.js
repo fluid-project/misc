@@ -37,7 +37,7 @@ var KeyboardHandlersTest = {
 	LINK_AFTER_SEL: "#linkAfter",
 
 	// Helper functions.
-	getHandlers: function () {
+	setupHandlers: function () {
 		var focusHandler = function (element) {
 			jQuery (element).addClass ("selected");
 		};
@@ -64,7 +64,7 @@ var KeyboardHandlersTest = {
 
 		// Make the container tab focussable and the children selectable.
 		menuContainer.tabbable ();
-		var handlers = KeyboardHandlersTest.getHandlers ();
+		var handlers = KeyboardHandlersTest.setupHandlers ();
 		menuItems.selectable (menuContainer, handlers, mergedOptions);
 
 		var selectionContext = menuItems.selectable.selectionContext;
@@ -439,8 +439,8 @@ function testOneCustomActivatable () {
     menu.items.activatable (defaultActivate, options);
 
     simulateKeyDown (getFirstMenuItem (), jQuery.a11y.keys.DOWN);
-    assertNotUndefined (menu.wasActivated);
-    assertTrue (menu.wasActivated);
+    assertNotUndefined ("The menu should have been activated by the down arrow key.", menu.wasActivated);
+    assertTrue ("The menu should have been activated by the down arrow key.", menu.wasActivated);
 }
 
 function testMultipleCustomActivatable () {
@@ -479,14 +479,14 @@ function testMultipleCustomActivatable () {
 
     // Test that the down arrow works.
     simulateKeyDown (getFirstMenuItem (), jQuery.a11y.keys.DOWN);
-    assertNotUndefined (menu.wasActivated);
-    assertTrue (menu.wasActivated);
+    assertNotUndefined ("The menu should have been activated by the down arrow key.", menu.wasActivated);
+    assertTrue ("The menu should have been activated by the down arrow key.", menu.wasActivated);
 
     // Reset and try the other key map.
     menu.wasActivated = false;
     simulateKeyDown (getFirstMenuItem (), jQuery.a11y.keys.UP, jQuery.a11y.keys.CTRL);
-    assertNotUndefined (menu.wasActivated);
-    assertEquals ("foo", menu.wasActivated);
+    assertNotUndefined ("The menu should have been activated by the ctrl key.", menu.wasActivated);
+    assertEquals ("The menu should have been activated by the ctrl key.", "foo", menu.wasActivated);
 }
 
 function simulateKeyDown (onElement, withKeycode, modifier) {
