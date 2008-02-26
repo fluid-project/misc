@@ -45,7 +45,7 @@ var jqUnit = function () {
     };
 
     TestCase.prototype.assertNotNull = function (msg, expected) {
-        ok (!(expcted === null), msg);
+        ok (!(expected === null), msg);
     };
 
     //  jqUnit namespace.
