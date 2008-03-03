@@ -11,6 +11,11 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
 
 (function ($) {
     // Public, static constants needed by the rest of the library.
+    var NAMESPACE_KEY = "keyboard-a11y";
+    var CONTEXT_KEY = "selectionContext";
+    var HANDLERS_KEY = "userHandlers";
+    var ACTIVATE_KEY = "defaultActivate";
+
     $.a11y = $.a11y || {};
 
     $.a11y.keys = {
@@ -311,6 +316,23 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         };
     };
 
+    /**
+     * Gets stored state from the jQuery instance's data map.
+     */
+    var getData = function (aJQuery, key) {
+        var data = aJQuery.data (NAMESPACE_KEY);
+        return data ? data[key] : undefined;
+    };
+
+    /**
+     * Stores state in the jQuery instance's data map.
+     */
+    var setData = function (aJQuery, key, value) {
+        var data = aJQuery.data (NAMESPACE_KEY) || {};
+        data[key] = value;
+        aJQuery.data (NAMESPACE_KEY, data);
+    };
+
     // Public API.
     /**
      * Makes all matched elements available in the tab order by setting their tabindices to "0".
@@ -327,11 +349,9 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
      * Currently supported directions are jQuery.a11y.directions.HORIZONTAL and VERTICAL.
      */
     $.fn.selectable = function (container, handlers, options) {
-        var ctx = makeElementsSelectable($ (container), this, handlers, this.selectable.defaults, options);
-
-        // TODO: These need to be stored somewhere much more sensible.
-        this.selectable.selectionContext = ctx;
-        this.selectable.userHandlers = handlers;
+        var ctx = makeElementsSelectable ($ (container), this, handlers, this.selectable.defaults, options);
+        setData (this, CONTEXT_KEY, ctx);
+        setData (this, HANDLERS_KEY, handlers);
         return this;
     };
 
@@ -342,10 +362,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
      */
     $.fn.activatable = function (fn, options) {
         makeElementsActivatable (this, fn, this.activatable.defaults.keys, options);
-
-        // TODO: This also needs to be stored somewhere much more sensible.
-        this.activatable.defaultActivateHandler = createDefaultActivationHandler (this, fn);
-
+        setData (this, ACTIVATE_KEY, createDefaultActivationHandler (this, fn));
         return this;
     };
 
@@ -361,7 +378,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
      * Selects the next matched element.
      */
     $.fn.selectNext = function () {
-        focusNextElement (this.selectable.selectionContext);
+        focusNextElement (getData (this, CONTEXT_KEY));
         return this;
     };
 
@@ -369,15 +386,20 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
      * Selects the previous matched element.
      */
     $.fn.selectPrevious = function () {
-        focusPreviousElement (this.selectable.selectionContext);
+        focusPreviousElement (getData (this, CONTEXT_KEY));
         return this;
+    };
+
+    $.fn.currentSelection = function () {
+        return $ (getData (this, CONTEXT_KEY).activeItem);
     };
 
     /**
      * Activates the specified element.
      */
     $.fn.activate = function (elementToActivate) {
-        this.activatable.defaultActivateHandler (elementToActivate);
+        var handler = getData (this, ACTIVATE_KEY);
+        handler (elementToActivate);
         return this;
     };
 

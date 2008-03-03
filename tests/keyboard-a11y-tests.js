@@ -43,12 +43,9 @@
         var handlers = setupHandlers ();
         menuItems.selectable (menuContainer, handlers, mergedOptions);
 
-        var selectionContext = menuItems.selectable.selectionContext;
-
         return {
             container: menuContainer,
             items: menuItems,
-            context: selectionContext,
             handlers: handlers
         };
     };
@@ -347,7 +344,7 @@
         keyboardA11y.assertSelected (getLastMenuItem ());
 
         // Now invoke it again. We should be back at the top.
-        menu.items.selectNext (menu.context, menu.handlers);
+        menu.items.selectNext ();
         keyboardA11y.assertSelected (getFirstMenuItem ());
     });
 
@@ -378,7 +375,7 @@
         // Move focus to another element altogether.
         // Need to simulate browser behaviour by calling blur on the selected item, which is scary.
         var link = jQuery (LINK_AFTER_SEL);
-        jQuery (menu.context.activeItem).blur ();
+        jQuery (menu.items.currentSelection ()).blur ();
         link.focus ();
 
         // Now check to see that the item isn't still selected once we've moved focus off the widget.
@@ -496,5 +493,15 @@
         simulateKeyDown (getFirstMenuItem (), jQuery.a11y.keys.UP, jQuery.a11y.keys.CTRL);
         jqUnit.assertNotUndefined ("The menu should have been activated by the ctrl key.", menu.wasActivated);
         jqUnit.assertEquals ("The menu should have been activated by the ctrl key.", "foo", menu.wasActivated);
+    });
+
+    jqUnit.test ("currentSelection", function () {
+        var menu = createAndFocusMenu ();
+        menu.items.selectNext ();
+        var secondMenuItem = getSecondMenuItem ();
+        keyboardA11y.assertSelected (secondMenuItem);
+        var selectedItem = menu.items.currentSelection ();
+        jqUnit.ok ("The current selection should be a jQuery instance.", selectedItem.jQuery);
+        jqUnit.assertEquals ("The current selection should be the second menu item.", secondMenuItem[0], selectedItem[0]);
     });
 }) ();
