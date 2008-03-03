@@ -390,6 +390,9 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         return this;
     };
 
+    /**
+     * Returns the currently selected item wrapped as a jQuery object.
+     */
     $.fn.currentSelection = function () {
         return $ (getData (this, CONTEXT_KEY).activeItem);
     };
