@@ -14,8 +14,12 @@ fluid.accessibleTabs =  function () {
         },
 
         makeTabsKeyNavigable: function (tabsId) {
-            var tabsContainer = jQuery("#" + tabsId).tabbable ();
+            var tabsContainer = jQuery("#" + tabsId);
             var tabs = tabsContainer.children("li");
+
+            // Put the tabs container in the tab focus order. Take each tab *out* of the tab order
+            // so that they can be navigated with the arrow keys instead of the tab key.
+            tabsContainer.tabbable ();
 
             // Make the tabs selectable:
             //  * Pass in the container for the tabs (the <ul>)--the plugin binds keyboard handlers to this.
