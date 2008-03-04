@@ -80,7 +80,7 @@ fluid.accessiblemenubar = function () {
 
        // Make the top-level menu items selectable. Upon activation, toggle their sub menu visibility.
        var topLevelOptions = {
-           direction: jQuery.a11y.directions.HORIZONTAL
+           direction: jQuery.a11y.orientation.HORIZONTAL
        };
 
        var activationOptions = {
@@ -95,7 +95,7 @@ fluid.accessiblemenubar = function () {
     var initializeMenus = function () {
         // Make the sub menus selectable with up/down arrow keys and activatable with Enter & Space.
         var subMenuOptions = {
-            direction: jQuery.a11y.directions.VERTICAL,
+            direction: jQuery.a11y.orientation.VERTICAL,
             shouldSelectOnFocus: false,
             rememberSelectionState: false
         };

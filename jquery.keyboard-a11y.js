@@ -11,11 +11,6 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
 
 (function ($) {
     // Public, static constants needed by the rest of the library.
-    var NAMESPACE_KEY = "keyboard-a11y";
-    var CONTEXT_KEY = "selectionContext";
-    var HANDLERS_KEY = "userHandlers";
-    var ACTIVATE_KEY = "defaultActivate";
-
     $.a11y = $.a11y || {};
 
     $.a11y.keys = {
@@ -31,13 +26,18 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         ALT: 18
     };
 
-    $.a11y.directions = {
+    $.a11y.orientation = {
         HORIZONTAL: 0,
         VERTICAL: 1,
         BOTH: 2
     };
 
     // Private constants.
+    var NAMESPACE_KEY = "keyboard-a11y";
+    var CONTEXT_KEY = "selectionContext";
+    var HANDLERS_KEY = "userHandlers";
+    var ACTIVATE_KEY = "defaultActivate";
+
     var UP_DOWN_KEYMAP = {
         next: $.a11y.keys.DOWN,
         previous: $.a11y.keys.UP
@@ -183,7 +183,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
     var getKeyMapForDirection = function (direction) {
         // Determine the appropriate mapping for next and previous based on the specified direction.
         var keyMap;
-        if (direction === $.a11y.directions.HORIZONTAL) {
+        if (direction === $.a11y.orientation.HORIZONTAL) {
             keyMap = LEFT_RIGHT_KEYMAP;
         } else {
             // Assume vertical in any other case.

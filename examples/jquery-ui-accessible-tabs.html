@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <title>jQuery UI Tabs - Keyboard Navigable</title>
+
+    <link rel="stylesheet" href="../jquery.ui-1.5b/themes/flora/flora.all.css" type="text/css" media="screen" title="Flora (Default)" />
+    <link rel="stylesheet" href="../jquery.ui-1.5b/demos/css/style.css" type="text/css" media="screen" title="Flora (Default)" />
+
+    <script type="text/javascript" src="jquery-ui-accessible-tabs.js"></script>
+    <script type="text/javascript" src="../jquery-1.2.3.min.js"></script>
+    <script type="text/javascript" src="../jquery.ui-1.5b/ui.tabs.js"></script>
+    <script type="text/javascript" src="../jquery.tabindex.js"></script>
+    <script type="text/javascript" src="../jquery.keyboard-a11y.js"></script>
+
+  </head>
+
+  <body class="flora">
+    <h1>Keyboard Navigable jQuery UI Tabs</h1>
+
+    <ul id="tabs">
+        <li id="catsTab"><a href="#catsPanel"><span>Cats</span></a></li>
+        <li id="dogsTab"><a href="#dogsPanel"><span>Dogs</span></a></li>
+        <li id="hamstersTab"><a href="#hamstersPanel"><span>Hamsters</span></a></li>
+        <li id="alligatorsTab"><a href="#alligatorsPanel"><span>Alligators</span></a></li>
+    </ul>
+
+    <div id="catsPanel">
+      Cats meow.
+    </div>
+    <div id="dogsPanel">
+      Dogs bark.
+    </div>
+    <div id="hamstersPanel">
+      Hamsters wheel.
+    </div>
+    <div id="alligatorsPanel">
+      Alligators bite.
+    </div>
+
+    <script type="text/javascript">
+        fluid.accessibleTabs.initializeTabs("tabs");
+    </script>
+  </body>
+</html>
