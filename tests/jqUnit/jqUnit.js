@@ -1,8 +1,6 @@
 var jqUnit = jqUnit || {};
 
 (function ($) {
-
-
     var jsUnitCompat = {
         assertEquals: function (msg, expected, actual) {
             jqUnit.equals (actual, expected, msg);
@@ -33,6 +31,7 @@ var jqUnit = jqUnit || {};
         }
     };
 
+    // Mix these compatibility functions into the jqUnit namespace.
     $.extend(jqUnit, jsUnitCompat);
 
     // TestCase object
@@ -56,6 +55,6 @@ var jqUnit = jqUnit || {};
         }
     };
 
-    //  jqUnit namespace.
-    jqUnit.TestCase = TestCase;
+    //  Mix the TestCase type into the jqUnit namespace.
+    $.extend(jqUnit, {TestCase: TestCase});
 }) (jQuery);
