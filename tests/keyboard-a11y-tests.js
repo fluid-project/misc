@@ -30,7 +30,7 @@
 
     var makeMenuSelectable = function (additionalOptions) {
         var selectionOptions = {
-            direction: jQuery.a11y.directions.HORIZONTAL
+            orientation: jQuery.a11y.orientation.HORIZONTAL
         };
         // Mix in any additional options.
         var mergedOptions = jQuery.extend (selectionOptions, additionalOptions);
