@@ -273,6 +273,15 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         };
     };
 
+    var keyPressSwallower = function (evt) {
+        // Works around browser inconsistencies between keypress and keydown. 
+        // Since we bind to keydown for cross-browser support, 
+        // we have to make sure keypress events don't cause inconsistencies.
+        if (evt.which === keyMap.next || keyMap.previous) {
+            return false;
+        }
+    };
+    
     var makeElementsSelectable = function (container, selectableElements, handlers, defaults, options) {
         // Create empty an handlers and use default options where not specified.
         handlers = handlers || {};
@@ -290,6 +299,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         // Add various handlers to the container.
         container.keydown (arrowKeyHandler (selectionContext, keyMap, handlers));
         container.keydown (tabKeyHandler (handlers, selectionContext, mergedOptions.rememberSelectionState));
+        container.keypress (keyPressSwallower);
         container.focus (containerFocusHandler (selectionContext, container, mergedOptions.shouldSelectOnFocus));
         container.blur (containerBlurHandler (selectionContext));
 
