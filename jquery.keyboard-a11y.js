@@ -277,7 +277,7 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         // Works around browser inconsistencies between keypress and keydown. 
         // Since we bind to keydown for cross-browser support, 
         // we have to make sure keypress events don't cause inconsistencies.
-        if (evt.which === keyMap.next || keyMap.previous) {
+        if (evt.which === keyMap.next || evt.which === keyMap.previous) {
             return false;
         }
     };
@@ -297,9 +297,8 @@ https://source.fluidproject.org/svn/sandbox/tabindex/trunk/LICENSE.txt
         };
 
         // Add various handlers to the container.
-        container.keydown (arrowKeyHandler (selectionContext, keyMap, handlers));
-        container.keydown (tabKeyHandler (handlers, selectionContext, mergedOptions.rememberSelectionState));
-        container.keypress (keyPressSwallower);
+        container.keypress (arrowKeyHandler (selectionContext, keyMap, handlers));
+        container.keypress (tabKeyHandler (handlers, selectionContext, mergedOptions.rememberSelectionState));
         container.focus (containerFocusHandler (selectionContext, container, mergedOptions.shouldSelectOnFocus));
         container.blur (containerBlurHandler (selectionContext));
 
