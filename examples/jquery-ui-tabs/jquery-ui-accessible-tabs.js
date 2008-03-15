@@ -31,9 +31,22 @@ fluid.accessibleTabs =  function () {
             tabs.activatable (activateTabHandler (tabsContainer, tabs));
         },
 
-        initializeTabs: function (tabsId) {
+        addARIA: function (tabsId, panelsId) {
+            var tabsContainer = jQuery ("#" + tabsId);
+            var tabs = tabsContainer.children ("li");
+            var panels = jQuery ("#" + "panels > div");
+
+            tabsContainer.ariaRole ("tablist");
+            tabs.ariaRole ("tab");
+            panels.ariaRole ("tabpanel");
+
+            // need to add labelledby properties
+        },
+
+        initializeTabs: function (tabsId, panelsId) {
             this.setupTabs (tabsId);
             this.makeTabsKeyNavigable (tabsId);
+            this.addARIA (tabsId, panelsId);
         }
     };
 } ();
