@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee  http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+		version="2.4">
+	<display-name>sakai-imagegallery</display-name>
+	<description>Sakai Image Gallery</description>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			<!-- Required files from rsfutil.jar -->
+			classpath:conf/rsf-config.xml
+			classpath:conf/blank-applicationContext.xml
+
+			<!--  Finally, our application configuration -->
+			classpath*:META-INF/spring/*.xml
+			/WEB-INF/spring/*.xml
+		</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>requestContextConfigLocation</param-name>
+		<param-value>
+			<!-- Required files from rsfutil.jar -->
+			classpath:conf/rsf-requestscope-config.xml
+			classpath:conf/blank-requestContext.xml
+
+			<!--  Finally, our application configuration -->
+			/WEB-INF/requestContext.xml
+		</param-value>
+	</context-param>
+
+	<!-- Spring listeners (not needed with ReasonableSpringServlet) -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- RequestContextListener won't work to enable Spring request scopes in combo with RSF -->
+	<!--filter>
+		<filter-name>requestContextFilter</filter-name>
+		<filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>requestContextFilter</filter-name>
+		<url-pattern>/site/*</url-pattern>
+	    <dispatcher>REQUEST</dispatcher>
+	    <dispatcher>FORWARD</dispatcher>
+	    <dispatcher>INCLUDE</dispatcher>
+	</filter-mapping-->
+
+	<servlet>
+		<servlet-name>site</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>site</servlet-name>
+		<url-pattern>/site/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- RSF -->
+	<!--filter>
+		<filter-name>RSACFilter</filter-name>
+		<filter-class>uk.org.ponder.rsac.servlet.RSACFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>RSACFilter</filter-name>
+		<url-pattern>/site/*</url-pattern>
+	</filter-mapping-->
+	<servlet>
+		<servlet-name>sakai.imagegallery</servlet-name>
+		<servlet-class>org.sakaiproject.imagegallery.web.ReasonableRsacServlet</servlet-class>
+		<!--servlet-class>uk.org.ponder.rsf.servlet.ReasonableSpringServlet</servlet-class-->
+		<!--load-on-startup>1</load-on-startup-->
+	</servlet>
+	<!--servlet-mapping>
+		<servlet-name>sakai.imagegallery</servlet-name>
+		<url-pattern>/site/*</url-pattern>
+	</servlet-mapping-->
+
+	<servlet>
+		<servlet-name>imagedata</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>imagedata</servlet-name>
+		<url-pattern>/imagedata/*</url-pattern>
+	</servlet-mapping>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+
+</web-app>

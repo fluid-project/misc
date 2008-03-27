@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[2.0.2.v200711172000]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<configs>
+		<config>model/src/main/resources/META-INF/spring/spring-service.xml</config>
+		<config>model/src/test/resources/META-INF/spring/spring-mock-integration.xml</config>
+		<config>model/src/test/resources/META-INF/spring/spring-test-datasource.xml</config>
+		<config>web/src/main/resources/META-INF/spring/spring-standalone-datasource.xml</config>
+		<config>web/src/main/resources/META-INF/spring/spring-standalone-integration.xml</config>
+		<config>web/src/main/webapp/WEB-INF/site-servlet.xml</config>
+	</configs>
+	<configSets>
+		<configSet>
+			<name><![CDATA[test]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>model/src/main/resources/META-INF/spring/spring-service.xml</config>
+				<config>model/src/test/resources/META-INF/spring/spring-mock-integration.xml</config>
+				<config>model/src/test/resources/META-INF/spring/spring-test-datasource.xml</config>
+			</configs>
+		</configSet>
+		<configSet>
+			<name><![CDATA[standalone]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>model/src/main/resources/META-INF/spring/spring-service.xml</config>
+				<config>model/src/test/resources/META-INF/spring/spring-test-datasource.xml</config>
+				<config>web/src/main/resources/META-INF/spring/spring-standalone-datasource.xml</config>
+				<config>web/src/main/resources/META-INF/spring/spring-standalone-integration.xml</config>
+			</configs>
+		</configSet>
+	</configSets>
+</beansProjectDescription>

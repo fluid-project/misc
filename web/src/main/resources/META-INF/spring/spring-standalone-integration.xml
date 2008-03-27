@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="org.sakaiproject.imagegallery.integration.ContextService" class="org.sakaiproject.imagegallery.integration.standalone.ContextStandalone"/>
+
+	<bean id="org.sakaiproject.imagegallery.integration.FileLibraryService" class="org.sakaiproject.imagegallery.integration.standalone.FileLibraryStandalone"
+		init-method="init" depends-on="createStandaloneTables">
+		<property name="contextService" ref="org.sakaiproject.imagegallery.integration.ContextService"/>
+		<property name="urlPrefix" value="/sakai-imagegallery2-web/imagedata/"/>
+		<property name="dataSource" ref="dataSource"/>
+		<property name="jdbcDialect" ref="jdbcDialect"/>
+	</bean>
+
+	<bean id="createStandaloneTables" class="org.sakaiproject.imagegallery.springutil.SqlScriptRunner" init-method="init">
+		<property name="automatic" ref="autoCreateTables"/>
+		<property name="failQuietlyOnError" value="true"/>
+		<property name="sqlResourcePath">
+			<bean class="java.lang.String" factory-method="format">
+				<constructor-arg value="classpath:META-INF/sql/%1$s/image_gallery_standalone_create_tables.sql"/>
+				<constructor-arg ref="jdbcDialect"/>
+			</bean>
+		</property>
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+
+</beans>

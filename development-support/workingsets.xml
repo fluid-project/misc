@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workingSetManager>
+<workingSet editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" label="image-gallery" name="image-gallery">
+<item elementID="=access-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=access-tool" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=access-web-tool" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=alias-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=announcement-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=archive-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=archive-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=authz-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=authz-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=authz-tool" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=cluster-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=cm-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=cm-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=component-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=component-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=content-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=content-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=content-impl-jcr" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=content-impl-providers" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=content-jcr-migration-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=content-jcr-migration-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=content-test" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=content-tool" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=content-util" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=contentmultiplex-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=courier-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=db-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=db-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=db-util" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=email-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=entity-broker" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=entity-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=entity-util" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=event-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=event-util" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=image-gallery" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=image-gallery2" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=import-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=import-content" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=import-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=import-sakai-archive" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=jcr-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=jobscheduler" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=login-authn-tool" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=login-tool" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=mailarchive-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=memory-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=memory-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=memory-tool" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=message-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=metaobj-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=portal-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=portal-charon" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=portal-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=portal-portlet-tool" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=portal-render-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=portal-render-engine-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=portal-render-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=portal-service-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=portal-tool" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=portal-util" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=presence-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=reference" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=sakai-mock" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=site-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=site-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=site-manage-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=site-manage-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=site-manage-tool" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=site-manage-util" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=site-page-order-helper" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=site-tool" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=test-harness" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=tool-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=tool-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=tool-tool" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=tool-util" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=user-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=user-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=user-util" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=util-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=util-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=util-util" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=velocity" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=web-api" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item elementID="=web-impl" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/fluid-components" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/master" type="4"/>
+</workingSet>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" label="Window Working Set" name="Aggregate for window 1199487988250"/>
+<mruList name="image-gallery"/>
+</workingSetManager>

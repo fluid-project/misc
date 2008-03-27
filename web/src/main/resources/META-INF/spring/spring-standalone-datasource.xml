@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean  id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties">
+			<props>
+				<prop key="driverClassName@javax.sql.BaseDataSource">org.hsqldb.jdbcDriver</prop>
+				<prop key="url@javax.sql.BaseDataSource">jdbc:hsqldb:mem:sakai</prop>
+				<prop key="username@javax.sql.BaseDataSource">sa</prop>
+				<prop key="password@javax.sql.BaseDataSource"></prop>
+				<prop key="vendor@org.sakaiproject.db.api.SqlService">hsqldb</prop>
+				<prop key="auto.ddl">true</prop>
+			</props>
+		</property>
+		<property name="locations">
+			<list>
+				<value>file:/${STANDALONE_PROPERTIES}</value>
+			</list>
+		</property>
+		<property name="ignoreResourceNotFound" value="true"/>
+	</bean>
+	
+	<bean id="jdbcDialect" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="${vendor@org.sakaiproject.db.api.SqlService}"/>
+	</bean>
+	<bean id="autoCreateTables" class="java.lang.Boolean">
+		<constructor-arg value="${auto.ddl}"/>
+	</bean>
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:driverClassName="${driverClassName@javax.sql.BaseDataSource}"
+		p:url="${url@javax.sql.BaseDataSource}"
+		p:username="${username@javax.sql.BaseDataSource}"
+		p:password="${password@javax.sql.BaseDataSource}"/>
+
+</beans>

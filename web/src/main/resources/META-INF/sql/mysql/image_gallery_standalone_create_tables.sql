@@ -1,0 +1,7 @@
+-- MySQL
+--
+CREATE TABLE IMAGE_GALLERY_STANDALONE_FILES_T (
+	FILE_ID varchar(255) not null primary key,
+	CONTENT_TYPE varchar(255) not null,
+	CONTENT blob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

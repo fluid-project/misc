@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="var" path="M2_REPO/org/springframework/spring/2.0.6/spring-2.0.6.jar" sourcepath="/SPRING_SRC"/>
+	<classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/uk/org/ponder/rsfutil/rsfutil/0.7.2/rsfutil-0.7.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/uk/org/ponder/j-servletutil/1.2.2/j-servletutil-1.2.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/uk/org/ponder/ponderutilcore/1.2.2/ponderutilcore-1.2.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/uk/org/ponder/sakairsf/sakairsf/0.7.2-sakai_2.2.x/sakairsf-0.7.2-sakai_2.2.x.jar"/>
+	<classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-mock/2.0.6/spring-mock-2.0.6.jar" sourcepath="/SPRING_SRC"/>
+	<classpathentry kind="var" path="M2_REPO/org/easymock/easymock/2.3/easymock-2.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.14/log4j-1.2.14.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-io/commons-io/1.4/commons-io-1.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.3/commons-lang-2.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-tool-api/SNAPSHOT/sakai-tool-api-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-content-api/SNAPSHOT/sakai-content-api-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-util-api/SNAPSHOT/sakai-util-api-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/sakaiproject/sakai-entity-api/SNAPSHOT/sakai-entity-api-SNAPSHOT.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/imagegallery-standalone"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

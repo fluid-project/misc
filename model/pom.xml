@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.sakaiproject</groupId>
+    <artifactId>sakai-imagegallery-base</artifactId>
+    <version>SNAPSHOT</version>
+  </parent>
+  <name>sakai-imagegallery-model</name>
+  <groupId>org.sakaiproject</groupId>
+  <artifactId>sakai-imagegallery-model</artifactId>
+  <description>
+  </description>
+  <packaging>jar</packaging>
+
+  <dependencies>
+    <!-- Spring dependency -->
+    <dependency>
+        <groupId>${sakai.spring.groupId}</groupId>
+        <artifactId>${sakai.spring.artifactId}</artifactId>
+        <version>${sakai.spring.version}</version>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>${sakai.spring.groupId}</groupId>
+      <artifactId>${sakai.spring.mock.artifactId}</artifactId>
+      <version>${sakai.spring.mock.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+	<dependency>
+	  <groupId>commons-lang</groupId>
+	  <artifactId>commons-lang</artifactId>
+	  <version>2.3</version>
+    </dependency>
+
+    <!-- Test dependency -->
+	<dependency>
+	  <groupId>org.easymock</groupId>
+	  <artifactId>easymock</artifactId>
+	  <version>2.3</version>
+	  <scope>test</scope>
+    </dependency>
+	<dependency>
+	  <groupId>log4j</groupId>
+	  <artifactId>log4j</artifactId>
+	  <version>1.2.14</version>
+	  <scope>test</scope>
+    </dependency>
+
+    <!-- Test DB dependencies - comment out what you don't have -->
+    <!-- TODO Come up with a better way of handling optional multiple-vendor tests. -->
+	<dependency>
+	  <groupId>hsqldb</groupId>
+	  <artifactId>hsqldb</artifactId>
+	  <version>1.8.0.7</version>
+	  <scope>test</scope>
+    </dependency>
+	<dependency>
+	  <groupId>mysql</groupId>
+	  <artifactId>mysql-connector-java</artifactId>
+	  <version>5.1.5</version>
+	  <scope>test</scope>
+    </dependency>
+    <!--
+	<dependency>
+	  <groupId>com.oracle</groupId>
+	  <artifactId>ojdbc14_g</artifactId>
+	  <version>10.2.0.1.0</version>
+	  <scope>test</scope>
+    </dependency>
+    -->
+
+  </dependencies>
+
+  <build>
+	<plugins>
+
+		<!--
+			By default, Surefire forks and passes no system properties to the tests.
+			This means that any property of possible interest to the test code needs
+			to be explicitly declared.
+		-->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<configuration>
+				<systemProperties>
+					<property>
+						<name>test.tomcat.home</name>
+						<value>${test.tomcat.home}</value>
+					</property>
+					<property>
+						<name>test.sakai.home</name>
+						<value>${test.sakai.home}</value>
+					</property>
+				</systemProperties>
+			</configuration>
+		</plugin>
+
+	</plugins>
+  </build>
+</project>

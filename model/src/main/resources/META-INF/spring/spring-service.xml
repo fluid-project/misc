@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" 
+		p:dataSource-ref="dataSource"/>
+	
+	<tx:annotation-driven/>
+	
+	<bean id="org.sakaiproject.imagegallery.service.ImageGalleryService" 
+		class="org.sakaiproject.imagegallery.service.impl.ImageGalleryServiceImpl"
+		init-method="init"
+		depends-on="createTables">
+		<property name="contextService" ref="org.sakaiproject.imagegallery.integration.ContextService"/>
+		<property name="fileLibraryService" ref="org.sakaiproject.imagegallery.integration.FileLibraryService"/>
+		<property name="dataSource" ref="dataSource"/>
+		<property name="jdbcDialect" ref="jdbcDialect"/>
+	</bean>
+	
+	<bean id="createTables" class="org.sakaiproject.imagegallery.springutil.SqlScriptRunner" init-method="init">
+		<property name="automatic" ref="autoCreateTables"/>
+		<property name="failQuietlyOnError" value="true"/>
+		<property name="sqlResourcePath">
+			<bean class="java.lang.String" factory-method="format">
+				<constructor-arg value="classpath:META-INF/sql/%1$s/image_gallery_create_tables.sql"/>
+				<constructor-arg ref="jdbcDialect"/>
+			</bean>
+		</property>
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+
+</beans>

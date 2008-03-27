@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<registration>
+	<tool id="sakai.imagegallery"
+		title="Image Gallery 2"
+		description="A tool to collect, view, and sequence images.">
+		<category name="course" />
+		<category name="project" />
+        <category name="portfolio" />
+        <category name="myworkspace" />
+	</tool>
+</registration>

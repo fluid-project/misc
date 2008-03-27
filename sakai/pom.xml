@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.sakaiproject</groupId>
+    <artifactId>sakai-imagegallery2-web</artifactId>
+    <version>SNAPSHOT</version>
+  </parent>
+  <name>sakai-imagegallery2-tool</name>
+  <groupId>org.sakaiproject</groupId>
+  <artifactId>sakai-imagegallery2-tool</artifactId>
+  <description>
+  </description>
+  <packaging>war</packaging>
+
+  <properties>
+    <sakairsf.sakai.version>2.2.x</sakairsf.sakai.version>
+  </properties>
+
+  <dependencies>
+    <!-- Bring in the overlay WAR for shared files. -->
+    <dependency>
+      <groupId>org.sakaiproject</groupId>
+      <artifactId>sakai-imagegallery2-web</artifactId>
+      <version>${sakai.version}</version>
+      <type>war</type>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>uk.org.ponder.sakairsf</groupId>
+      <artifactId>SakaiRSFComponents-templates</artifactId>
+      <version>${rsfutil.version}-sakai_${sakairsf.sakai.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>uk.org.ponder.sakairsf</groupId>
+      <artifactId>SakaiRSFComponents-evolvers</artifactId>
+      <version>${rsfutil.version}-sakai_${sakairsf.sakai.version}</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>uk.org.ponder.sakairsf</groupId>
+      <artifactId>sakairsf</artifactId>
+      <version>${rsfutil.version}-sakai_${sakairsf.sakai.version}</version>
+      <type>jar</type>
+    </dependency>
+
+    <!-- Sakai dependencies (all RSF apps must have this) -->
+    <dependency>
+      <groupId>org.sakaiproject</groupId>
+      <artifactId>sakai-util</artifactId>
+      <version>${sakai.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.sakaiproject</groupId>
+        <artifactId>sakai-util-api</artifactId>
+        <version>${sakai.version}</version>
+        <scope>provided</scope>
+    </dependency>
+
+    <!-- Sakai dependencies -->
+	<dependency>
+	  <groupId>org.sakaiproject</groupId>
+	  <artifactId>sakai-tool-api</artifactId>
+	  <version>${sakai.version}</version>
+	</dependency>
+	<dependency>
+	  <groupId>org.sakaiproject</groupId>
+	  <artifactId>sakai-util-api</artifactId>
+	  <version>${sakai.version}</version>
+	</dependency>
+    <dependency>
+      <groupId>org.sakaiproject</groupId>
+      <artifactId>sakai-content-api</artifactId>
+      <version>${sakai.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.sakaiproject</groupId>
+      <artifactId>sakai-entity-api</artifactId>
+      <version>${sakai.version}</version>
+    </dependency>
+
+	<dependency>
+	  <groupId>commons-io</groupId>
+	  <artifactId>commons-io</artifactId>
+	  <version>1.4</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+    <!--plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-war-plugin</artifactId>
+      <configuration>
+        <overlays>
+          <overlay>
+            <groupId>org.sakaiproject</groupId>
+            <artifactId>sakai-imagegallery2-web</artifactId>
+            <excludes>
+              <exclude>WEB-INF/web.xml</exclude>
+            </excludes>
+          </overlay>
+          <overlay>
+          </overlay>
+        </overlays>
+      </configuration>
+    </plugin-->
+    </plugins>
+  </build>
+
+</project>

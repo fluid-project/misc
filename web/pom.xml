@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.sakaiproject</groupId>
+    <artifactId>sakai-imagegallery-base</artifactId>
+    <version>SNAPSHOT</version>
+  </parent>
+  <name>sakai-imagegallery2-web</name>
+  <groupId>org.sakaiproject</groupId>
+  <artifactId>sakai-imagegallery2-web</artifactId>
+  <description>
+  </description>
+  <packaging>war</packaging>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>Maven repo</id>
+      <url>http://repo1.maven.org/maven2/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <profiles>
+    <profile>
+      <id>standalone</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+            <groupId>${sakai.spring.groupId}</groupId>
+            <artifactId>${sakai.spring.artifactId}</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Database dependencies - comment out if not needed -->
+        <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <version>5.1.5</version>
+          <scope>compile</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+    <profile>
+      <id>sakai</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sakaiproject.maven.plugins</groupId>
+            <artifactId>sakai</artifactId>
+            <configuration>
+            	<!-- We can't skip "sakai:deploy", but we can make it harmless. -->
+              <deployDirectory>${basedir}/target/sakai</deployDirectory>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <properties>
+    <!--
+    <rsfutil.version>0.7.2</rsfutil.version>
+    <rsfutil.version>0.7.3M1-SNAPSHOT</rsfutil.version>
+    -->
+    <rsfutil.version>0.7.3M1</rsfutil.version>
+  </properties>
+  <repositories>
+    <repository>
+      <id>caret-dev</id>
+      <name>Caret Dev Repo</name>
+      <layout>default</layout>
+      <url>http://www2.caret.cam.ac.uk/maven2dev</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>media-berkeley-edu-dev</id>
+      <name>Local UC Berkeley Repo</name>
+      <layout>default</layout>
+      <url>http://svn.media.berkeley.edu/maven2</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.sakaiproject</groupId>
+      <artifactId>sakai-imagegallery-model</artifactId>
+      <version>${sakai.version}</version>
+    </dependency>
+
+    <!-- RSF dependencies -->
+    <dependency>
+       <groupId>uk.org.ponder.rsfutil</groupId>
+       <artifactId>rsfutil</artifactId>
+       <version>${rsfutil.version}</version>
+       <type>jar</type>
+    </dependency>
+    <dependency>
+       <groupId>uk.org.ponder.rsfutil</groupId>
+       <artifactId>RSFComponents-evolvers</artifactId>
+       <version>${rsfutil.version}</version>
+       <type>jar</type>
+    </dependency>
+    <!-- Let the deployed WAR projects handle this one. -->
+    <!-- dependency>
+       <groupId>uk.org.ponder.rsfutil</groupId>
+       <artifactId>RSFComponents-templates</artifactId>
+       <version>${rsfutil.version}</version>
+       <type>war</type>
+    </dependency -->
+
+    <dependency>
+      <groupId>org.fluidproject</groupId>
+      <artifactId>fluid-components</artifactId>
+      <version>0.2-SNAPSHOT</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.4</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Apache commons dependencies -->
+    <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.0.4</version>
+    </dependency>
+	<dependency>
+	  <groupId>commons-lang</groupId>
+	  <artifactId>commons-lang</artifactId>
+	  <version>2.3</version>
+    </dependency>
+
+    <!-- Spring dependency -->
+    <dependency>
+        <groupId>${sakai.spring.groupId}</groupId>
+        <artifactId>${sakai.spring.artifactId}</artifactId>
+        <version>${sakai.spring.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>maven-jetty-plugin</artifactId>
+        <version>6.1.8</version>
+        <configuration>
+          <scanIntervalSeconds>5</scanIntervalSeconds>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

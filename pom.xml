@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>master</artifactId>
+    <groupId>org.sakaiproject</groupId>
+    <version>SNAPSHOT</version>
+    <relativePath>../master/pom.xml</relativePath>
+  </parent>
+  <name>Image Gallery</name>
+  <groupId>org.sakaiproject</groupId>
+  <artifactId>sakai-imagegallery-base</artifactId>
+  <version>SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <profiles>
+    <profile>
+      <id>standalone</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>model</module>
+        <module>web</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>sakai</id>
+      <modules>
+        <module>model</module>
+        <module>web</module>
+        <module>sakai</module>
+      </modules>
+    </profile>
+  </profiles>
+
+  <build>
+    <!--
+      Restore standard Maven 2 directory structure so that we
+      can more clearly distinguish production from test
+      source directories. (The Sakai master pom.xml eliminates
+      "main" and puts all the normal "main" subdirectories
+      directly under "src".)
+    -->
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <inherited>true</inherited>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <warSourceDirectory>${basedir}/src/main/webapp</warSourceDirectory>
+          <webResources>
+            <resource>
+            	<directory>${basedir}/src/main/resources</directory>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

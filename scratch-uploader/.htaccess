@@ -1,0 +1,20 @@
+OPTIONS -INDEXES
+# the following is used to debug my AJAX code
+# php_value log_errors 1
+# php_value error_log /home/elicochr/PHP/error.log
+
+php_value upload_tmp_dir /home/elicochr/public_html/upload/temp/
+
+SecFilterEngine Off
+SecFilterScanPOST Off
+
+ErrorDocument 404 /extras/file-missing.html
+
+#AddHandler application/x-httpd-php .php .html
+
+# AddHandler application/x-httpd-php5 .php .html
+# Action application/x-httpd-php5 /cgi-sys/php5
+
+# php configuration overrides 
+# php_value include_path /home/elicochr/www/dynamic/
+# php_value auto_prepend_file /home/elicochr/www/dynamic/page-functions.php

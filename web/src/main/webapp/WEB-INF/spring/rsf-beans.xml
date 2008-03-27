@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+ 	<bean id="messageSource" parent="messageSourceParent">
+		<property name="basename" value="classpath:messages" />
+	</bean>
+	
+	<!-- Block name conflicts with Spring DispatcherServlet over multipart request handling. -->
+	<bean id="rsfMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+	
+ 	<bean parent="requestAddressibleParent">
+		<property name="value" value="Image" />
+	</bean>
+	
+	<!-- Control the location of the html templates (default: content/templates/) -->
+	<bean id="templateResolverStrategy" parent="CRITemplateResolverStrategy">
+		<property name="baseDirectory" value=""/>
+	</bean>
+	
+	<bean id="abstractViewProducer" abstract="true">
+		<property name="imageLocator" ref="Image" />
+	</bean>
+	<bean class="org.sakaiproject.imagegallery.web.BrowseImagesProducer" parent="abstractViewProducer"/>
+	<bean class="org.sakaiproject.imagegallery.web.ViewImageProducer" parent="abstractViewProducer"/>
+	<bean class="org.sakaiproject.imagegallery.web.AddInformationToImagesProducer" parent="abstractViewProducer"/>
+	<bean class="org.sakaiproject.imagegallery.web.AddImageProducer" parent="abstractViewProducer"/>
+
+
+	<!-- For RSF's pre-Spring-2 RSAC-based approach. -->
+	<!--
+	<bean id="ImageProxy" parent="RSACBridgeProxy">
+		<property name="targetBeanName" value="Image" />
+	</bean>
+
+	<bean parent="actionResultInterceptorParent">
+		<property name="value">
+			<bean parent="RSACBridgeProxy">
+				<property name="targetBeanName" value="Image" />
+			</bean>
+		</property>
+	</bean>
+	-->
+
+	<!-- Spring 2 bean scope experimentation below.... -->
+
+	<!-- 
+		This is an absurdly roundabout approach, but until I'm sure the scoping experiment will work
+		there's no need to waste time on something better. 
+	-->
+	<bean id="multipartMap" parent="RSACBridgeProxy">
+		<property name="targetBeanName" value="multipartMap" />
+	</bean>
+	
+	<bean id="Image" class="org.sakaiproject.imagegallery.web.ImageLocator" scope="request">
+		<property name="toolService" ref="org.sakaiproject.imagegallery.service.ImageGalleryService"/>
+		<property name="multipartMap" ref="multipartMap"/>
+		<aop:scoped-proxy/>
+	</bean>
+
+	<bean parent="actionResultInterceptorParent">
+		<property name="value" ref="Image"/>
+	</bean>
+	<!-- 
+	-->
+
+</beans>

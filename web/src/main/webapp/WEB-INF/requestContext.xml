@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<!-- Block name conflicts with Spring DispatcherServlet over multipart request handling. -->
+	<bean id="earlyRequestParser" class="uk.org.ponder.rsf.servlet.ServletEarlyRequestParser" init-method="init">
+		<property name="httpServletRequest" ref="httpServletRequest" />
+		<property name="multipartResolver" ref="rsfMultipartResolver" />
+	</bean>
+
+	<!--
+	<bean id="Image" class="org.sakaiproject.imagegallery.web.ImageLocator">
+		<property name="toolService" ref="org.sakaiproject.imagegallery.service.ImageGalleryService"/>
+		<property name="multipartMap" ref="multipartMap"/>
+	</bean>
+	-->
+</beans>

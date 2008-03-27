@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="jdbcDialect" 
+		factory-bean="org.sakaiproject.db.api.SqlService" 
+		factory-method="getVendor"/>
+
+	<bean id="autoCreateTables" 
+		factory-bean="org.sakaiproject.component.api.ServerConfigurationService" 
+		factory-method="getBoolean">
+		<constructor-arg value="auto.ddl"/>
+		<constructor-arg value="false"/>
+	</bean>
+
+	<bean id="dataSource" parent="javax.sql.BaseDataSource"/>
+	 
+	<bean id="org.sakaiproject.imagegallery.integration.ContextService" 
+		class="org.sakaiproject.imagegallery.integration.sakai.ContextServiceSakai">
+		<property name="toolManager" ref="org.sakaiproject.tool.api.ToolManager"/>
+	</bean>
+	
+	<bean id="org.sakaiproject.imagegallery.integration.FileLibraryService"
+		class="org.sakaiproject.imagegallery.integration.sakai.FileLibraryLegacyResources">
+		<property name="contentHostingService" ref="org.sakaiproject.content.api.ContentHostingService"/>
+		<property name="contextService" ref="org.sakaiproject.imagegallery.integration.ContextService"/>
+		<property name="galleryCollectionName" value="image-gallery-2"/>
+	</bean>
+
+</beans>
