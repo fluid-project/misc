@@ -1,9 +1,9 @@
 SETTING UP DEVELOPMENT ENVIRONMENT
 
 To build and run the standalone Image Gallery project, all that's currently
-needed from Sakai trunk is the "master" project. Still, it won't do any harm to
-keep a copy of the entire trunk up to date -- you don't have to build it
-or import it into Eclipse.
+needed from Sakai trunk is a recent build of the "master" project. Still, it
+won't do any harm to keep a copy of the entire trunk up to date -- you don't
+have to build it or import it into Eclipse.
 
 ====
 

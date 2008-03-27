@@ -5,7 +5,6 @@
     <artifactId>master</artifactId>
     <groupId>org.sakaiproject</groupId>
     <version>SNAPSHOT</version>
-    <relativePath>../master/pom.xml</relativePath>
   </parent>
   <name>Image Gallery</name>
   <groupId>org.sakaiproject</groupId>
