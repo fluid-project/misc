@@ -27,6 +27,7 @@
 	<bean class="org.sakaiproject.imagegallery.web.ViewImageProducer" parent="abstractViewProducer"/>
 	<bean class="org.sakaiproject.imagegallery.web.AddInformationToImagesProducer" parent="abstractViewProducer"/>
 	<bean class="org.sakaiproject.imagegallery.web.AddImageProducer" parent="abstractViewProducer"/>
+	<bean class="org.sakaiproject.imagegallery.web.AddImagesProducer" parent="abstractViewProducer"/>
 
 
 	<!-- For RSF's pre-Spring-2 RSAC-based approach. -->

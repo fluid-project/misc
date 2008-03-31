@@ -22,7 +22,7 @@ var definedFileTypes = {
 
 var fileupload_settings = {
 	//baseURL:'http://upload.elicochran.com/' // need to have some kind of server side script to accept files
-	baseURL:'', // local doesn't work for testing upload
+	baseURL:'/sakai-imagegallery2-web/', // local doesn't work for testing upload
 	tbodyHeight: 200
 };
 

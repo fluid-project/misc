@@ -21,7 +21,7 @@
 <div class="portletBody specialLink">
 	<ul role="menu" class="navIntraTool actionToolBar">
 		<li aria-disabled="true" role="menuitem" class="firstToolBarItem"><span><a rsf:id="browseImages-link" href="BrowseImages.html">Browse Images &amp; Collections</a></span></li>
-		<li aria-disabled="true" role="menuitem">Add Images</span></li>
+		<li aria-disabled="true" role="menuitem">Add Images</li>
 	</ul>
 
 
@@ -31,7 +31,7 @@
 		<li class="inactive-step">Edit Image Information</li>
 	</ol>
 	
-	<form id="fFileUp" class="start" method="get" enctype="multipart/form-data">
+	<form rsf:id="new-image-form" id="fFileUp" class="start" method="get" enctype="multipart/form-data">
 		<div>Upload images from your Computer to <em>All Images</em></div>
 		<div><input type="checkbox" id="add-collection"/><label for="add-collection">Also add image to the current collection &lt;collection name&gt;</label></div>
 		<table cellspacing="0" id="file_queue">
