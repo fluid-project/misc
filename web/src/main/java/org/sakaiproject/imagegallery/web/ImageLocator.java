@@ -80,6 +80,8 @@ public class ImageLocator implements BeanLocator, ActionResultInterceptor {
 	public void uploadAction() {
 		if (log.isDebugEnabled()) log.debug("uploadAction");
 		if (multipartMap != null) {
+			if (log.isDebugEnabled()) log.debug("multipartMap=" + multipartMap);
+			if (log.isDebugEnabled()) log.debug("keySet=" + multipartMap.keySet());
 			MultipartFile file = multipartMap.get("new-image-file");
 			if (log.isDebugEnabled()) log.debug("About to add image file=" + file.getOriginalFilename());
 			Image image = imageGalleryService.addImage(file);

@@ -38,9 +38,14 @@ var status ={
 var swf_settings = {
 	
 	// File Upload Settings
-	upload_url : fileupload_settings.baseURL + "php/upload.php",
+	upload_url : fileupload_settings.baseURL + "site/AddImage",
 	flash_url : fileupload_settings.baseURL + "swfupload/swfupload_f9.swf",
-	post_params: {"PHPSESSID" : "<?php echo $_REQUEST['PHPSESSID']; ?>"},
+	post_params: {
+		"el-binding" : "e#{ARIResult.resultingView.entity.ID}Image.newImageId",
+		"command link parameters&Submitting+control=new-image-save&Fast+track+action=Image.uploadAction" : "Save"
+	},
+//	file_post_name : "fileData",
+	file_post_name : "new-image-file",
 	
 	// File Upload Settings
 	file_size_limit : "20480",

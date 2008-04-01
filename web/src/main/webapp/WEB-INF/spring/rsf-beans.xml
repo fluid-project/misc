@@ -7,19 +7,22 @@
  	<bean id="messageSource" parent="messageSourceParent">
 		<property name="basename" value="classpath:messages" />
 	</bean>
-	
+
 	<!-- Block name conflicts with Spring DispatcherServlet over multipart request handling. -->
+	<!--
 	<bean id="rsfMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
-	
+	-->
+	<bean id="rsfMultipartResolver" class="org.sakaiproject.imagegallery.web.SwfMultipartResolver"/>
+
  	<bean parent="requestAddressibleParent">
 		<property name="value" value="Image" />
 	</bean>
-	
+
 	<!-- Control the location of the html templates (default: content/templates/) -->
 	<bean id="templateResolverStrategy" parent="CRITemplateResolverStrategy">
 		<property name="baseDirectory" value=""/>
 	</bean>
-	
+
 	<bean id="abstractViewProducer" abstract="true">
 		<property name="imageLocator" ref="Image" />
 	</bean>
@@ -47,14 +50,14 @@
 
 	<!-- Spring 2 bean scope experimentation below.... -->
 
-	<!-- 
+	<!--
 		This is an absurdly roundabout approach, but until I'm sure the scoping experiment will work
-		there's no need to waste time on something better. 
+		there's no need to waste time on something better.
 	-->
 	<bean id="multipartMap" parent="RSACBridgeProxy">
 		<property name="targetBeanName" value="multipartMap" />
 	</bean>
-	
+
 	<bean id="Image" class="org.sakaiproject.imagegallery.web.ImageLocator" scope="request">
 		<property name="toolService" ref="org.sakaiproject.imagegallery.service.ImageGalleryService"/>
 		<property name="multipartMap" ref="multipartMap"/>
@@ -64,7 +67,7 @@
 	<bean parent="actionResultInterceptorParent">
 		<property name="value" ref="Image"/>
 	</bean>
-	<!-- 
+	<!--
 	-->
 
 </beans>
