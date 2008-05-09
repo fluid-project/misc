@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>DOM Modify Attribute Event Handling</title>
+<script type="text/javascript">
+    function toggleActiveDescendant() {
+        var ancestorDiv = document.getElementById ("ancestor");
+        var actDesc = ancestorDiv.getAttribute ("aria-activedescendant");
+        if ((actDesc !== null) && (actDesc != "")) {
+            ancestorDiv.setAttribute ("aria-activedescendant", "");
+        }
+        else {
+            ancestorDiv.setAttribute ("aria-activedescendant", "p1");
+        }
+    }
+    
+    function mutationListener (/*W3 Event*/ evt) {
+        doNotify (evt.target);
+    }
+    
+    function propChangeListener (/*IE Event*/ evt) {
+        doNotify (evt.srcElement);
+    }
+    
+    function doNotify (/*Element*/ el) {
+        var newValue = "*non-existent*";
+        var actDesc = el.getAttribute ("aria-activedescendant");
+        if (actDesc !== null) {
+            newValue = actDesc;
+        }
+        var report = "Active Descendant is now:  '" + newValue + "'";
+        document.getElementById ("p1").innerHTML = report;
+    }
+    
+    function listenerAdder() {
+        var ancestorDiv = document.getElementById ("ancestor");
+        if (document.addEventListener) {    // W3C
+            ancestorDiv.addEventListener ("DOMAttrModified", mutationListener, false);
+        }
+        else if (document.attachEvent) {    // IE
+            ancestorDiv.attachEvent ("onpropertychange", propChangeListener);
+        }
+    }
+</script>
+</head>
+<body onload="listenerAdder()">
+<h1>DOM Modify Attribute Event Handling</h1>
+<ul>
+<li>Below is a <code>&lt;div&gt;</code> element with an id of
+    &quot;ancestor&quot;.
+</li>
+<li>This <code>&lt;div&gt;</code> has an event listener attached listening for
+    <code>DOMAttrModified</code> events (FF) or <code>onpropertychange</code>
+    events (IE).
+</li>
+<li>Pressing the button labelled &quot;Toggle aria-activedescendant&quot; changes the value
+    of the <code>aria-activedescendant</code> attribute.  This should trigger either a
+    <code>DOMAttrModified</code> or a <code>onpropertychange</code>.
+</li>
+<li>The change handler function on the <code>&lt;div&gt;</code>
+    will display the new value of the active descendant property.
+</li>
+</ul>
+<p>Note: as of this writing (May 9, 2008), Safari does not support DOMAttrModified events, see
+   <a href="https://bugs.webkit.org/show_bug.cgi?id=8191"
+      title="DOMAttrModified mutation event support">Webkit bugzilla 8191
+   </a>
+</p>
+<div id="ancestor" style="border: 1px dotted blue;">
+    <p id="p1">Active Descendant: not set.</p>
+    <p>
+        <form>
+            <input type=button onclick="toggleActiveDescendant()" value="Toggle aria-activedescendant">
+        </form>
+    </p>
+</div>
+</body>
+</html>
