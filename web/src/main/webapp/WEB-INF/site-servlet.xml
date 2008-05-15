@@ -7,8 +7,20 @@
 		<property name="servletName" value="sakai.imagegallery"/>
 	</bean>
 	
-	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
+	<bean id="multiFileUploaderController" class="org.sakaiproject.imagegallery.web.MultiFileUploaderController">
+		<property name="imageGalleryService" ref="org.sakaiproject.imagegallery.service.ImageGalleryService"/>
+	</bean>
+
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="defaultHandler" ref="siteController"/>
+		<property name="mappings">
+			<value>
+				/**/multiFileUpload=multiFileUploaderController
+				/**/singleFileUpload=multiFileUploaderController
+			</value>
+		</property>
 	</bean>
 
 </beans>

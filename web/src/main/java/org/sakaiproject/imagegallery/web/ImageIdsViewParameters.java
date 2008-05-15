@@ -22,25 +22,17 @@
 
 package org.sakaiproject.imagegallery.web;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import uk.org.ponder.rsf.components.UIContainer;
-import uk.org.ponder.rsf.components.UIInternalLink;
-import uk.org.ponder.rsf.view.ComponentChecker;
-import uk.org.ponder.rsf.view.ViewComponentProducer;
 import uk.org.ponder.rsf.viewstate.SimpleViewParameters;
-import uk.org.ponder.rsf.viewstate.ViewParameters;
 
-/**
- *
- */
-public class AddImageProducer extends AbstractViewProducer implements ViewComponentProducer {
-	private static final Log log = LogFactory.getLog(AddImageProducer.class);
+public class ImageIdsViewParameters extends SimpleViewParameters {
+	public String[] imageIds = new String[0];
 
-	public void fillComponents(UIContainer tofill, ViewParameters viewparams, ComponentChecker checker) {
-		UIInternalLink.make(tofill, "browseImages-link", new SimpleViewParameters(getProducerViewID(BrowseImagesProducer.class)));
-//		UIForm newImageForm = UIForm.make(tofill, "new-image-form");
-//		UICommand.make(newImageForm, "new-image-save", "#{Image.uploadAction}");
+	public ImageIdsViewParameters() {
+		super();
+	}
+
+	public ImageIdsViewParameters(String viewID, String imageId) {
+		super(viewID);
+		imageIds = new String[]{imageId};
 	}
 }

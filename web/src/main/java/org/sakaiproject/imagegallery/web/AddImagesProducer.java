@@ -25,10 +25,24 @@ package org.sakaiproject.imagegallery.web;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import uk.org.ponder.rsf.components.UICommand;
+import uk.org.ponder.rsf.components.UIContainer;
+import uk.org.ponder.rsf.components.UIForm;
+import uk.org.ponder.rsf.components.UIInternalLink;
+import uk.org.ponder.rsf.view.ComponentChecker;
+import uk.org.ponder.rsf.view.ViewComponentProducer;
+import uk.org.ponder.rsf.viewstate.SimpleViewParameters;
+import uk.org.ponder.rsf.viewstate.ViewParameters;
+
 /**
  *
  */
-public class AddImagesProducer extends AddImageProducer {
-	private static final Log log = LogFactory.getLog(AddImageProducer.class);
+public class AddImagesProducer extends AbstractViewProducer implements ViewComponentProducer {
+	private static final Log log = LogFactory.getLog(AddImagesProducer.class);
 
+	public void fillComponents(UIContainer tofill, ViewParameters viewparams, ComponentChecker checker) {
+		UIInternalLink.make(tofill, "browseImages-link", new SimpleViewParameters(getProducerViewID(BrowseImagesProducer.class)));
+		UIForm newImageForm = UIForm.make(tofill, "new-image-form");
+		UICommand.make(newImageForm, "image-add-information");
+	}
 }

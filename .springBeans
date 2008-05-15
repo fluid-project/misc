@@ -33,6 +33,7 @@
 				<config>model/src/test/resources/META-INF/spring/spring-test-datasource.xml</config>
 				<config>web/src/main/resources/META-INF/spring/spring-standalone-datasource.xml</config>
 				<config>web/src/main/resources/META-INF/spring/spring-standalone-integration.xml</config>
+				<config>web/src/main/webapp/WEB-INF/site-servlet.xml</config>
 			</configs>
 		</configSet>
 	</configSets>

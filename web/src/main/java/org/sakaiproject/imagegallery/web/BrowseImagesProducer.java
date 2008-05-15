@@ -51,6 +51,7 @@ public class BrowseImagesProducer extends AbstractViewProducer implements ViewCo
 	public void fillComponents(UIContainer tofill, ViewParameters viewparams, ComponentChecker checker) {
 		String galleryName = "All Images";
 		UIInternalLink.make(tofill, "addImage-link", new SimpleViewParameters(getProducerViewID(AddImageProducer.class)));
+		UIInternalLink.make(tofill, "addImages-link", new SimpleViewParameters(getProducerViewID(AddImagesProducer.class)));
 		UIOutput.make(tofill, "gallery-name", galleryName);
 		UIForm imageForm = UIForm.make(tofill, "image-form");
 		List<Image> images = imageLocator.getImages();
@@ -65,7 +66,7 @@ public class BrowseImagesProducer extends AbstractViewProducer implements ViewCo
 			
 			UIInternalLink.make(imageRecordDiv, "view-image-link", 
 				new EntityCentredViewParameters(getProducerViewID(ViewImageProducer.class), 
-					new EntityID("Image", image.getId().toString())));
+					new EntityID("Image", image.getId())));
 		}
 	}
 }

@@ -12,6 +12,8 @@
 /* ABOUT RUNNING IN LOCAL TEST MODE
  * To run locally using a fake upload, set fileupload_settings.baseURL to ''
  */
+ 
+var fileIdArray = [];
 
 var swfObj;	// our handle to the swfupload on this page
 
@@ -38,14 +40,14 @@ var status ={
 var swf_settings = {
 	
 	// File Upload Settings
-	upload_url : fileupload_settings.baseURL + "site/AddImage",
+	upload_url : fileupload_settings.baseURL + "site/multiFileUpload",
 	flash_url : fileupload_settings.baseURL + "swfupload/swfupload_f9.swf",
 	post_params: {
-		"el-binding" : "e#{ARIResult.resultingView.entity.ID}Image.newImageId",
-		"command link parameters&Submitting+control=new-image-save&Fast+track+action=Image.uploadAction" : "Save"
+//		"el-binding" : "e#{ARIResult.resultingView.entity.ID}Image.newImageId",
+//		"command link parameters&Submitting+control=new-image-save&Fast+track+action=Image.uploadAjaxAction" : "Save"
 	},
-//	file_post_name : "fileData",
-	file_post_name : "new-image-file",
+	file_post_name : "fileData",
+//	file_post_name : "new-image-file",
 	
 	// File Upload Settings
 	file_size_limit : "20480",
@@ -63,6 +65,7 @@ var swf_settings = {
 	upload_progress_handler : uploadProgress,
 	upload_complete_handler : uploadComplete,
 	upload_error_handler : uploadError, 
+	upload_success_handler : uploadSuccess,
 
 	/*
 	upload_success_handler : FeaturesDemoHandlers.uploadSuccess,
@@ -320,6 +323,11 @@ function uploadComplete(file) {
 	}
 };
 
+function uploadSuccess(file, server_data) {
+	debug('uploadSuccess :: file = ' + file + ' :: server_data = ' + server_data);
+	fileIdArray.push(server_data);	
+	jQuery('#new-image-form').append('<input type="hidden" name="imageIds" value="' + server_data + '"/>');
+};
 
 /* PROGRESS
  * 
@@ -414,7 +422,11 @@ function filesize(bytes) {
  */
 
 function debug(str) {
-	if (swf_settings.debug && window.console) console.log(str);
+console.log("swf_settings.debug=" + swf_settings.debug);
+console.log("window.console=%o", window.console);
+console.log(str);
+
+//	if (swf_settings.debug && window.console) console.log(str);
 };
 
 function debugStatus() {

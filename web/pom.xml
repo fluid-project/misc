@@ -103,9 +103,9 @@
   <properties>
     <!--
     <rsfutil.version>0.7.2</rsfutil.version>
-    <rsfutil.version>0.7.3M1-SNAPSHOT</rsfutil.version>
+    <rsfutil.version>0.7.3M2-SNAPSHOT</rsfutil.version>
     -->
-    <rsfutil.version>0.7.3M1</rsfutil.version>
+    <rsfutil.version>0.7.3M2</rsfutil.version>
   </properties>
   <repositories>
     <repository>

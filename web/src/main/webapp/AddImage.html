@@ -14,11 +14,11 @@
 	<span style="color:gray;">2) Add Images to Image Gallery --> 3) Add Information to Images</span>
 </div>
 
-<form rsf:id="new-image-form" action="AddInformationToImages.html" method="post" enctype="multipart/form-data" style="display:inline;">
+<form id="new-image-form" action="site/singleFileUpload" method="post" enctype="multipart/form-data" style="display:inline;">
 	<div>Choose an Image from Your Computer</div>
 	<p>Browse to upload image.</p>
-	<input name="new-image-file" type="file" />
-	<div><input rsf:id="new-image-save" type="submit" value="Save"/></div>
+	<input name="fileData" type="file" />
+	<div><input id="new-image-save" type="submit" value="Save"/></div>
 </form>
 
 </body>

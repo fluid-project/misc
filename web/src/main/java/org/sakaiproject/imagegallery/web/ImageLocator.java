@@ -22,6 +22,7 @@
 
 package org.sakaiproject.imagegallery.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,30 +31,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sakaiproject.imagegallery.domain.Image;
 import org.sakaiproject.imagegallery.service.ImageGalleryService;
-import org.springframework.web.multipart.MultipartFile;
 
 import uk.org.ponder.beanutil.BeanLocator;
-import uk.org.ponder.rsf.flow.ARIResult;
-import uk.org.ponder.rsf.flow.ActionResultInterceptor;
-import uk.org.ponder.rsf.viewstate.EntityCentredViewParameters;
-import uk.org.ponder.rsf.viewstate.ViewParameters;
 
 /**
  * 
  */
-public class ImageLocator implements BeanLocator, ActionResultInterceptor {
+public class ImageLocator implements BeanLocator {
 	private static final Log log = LogFactory.getLog(ImageLocator.class);
 	private Map<String, Image> idToImageMap = new HashMap<String, Image>();
 	private ImageGalleryService imageGalleryService;
-	private Map<String, MultipartFile> multipartMap;
-	private String newImageId;
 
 	public Image locateBean(String name) {
 		if (log.isDebugEnabled()) log.debug("locateBean " + name);
-		if ("newImageId".equals(name)) {
-			if (log.isDebugEnabled()) log.debug("newImageId=" + newImageId);
-			name = newImageId;
-		}
 		return getImage(name);
 	}
 	
@@ -76,36 +66,12 @@ public class ImageLocator implements BeanLocator, ActionResultInterceptor {
 			imageGalleryService.updateImage(image);
 		}
 	}
-
-	public void uploadAction() {
-		if (log.isDebugEnabled()) log.debug("uploadAction");
-		if (multipartMap != null) {
-			if (log.isDebugEnabled()) log.debug("multipartMap=" + multipartMap);
-			if (log.isDebugEnabled()) log.debug("keySet=" + multipartMap.keySet());
-			MultipartFile file = multipartMap.get("new-image-file");
-			if (log.isDebugEnabled()) log.debug("About to add image file=" + file.getOriginalFilename());
-			Image image = imageGalleryService.addImage(file);
-			newImageId = image.getId();
-			idToImageMap.put(newImageId, image);
-		}
-	}
-
-	public void interceptActionResult(ARIResult result, ViewParameters incoming, Object actionReturn) {
-		if (log.isDebugEnabled()) log.debug("newImageId=" + newImageId + ", result=" + result + ", incoming=" + incoming + ", actionReturn=" + actionReturn);
-		if (result.resultingView instanceof EntityCentredViewParameters) {
-			EntityCentredViewParameters entityParameters = (EntityCentredViewParameters) result.resultingView;
-			if (entityParameters.entity.entityname.equals("Image") && (entityParameters.entity.ID == null)) {
-				if (log.isInfoEnabled()) log.info("Working around bug RSF-59");
-				entityParameters.entity.ID = newImageId;
-			}
-		}
+	
+	public List<String> getWorkingImageIds() {
+		return new ArrayList<String>(idToImageMap.keySet());
 	}
 
 	public void setToolService(ImageGalleryService imageGalleryService) {
 		this.imageGalleryService = imageGalleryService;
-	}
-
-	public void setMultipartMap(Map<String, MultipartFile> multipartMap) {
-		this.multipartMap = multipartMap;
 	}
 }

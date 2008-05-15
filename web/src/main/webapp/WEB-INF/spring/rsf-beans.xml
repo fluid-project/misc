@@ -38,14 +38,6 @@
 	<bean id="ImageProxy" parent="RSACBridgeProxy">
 		<property name="targetBeanName" value="Image" />
 	</bean>
-
-	<bean parent="actionResultInterceptorParent">
-		<property name="value">
-			<bean parent="RSACBridgeProxy">
-				<property name="targetBeanName" value="Image" />
-			</bean>
-		</property>
-	</bean>
 	-->
 
 	<!-- Spring 2 bean scope experimentation below.... -->
@@ -54,20 +46,9 @@
 		This is an absurdly roundabout approach, but until I'm sure the scoping experiment will work
 		there's no need to waste time on something better.
 	-->
-	<bean id="multipartMap" parent="RSACBridgeProxy">
-		<property name="targetBeanName" value="multipartMap" />
-	</bean>
-
 	<bean id="Image" class="org.sakaiproject.imagegallery.web.ImageLocator" scope="request">
 		<property name="toolService" ref="org.sakaiproject.imagegallery.service.ImageGalleryService"/>
-		<property name="multipartMap" ref="multipartMap"/>
 		<aop:scoped-proxy/>
 	</bean>
-
-	<bean parent="actionResultInterceptorParent">
-		<property name="value" ref="Image"/>
-	</bean>
-	<!--
-	-->
 
 </beans>

@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="swfupload/swfupload.js"></script>
 	<!--<script type="text/javascript" src="swfupload/swfupload.swfobject.js"></script>-->
 	<!--<script type="text/javascript" src="swfupload/swfupload/handlers.js"></script>-->
-	
+
 	<script type="text/javascript" src="upload.js"></script>
 
 </head>
@@ -30,8 +30,8 @@
 		<li class="inactive-step">Upload Images</li>
 		<li class="inactive-step">Edit Image Information</li>
 	</ol>
-	
-	<form rsf:id="new-image-form" id="fFileUp" class="start" method="get" enctype="multipart/form-data">
+
+	<form id="new-image-form" action="site/AddInformationToImages" class="start" method="get" enctype="multipart/form-data">
 		<div>Upload images from your Computer to <em>All Images</em></div>
 		<div><input type="checkbox" id="add-collection"/><label for="add-collection">Also add image to the current collection &lt;collection name&gt;</label></div>
 		<table cellspacing="0" id="file_queue">
@@ -52,7 +52,7 @@
 				</tr>
 			</tfoot>
 		</table>
-		
+
 		<button type="button" id="browseBtn" class="bigbtn targetbtn" >Browse&#0133;</button><button type="button" id="uploadBtn" class="bigbtn" >Upload&#0133;</button>
 		<p class="instructions">After clicking the <em>Browse</em> button, you can select multiple files using the <em>Shift</em> or <em id="os_modifier">Control</em> keys.</p>
 
@@ -80,18 +80,22 @@
 				<div class="progress_mask_btm">&nbsp;</div>
 			</div>
 		</div>
+
+		<div>
+			<input type="submit" value="Add Information to Images"/>
+		</div>
 	</form>
-	
+
 	<div id="test">&nbsp;</div>
-	
+
 	<fieldset><legend>Parts (for reference while I cobble this together)</legend>
-	
-	<div> 
+
+	<div>
 		<button class="bigbtn targetbtn" id="upload.browse">Browse</button>
-		
+
 		<div id="step-nav"><button class="bigbtn" >Cancel</button><button class="bigbtn" disabled="true">Continue</button></div>
 	</div>
-	
+
 	<div>
 		<table cellspacing="0" border="1">
 			<thead>
@@ -100,23 +104,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				
+
 			</tbody>
 		</table>
-		
-		
-	</div>
-	
-<!--	<div class="progress_float_outer">
-		<div class="progress_float_inner">
-			<h2>Updating...</h2>
-			<div id="file_update"><span id="update_file_name">fileName 0223.jpg</span> :: <span id="update_file_percentage">67</span>% complete</div>
-			<div id="total_update">Total Progress: <span id="total_percentage">76</span>% [7 of 10 files]</div>
-			<button class="bigbtn targetbtn" id="upload.pause">Pause Upload</button>
-		</div>
-	</div>
--->
 
+
+	</div>
 
 </fieldset>
 

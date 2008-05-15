@@ -8,9 +8,9 @@
 	<classpathentry kind="src" path="model/src/test/resources"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring/2.0.6/spring-2.0.6.jar" sourcepath="/SPRING_SRC"/>
 	<classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar"/>
-	<classpathentry kind="var" path="M2_REPO/uk/org/ponder/rsfutil/rsfutil/0.7.3M1/rsfutil-0.7.3M1.jar"/>
-	<classpathentry kind="var" path="M2_REPO/uk/org/ponder/j-servletutil/1.2.3M1/j-servletutil-1.2.3M1.jar"/>
-	<classpathentry kind="var" path="M2_REPO/uk/org/ponder/ponderutilcore/1.2.3M1/ponderutilcore-1.2.3M1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/uk/org/ponder/rsfutil/rsfutil/0.7.3M2/rsfutil-0.7.3M2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/uk/org/ponder/j-servletutil/1.2.3M2/j-servletutil-1.2.3M2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/uk/org/ponder/ponderutilcore/1.2.3M2/ponderutilcore-1.2.3M2.jar"/>
 	<classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-mock/2.0.6/spring-mock-2.0.6.jar" sourcepath="/SPRING_SRC"/>
 	<classpathentry kind="var" path="M2_REPO/org/easymock/easymock/2.3/easymock-2.3.jar"/>
