@@ -4,10 +4,12 @@
 <beans>
 
 	<!-- Block name conflicts with Spring DispatcherServlet over multipart request handling. -->
+	<!--
 	<bean id="earlyRequestParser" class="uk.org.ponder.rsf.servlet.ServletEarlyRequestParser" init-method="init">
 		<property name="httpServletRequest" ref="httpServletRequest" />
 		<property name="multipartResolver" ref="rsfMultipartResolver" />
 	</bean>
+	-->
 
 	<!--
 	<bean id="Image" class="org.sakaiproject.imagegallery.web.ImageLocator">

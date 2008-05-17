@@ -11,8 +11,8 @@
 	<!-- Block name conflicts with Spring DispatcherServlet over multipart request handling. -->
 	<!--
 	<bean id="rsfMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
-	-->
 	<bean id="rsfMultipartResolver" class="org.sakaiproject.imagegallery.web.SwfMultipartResolver"/>
+	-->
 
  	<bean parent="requestAddressibleParent">
 		<property name="value" value="Image" />

@@ -23,6 +23,7 @@
 package org.sakaiproject.imagegallery.web;
 
 import java.io.PrintWriter;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -68,9 +69,16 @@ public class MultiFileUploaderController extends MultiActionController {
 	}
 	
 	private String storeNewImage(MultipartHttpServletRequest multipartRequest) {
-		MultipartFile file = multipartRequest.getFile("fileData");
-		Image image = imageGalleryService.addImage(file);
-		return image.getId();		
+		// Don't worry about the name of the input element of the form,
+		// just grab the first (and only) file in the request.
+		Iterator<String> fileInputNames = multipartRequest.getFileNames();
+		if (fileInputNames.hasNext()) {
+			MultipartFile file = multipartRequest.getFile(fileInputNames.next());
+			Image image = imageGalleryService.addImage(file);
+			return image.getId();					
+		} else {
+			return null;
+		}
 	}
 
 	public void setImageGalleryService(ImageGalleryService imageGalleryService) {

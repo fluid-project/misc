@@ -7,14 +7,39 @@
 	<link href="css/tool_base.css" type="text/css" rel="stylesheet" media="all" />
 	<link href="css/tool.css" type="text/css" rel="stylesheet" media="all" />
 	<link href="css/image-gallery.css" rel="stylesheet" type="text/css" />
-	<link href="upload.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="js/jquery-1.2.3.js"></script>
-	<script type="text/javascript" src="swfupload/swfupload.js"></script>
-	<!--<script type="text/javascript" src="swfupload/swfupload.swfobject.js"></script>-->
-	<!--<script type="text/javascript" src="swfupload/swfupload/handlers.js"></script>-->
+<!--
+	<link href="../upload-sample.css" type="text/css" rel="stylesheet" media="all" />
+-->
+	<link href="fluid-components/css/MultiFileUpload.css" rel="stylesheet" type="text/css" />
+    <script src="fluid-components/js/jquery/jquery-1.2.3.js" type="text/javascript"></script>
+    <script src="fluid-components/js/jquery/jquery.dimensions.js" type="text/javascript"></script>
+	<script src="fluid-components/js/jquery/ui.base.js" type="text/javascript"></script>
+	<script src="fluid-components/js/swfupload/swfupload.js" type="text/javascript"></script>
+	<script src="fluid-components/js/fluid/Fluid.js" type="text/javascript"></script>
+	<script src="fluid-components/js/fluid/MultiFileUpload.js" type="text/javascript"></script>
+	<script language="JavaScript" type="text/javascript">
+	    // set to empty to use demo upload js code instead actual server side upload handlers
+		// uploadURL = "../../sample-code/uploader/php/upload.php"; // relative to the swf file
+	    var uploadURL = "/sakai-imagegallery2-web/site/multiFileUpload";
+        var flashURL = "/sakai-imagegallery2-web/fluid-components/swfupload/swfupload_f9.swf";
 
-	<script type="text/javascript" src="upload.js"></script>
+		var settings =   {
+			fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff",
+			fileTypesText: "image files",
+			continueAfterUpload: false,
+			whenFileUploaded: function(fileName, serverResponse) {
+				console.log("whenFileUploaded called; fileName=" + fileName + ", serverResponse=" + serverResponse);
+				jQuery('#new-image-form').append('<input type="hidden" name="imageIds" value="' + serverResponse + '"/>');
+			},
+			debug: true
+		};
 
+        var myUpload; // mostly used for testing
+
+		$(document).ready(function() {
+            myUpload = new fluid.Uploader("#new-image-form", uploadURL, flashURL, settings);
+    	});
+	</script>
 </head>
 <body>
 
@@ -24,96 +49,67 @@
 		<li aria-disabled="true" role="menuitem">Add Images</li>
 	</ul>
 
+	<div>
+		<span style="font-weight:bold;">1) Choose Images --></span>
+		<span style="color:gray;">2) Add Images to Image Gallery --> 3) Add Information to Images</span>
+	</div>
 
-	<ol id="step-indicator">
-		<li class="active-step">Choose Images</li>
-		<li class="inactive-step">Upload Images</li>
-		<li class="inactive-step">Edit Image Information</li>
-	</ol>
+	<form id="new-image-form" action="site/AddInformationToImages" class="fluid-uploader" method="get" enctype="multipart/form-data">
+		<div class="inner-container start">
+			<div>Upload images from your Computer to <em>All Images</em></div>
 
-	<form id="new-image-form" action="site/AddInformationToImages" class="start" method="get" enctype="multipart/form-data">
-		<div>Upload images from your Computer to <em>All Images</em></div>
-		<div><input type="checkbox" id="add-collection"/><label for="add-collection">Also add image to the current collection &lt;collection name&gt;</label></div>
-		<table cellspacing="0" id="file_queue">
-			<caption>File Queue:</caption>
-			<thead>
-				<tr>
-					<th>File Name</th><th>Size</th><th>Status</th><th>Remove</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr id="placeholder"><td class="fileName">&nbsp;</td><td class="fileSize">&nbsp;</td><td class="fileStatus">&nbsp;</td><td class="fileRemove"><button type="button" class="removeFileBtn" /></td></tr>
-			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="4">
-						Files to upload: <strong id="numFiles">0</strong> (<span id="totalBytes">0</span>)
-					</td>
-				</tr>
-			</tfoot>
-		</table>
+			<table cellspacing="0" class="fluid-uploader-queue">
+				<caption>File Queue:</caption>
+				<thead>
+					<tr>
+						<th scope="col">File Name</th><th scope="col">Size</th><th scope="col">Status</th><th scope="col">Remove</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="fluid-uploader-row-placeholder"><td class="fileName">&nbsp;</td><td class="fileSize">&nbsp;</td><td class="fileStatus">&nbsp;</td><td class="fileRemove"><button type="button" class="removeFileBtn" /></td></tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="1" align="left"><button type="button" class="targetbtn fluid-uploader-browse" >Browse&#0133;</button></td>
+						<td colspan="3" align="right">Files to upload: <strong class="fluid-uploader-totalFiles">0</strong> (<span class="fluid-uploader-totalBytes">0</span>)</td>
+					</tr>
+				</tfoot>
+			</table>
+			<p class="instructions">After clicking the <em>Browse</em> button, you can select multiple files using the <em>Shift</em> or <em class="fluid-uploader-modifierKey">Control</em> keys.</p>
 
-		<button type="button" id="browseBtn" class="bigbtn targetbtn" >Browse&#0133;</button><button type="button" id="uploadBtn" class="bigbtn" >Upload&#0133;</button>
-		<p class="instructions">After clicking the <em>Browse</em> button, you can select multiple files using the <em>Shift</em> or <em id="os_modifier">Control</em> keys.</p>
+			<button type="button" class="fluid-uploader-cancel bigbtn targetbtn" >Cancel</button><button type="button" class="fluid-uploader-upload bigbtn" >Upload&#0133;</button>
 
-		<div class="progress">
-			<div class="progress_content">
-				<h2>Uploading Files...</h2>
-				<div id="file-progress" class="progress-status">
-					<div class="progress-status-data">
-						<span id="file_name">fileName 0223.jpg</span> :: <span id="percent">67</span>% complete
+			<div class="fluid-progress">
+				<div class="progress-content">
+					<h2>Uploading Files...</h2>
+					<div class="file-progress progressor">
+						<label class="progress-label">
+							<span class="file_name">&nbsp;</span> :: <span class="percent">0</span>% complete
+						</label>
+						<div class="progress-indicator"><span>&nbsp;</span></div>
 					</div>
-					<div class="progress-status-indicator"></div>
-				</div>
-				<div id="total-progress" class="progress-status">
-					<div class="progress-status-data">
-						Total Progress: <span id="percent">0</span>% [<span id="file_index">7</span> of <span id="total_file_num">10</span> files]
+					<div class="total-progress progressor">
+						<label class="progress-label">
+							Total Progress: <span class="percent">0</span>% [<span class="file_index">0</span> of <span class="total_file_num">0</span> files]
+						</label>
+						<div class="progress-indicator">&nbsp;</div>
 					</div>
-					<div class="progress-status-indicator"></div>
+					<div align="right">
+						<button type="button" class="fluid-uploader-pause bigbtn targetbtn">Pause Upload</button>
+					</div>
 				</div>
-				<div align="right">
-					<button type="button" class="bigbtn targetbtn" id="pauseBtn">Pause Upload</button>
+				<div class="progress-mask">
+					<div class="progress-mask-top">&nbsp;</div>
+					<div class="progress-mask-btm">&nbsp;</div>
 				</div>
 			</div>
-			<div class="progress_mask">
-				<div class="progress_mask_top">&nbsp;</div>
-				<div class="progress_mask_btm">&nbsp;</div>
-			</div>
+
 		</div>
 
 		<div>
 			<input type="submit" value="Add Information to Images"/>
 		</div>
 	</form>
-
-	<div id="test">&nbsp;</div>
-
-	<fieldset><legend>Parts (for reference while I cobble this together)</legend>
-
-	<div>
-		<button class="bigbtn targetbtn" id="upload.browse">Browse</button>
-
-		<div id="step-nav"><button class="bigbtn" >Cancel</button><button class="bigbtn" disabled="true">Continue</button></div>
-	</div>
-
-	<div>
-		<table cellspacing="0" border="1">
-			<thead>
-				<tr>
-					<th class='fileName'>File Name</th><th class='fileSize'>Size</th><th class='fileStatus'>Status</th><th class='fileRemove'>Remove</th>
-				</tr>
-			</thead>
-			<tbody>
-
-			</tbody>
-		</table>
-
-
-	</div>
-
-</fieldset>
-
-
 
 </div>
 
