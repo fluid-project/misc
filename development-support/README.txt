@@ -18,7 +18,7 @@ image-gallery> mvn clean install sakai:deploy
 While developing the web UI, the recommended next step is:
 
 image-gallery> cd web
-web> mvn -o jetty:run
+web> mvn jetty:run-war
 
 This will start a lightweight web server which runs the application
 from your source code (rather than creating and copying a WAR file
@@ -27,11 +27,10 @@ to a central location). To test, point your browser to:
 http://localhost:8080/sakai-imagegallery2-web/
 
 You can use any editor or IDE to change any source files in or below
-the "web" directory, and the running application will be updated accordingly.
-If you do need to stop the server and start again fresh, just CTRL-C in
-the command shell window and replay "mvn -o jetty:run". You shouldn't
-need to do a full build again until business logic or project dependencies
-change.
+the "web" directory. If you need to stop the server and start again fresh,
+just CTRL-C in the command shell window and replay "mvn -o jetty:run-war".
+You shouldn't need to do a full build again until business logic or
+project dependencies change.
 
 ====
 
@@ -48,7 +47,7 @@ export MAVEN_OPTS
 configuration for your project.
 5. Start the Maven Jetty plugin using your new script:
 
-web> mvnd -o jetty:run
+web> mvnd jetty:run-war
 
 6. In Eclipse, set any desired breakpoints and then select your application
 debug configuration from the debugger menu item.
@@ -62,8 +61,8 @@ To run against MySQL instead, set an environment variable named
 "STANDALONE_PROPERTIES" to point to a file containing sakai.properties settings:
 
 web> export STANDALONE_PROPERTIES="C:/java/sakaisettings/mysql-sakai/sakai.properties"
-web> mvn -o jetty:run
+web> mvn -o jetty:run-war
 
 ===
 
-Ray Davis - 2008-03-14
+Ray Davis - 2008-05-19
