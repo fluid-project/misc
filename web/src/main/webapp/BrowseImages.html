@@ -4,6 +4,36 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title rsf:id="msg=main.page.title">Image Gallery</title>
+	<style type="text/css">
+		#image-form .image-record {
+			border: 1px dotted #CCC;
+			float: left;
+			text-align: center;
+			margin: 4px;
+			width: 208px;
+			clear: right;
+		}
+		
+		#image-form .image {
+			margin: 4px 2px;
+		}
+		
+		#image-form .image-description, #image-form .image-title {
+			font-family: Arial;
+		}
+		
+		#image-form .image-description {
+			border: 1px solid #CCC;
+			padding: 4px 6px;
+			font-size: 0.84em;
+			margin: 4px 3px;
+		}	
+
+		#image-form .image-title {
+			margin: 2px 0;
+			font-size: 0.9em;
+		}	
+	</style>
 </head>
 <body>
 <h1 rsf:id="gallery-name">All Images</h1>
@@ -11,16 +41,13 @@
 <div><a rsf:id="addImage-link" href="AddImage.html">Add Image</a></div>
 <div><a rsf:id="addImages-link" href="AddImages.html">Add Images</a></div>
 
-<form rsf:id="image-form" method="post">
-<div rsf:id="image-record:">
-	<div style="border:solid black 2px;margin:3px;padding:3px;">
-		<div rsf:id="image-title">Image Title</div>
+<form rsf:id="image-form" id="image-form" method="post">
+<div rsf:id="image-record:" class="image-record" >
+	<div class="image">
 		<img rsf:id="image-image" src="images/Sandro_Botticelli_021.jpg" alt="Image Title" border="0" width="200"/>
-		<div rsf:id="image-description">Here is a description of the image. I love the use of the color blue by the artist.</div>
-		<div>
-			<a rsf:id="view-image-link" href="ViewImage.html">View</a>
-		</div>
+		<div class="image-title"><a rsf:id="view-image-link" href="ViewImage.html" alt="View Image"><span rsf:id="image-title">Image Title</span></a></div>
 	</div>
+	<div rsf:id="image-description" class="image-description">Here is a description of the image. I love the use of the color blue by the artist.</div>
 </div>
 </form>
 
