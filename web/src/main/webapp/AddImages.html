@@ -25,10 +25,8 @@
 
 		var settings =   {
 			fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff",
-			fileTypesText: "image files",
 			continueAfterUpload: false,
 			whenFileUploaded: function(fileName, serverResponse) {
-				console.log("whenFileUploaded called; fileName=" + fileName + ", serverResponse=" + serverResponse);
 				jQuery('#new-image-form').append('<input type="hidden" name="imageIds" value="' + serverResponse + '"/>');
 			},
 			debug: true
@@ -50,8 +48,8 @@
 	</ul>
 
 	<div>
-		<span style="font-weight:bold;">1) Choose Images --></span>
-		<span style="color:gray;">2) Add Images to Image Gallery --> 3) Add Information to Images</span>
+		<span class="active-step">1) Choose Images</span>
+		<span class="inactive-step">--> 2) Add Information to Images</span>
 	</div>
 
 	<form id="new-image-form" action="site/AddInformationToImages" class="fluid-uploader" method="get" enctype="multipart/form-data">

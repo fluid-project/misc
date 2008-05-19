@@ -4,14 +4,17 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title rsf:id="msg=main.page.title">Image Gallery</title>
+	<link href="css/tool_base.css" type="text/css" rel="stylesheet" media="all" />
+	<link href="css/tool.css" type="text/css" rel="stylesheet" media="all" />
+	<link href="css/image-gallery.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
 <div><a rsf:id="browseImages-link" href="BrowseImages.html">Browse Images &amp; Collections</a> | Add Images</div>
 
 <div>
-	<span style="font-weight:bold;">1) Choose Images --></span>
-	<span style="color:gray;">2) Add Images to Image Gallery --> 3) Add Information to Images</span>
+	<span class="active-step">1) Choose Images</span>
+	<span class="inactive-step">--> 2) Add Information to Images</span>
 </div>
 
 <form id="new-image-form" action="site/singleFileUpload" method="post" enctype="multipart/form-data" style="display:inline;">

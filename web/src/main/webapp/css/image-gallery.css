@@ -3,4 +3,12 @@
 h1 { 
 	color: blue;
 	font-weight: normal;
-} 
+}
+
+.active-step {
+	font-weight: bolder;
+}
+
+.inactive-step {
+	color: #999;
+}
