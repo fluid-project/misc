@@ -60,9 +60,13 @@ public class BrowseImagesProducer extends AbstractViewProducer implements ViewCo
 			UIOutput.make(imageRecordDiv, "image-title", image.getTitle());
 			UILink.make(imageRecordDiv, "image-image", image.getImageFile().getDataUrl());
 			
-			// We allow null description fields, but if RSF gets a null string it displays the template text.
-			// TODO Ask for more explicit control over null handling.
-			UIOutput.make(imageRecordDiv, "image-description", StringUtils.defaultString(image.getDescription()));
+			// Don't display an empty description, since that doesn't play well with
+			// the current layout.
+			// WARNING: The service allows null description fields, but if RSF gets a null string it displays the template text.
+			String description = StringUtils.defaultString(image.getDescription());
+			if (description.length() > 0) {
+				UIOutput.make(imageRecordDiv, "image-description", description);
+			}
 			
 			UIInternalLink.make(imageRecordDiv, "view-image-link", 
 				new EntityCentredViewParameters(getProducerViewID(ViewImageProducer.class), 

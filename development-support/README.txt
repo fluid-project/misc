@@ -18,7 +18,7 @@ image-gallery> mvn clean install sakai:deploy
 While developing the web UI, the recommended next step is:
 
 image-gallery> cd web
-web> mvn war:inplace jetty:run
+web> mvn clean install war:inplace jetty:run
 
 This will start a lightweight web server which runs the application
 from your source code (rather than creating and copying a WAR file
@@ -32,8 +32,8 @@ just CTRL-C in the command shell window and replay "mvn -o jetty:run".
 You shouldn't need to do a full build again until business logic or
 project dependencies change.
 
-WARNING: As a side-effect of "mvn war:inplace jetty:run", the contents
-of the Fluid Components WAR will be expanded and copied into your
+WARNING: As a side-effect of "mvn clean install war:inplace jetty:run", the
+contents of the Fluid Components WAR will be expanded and copied into your
 checked-out working copy of the source. Make sure you don't accidentally
 commit those files to Subversion! If you want to play it safe, instead use the
 command "mvn jetty:run-war". That approach will not automatically pick up
@@ -57,7 +57,7 @@ configuration for your project.
 
 web> mvnd jetty:run-war
 or
-web> mvn war:inplace jetty:run
+web> mvnd clean install war:inplace jetty:run
 
 6. In Eclipse, set any desired breakpoints and then select your application
 debug configuration from the debugger menu item.
