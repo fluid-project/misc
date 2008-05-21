@@ -73,6 +73,16 @@ To run against MySQL instead, set an environment variable named
 web> export STANDALONE_PROPERTIES="C:/java/sakaisettings/mysql-sakai/sakai.properties"
 web> mvn -o jetty:run-war
 
+====
+
+SAKAI INTEGRATION
+
+Although started with the intention of creating a Sakai tool, time and
+personnel constraints led to this project being redirected towards
+a basic sample client for the Fluid multi-file uploader component.
+The Sakai integration code as of the switch can be found in the "sakai"
+directory, but hasn't been tested in some time.
+
 ===
 
 Ray Davis - 2008-05-19

@@ -7,9 +7,6 @@
 	<link href="css/tool_base.css" type="text/css" rel="stylesheet" media="all" />
 	<link href="css/tool.css" type="text/css" rel="stylesheet" media="all" />
 	<link href="css/image-gallery.css" rel="stylesheet" type="text/css" />
-<!--
-	<link href="../upload-sample.css" type="text/css" rel="stylesheet" media="all" />
--->
 	<link href="fluid-components/css/Uploader.css" rel="stylesheet" type="text/css" />
     <script src="fluid-components/js/jquery/jquery-1.2.3.js" type="text/javascript"></script>
     <script src="fluid-components/js/jquery/jquery.dimensions.js" type="text/javascript"></script>
@@ -18,11 +15,8 @@
 	<script src="fluid-components/js/fluid/Fluid.js" type="text/javascript"></script>
 	<script src="fluid-components/js/fluid/Uploader.js" type="text/javascript"></script>
 	<script language="JavaScript" type="text/javascript">
-	    // set to empty to use demo upload js code instead actual server side upload handlers
-		// uploadURL = "../../sample-code/uploader/php/upload.php"; // relative to the swf file
 	    var uploadURL = "../../site/multiFileUpload";
         var flashURL = "../../fluid-components/swfupload/swfupload_f9.swf";
-
 		var settings =   {
 			fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff",
 			continueAfterUpload: false,
@@ -31,9 +25,7 @@
 			},
 			debug: true
 		};
-
-        var myUpload; // mostly used for testing
-
+        var myUpload; // used for testing
 		$(document).ready(function() {
             myUpload = new fluid.Uploader("#new-image-form", uploadURL, flashURL, settings);
     	});
@@ -47,10 +39,10 @@
 		<li role="menuitem">Add Images</li>
 	</ul>
 
-	<div>
-		<span class="active-step">1) Choose Images</span>
-		<span class="inactive-step">--> 2) Add Information to Images</span>
-	</div>
+	<ol id="step-indicator">
+		<li class="active-step">Choose Images</li>
+		<li class="inactive-step">Add Information to Images</li>
+	</ol>
 
 	<form id="new-image-form" action="site/AddInformationToImages" class="fluid-uploader" method="get" enctype="multipart/form-data">
 		<div class="inner-container start">

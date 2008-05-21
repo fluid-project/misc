@@ -1,14 +1,37 @@
 /* CSS for the Image-Gallery 2 project */
 
-h1 { 
-	color: blue;
-	font-weight: normal;
+body { 
+	padding: 6px;
 }
 
-.active-step {
+#step-indicator {
+	display: block;
+	padding: 1em 2em;
+}
+
+#step-indicator li {
+	padding-right: 2em;		
+	float: left;
+}
+
+#step-indicator li:after {
+	content: "  >> ";
+	color: #999;
+}
+
+#step-indicator li:last-child:after {
+	content: "";
+}
+
+#step-indicator .active-step {
 	font-weight: bolder;
 }
 
-.inactive-step {
+#step-indicator .inactive-step {
 	color: #999;
+}
+
+#step-indicator .completed {
+	color: #666;
+	font-weight: bolder;
 }

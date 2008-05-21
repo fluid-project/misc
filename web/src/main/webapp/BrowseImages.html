@@ -39,20 +39,21 @@
 	</style>
 </head>
 <body>
-<h1 rsf:id="gallery-name">All Images</h1>
-
-<div><a rsf:id="addImage-link" href="AddImage.html">Add Image</a></div>
-<div><a rsf:id="addImages-link" href="AddImages.html">Add Images</a></div>
-
-<form rsf:id="image-form" id="image-form" method="post">
-<div rsf:id="image-record:" class="image-record" >
-	<div class="image">
-		<img rsf:id="image-image" src="images/Sandro_Botticelli_021.jpg" alt="Image Title" border="0" width="200"/>
-		<div class="image-title"><a rsf:id="view-image-link" href="ViewImage.html" alt="View Image"><span rsf:id="image-title">Image Title</span></a></div>
+<div class="portletBody specialLink">
+	<ul role="menu" class="navIntraTool actionToolBar">
+		<li aria-disabled="true" role="menuitem" class="firstToolBarItem"><span>Browse Images &amp; Collections</span></li>
+		<li aria-disabled="true" role="menuitem"><a rsf:id="addImages-link" href="AddImages.html">Add Multiple Images</a></li>
+		<li aria-disabled="true" role="menuitem"><a rsf:id="addImage-link" href="AddImage.html">Add Single Image</a></li>
+	</ul>
+	<form rsf:id="image-form" id="image-form" method="post">
+	<div rsf:id="image-record:" class="image-record" >
+		<div class="image">
+			<img rsf:id="image-image" src="images/Sandro_Botticelli_021.jpg" alt="Image Title" border="0" width="200"/>
+			<div class="image-title"><a rsf:id="view-image-link" href="ViewImage.html" alt="View Image"><span rsf:id="image-title">Image Title</span></a></div>
+		</div>
+		<div rsf:id="image-description" class="image-description">Here is a description of the image. I love the use of the color blue by the artist.</div>
 	</div>
-	<div rsf:id="image-description" class="image-description">Here is a description of the image. I love the use of the color blue by the artist.</div>
+	</form>
 </div>
-</form>
-
 </body>
 </html>

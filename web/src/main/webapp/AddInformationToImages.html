@@ -9,45 +9,43 @@
 	<link href="css/image-gallery.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-
-<div><a rsf:id="browseImages-link" href="BrowseImages.html">Browse Images &amp; Collections</a> | Add Images</div>
-
-	<div>
-		<span class="inactive-step">1) Choose Images --></span>
-		<span class="active-step">2) Add Information to Images</span>
-	</div>
-
-<p>Your images were added successfully.</p>
-
-<form rsf:id="image-form" action="BrowseImages.html" method="post" style="display:inline;">
-
-<table border="0" cellspacing="0" cellpadding="0">
-<tr rsf:id="image-record:">
-<td><img rsf:id="image-image" src="images/Sandro_Botticelli_021.jpg" alt="Uploladed image" border="0" width="200"/></td>
-<td>
+<div class="portletBody specialLink">
+	<ul role="menu" class="navIntraTool actionToolBar">
+		<li aria-disabled="true" role="menuitem" class="firstToolBarItem"><span><a rsf:id="browseImages-link" href="BrowseImages.html">Browse Images &amp; Collections</a></span></li>
+		<li aria-disabled="true" role="menuitem">Add Images</li>
+	</ul>
+	<ol id="step-indicator">
+		<li class="inactive-step">Choose Images</li>
+		<li class="active-step">Add Information to Images</li>
+	</ol>
+	<p>Your images were added successfully.</p>
+	<form rsf:id="image-form" action="BrowseImages.html" method="post" style="display:inline;">
 	<table border="0" cellspacing="0" cellpadding="0">
-	<tr align="left">
-	<td>Worktitle:</td>
-	<td><input rsf:id="image-title" type="text" size="50" maxlength="150"/></td>
-	</tr>
-	<tr align="left">
-	<td>Filename:</td>
-	<td><span rsf:id="image-filename">Sandro_Botticelli_021.jpg</span></td>
-	</tr>
-	<tr align="left">
-	<td>Description:</td>
-	<td><textarea rsf:id="image-description" cols="50" rows="10"></textarea></td>
+	<tr rsf:id="image-record:">
+	<td><img rsf:id="image-image" src="images/Sandro_Botticelli_021.jpg" alt="Uploladed image" border="0" width="200"/></td>
+	<td>
+		<table border="0" cellspacing="0" cellpadding="0">
+		<tr align="left">
+		<td>Worktitle:</td>
+		<td><input rsf:id="image-title" type="text" size="50" maxlength="150"/></td>
+		</tr>
+		<tr align="left">
+		<td>Filename:</td>
+		<td><span rsf:id="image-filename">Sandro_Botticelli_021.jpg</span></td>
+		</tr>
+		<tr align="left">
+		<td>Description:</td>
+		<td><textarea rsf:id="image-description" cols="50" rows="10"></textarea></td>
+		</tr>
+		</table>
+	</td>
 	</tr>
 	</table>
-</td>
-</tr>
-</table>
-
-<div>
-	<input rsf:id="image-save" type="submit" value="Done"/>
-	<input rsf:id="image-cancel" type="submit" value="Cancel"/>
+	<div>
+		<input rsf:id="image-save" type="submit" value="Done"/>
+		<input rsf:id="image-cancel" type="submit" value="Cancel"/>
+	</div>
+	</form>
 </div>
-</form>
-
 </body>
 </html>

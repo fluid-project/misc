@@ -10,19 +10,22 @@
 </head>
 <body>
 
-<div><a rsf:id="browseImages-link" href="BrowseImages.html">Browse Images &amp; Collections</a> | Add Images</div>
-
-<div>
-	<span class="active-step">1) Choose Images</span>
-	<span class="inactive-step">--> 2) Add Information to Images</span>
+<div class="portletBody specialLink">
+	<ul role="menu" class="navIntraTool actionToolBar">
+		<li aria-disabled="true" role="menuitem" class="firstToolBarItem"><span><a rsf:id="browseImages-link" href="BrowseImages.html">Browse Images &amp; Collections</a></span></li>
+		<li aria-disabled="true" role="menuitem">Add Images</li>
+	</ul>
+	<ol id="step-indicator">
+		<li class="active-step">Choose Images</li>
+		<li class="inactive-step">Add Information to Images</li>
+	</ol>
+	<form id="new-image-form" action="site/singleFileUpload" method="post" enctype="multipart/form-data" style="display:inline;">
+		<div>Choose an Image from Your Computer</div>
+		<p>Browse to upload image.</p>
+		<input name="fileData" type="file" />
+		<div><input id="new-image-save" type="submit" value="Save"/></div>
+	</form>
 </div>
-
-<form id="new-image-form" action="site/singleFileUpload" method="post" enctype="multipart/form-data" style="display:inline;">
-	<div>Choose an Image from Your Computer</div>
-	<p>Browse to upload image.</p>
-	<input name="fileData" type="file" />
-	<div><input id="new-image-save" type="submit" value="Save"/></div>
-</form>
 
 </body>
 </html>
