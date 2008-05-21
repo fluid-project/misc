@@ -19,9 +19,12 @@
         var flashURL = "../../fluid-components/swfupload/swfupload_f9.swf";
 		var settings =   {
 			fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff",
-			continueAfterUpload: false,
+			continueAfterUpload: false,		// set to true to automatically go to next page
 			whenFileUploaded: function(fileName, serverResponse) {
 				jQuery('#new-image-form').append('<input type="hidden" name="imageIds" value="' + serverResponse + '"/>');
+			},
+			whenDone: function() {
+				jQuery('#new-image-form').submit();
 			},
 			debug: true
 		};
