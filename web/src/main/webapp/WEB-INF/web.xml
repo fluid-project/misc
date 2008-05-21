@@ -24,9 +24,6 @@
 			<!-- Required files from rsfutil.jar -->
 			classpath:conf/rsf-requestscope-config.xml
 			classpath:conf/blank-requestContext.xml
-
-			<!--  Finally, our application configuration -->
-			/WEB-INF/requestContext.xml
 		</param-value>
 	</context-param>
 
@@ -58,25 +55,14 @@
 	</servlet-mapping>
 
 	<!-- RSF -->
-	<!--filter>
-		<filter-name>RSACFilter</filter-name>
-		<filter-class>uk.org.ponder.rsac.servlet.RSACFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>RSACFilter</filter-name>
-		<url-pattern>/site/*</url-pattern>
-	</filter-mapping-->
 	<servlet>
 		<servlet-name>sakai.imagegallery</servlet-name>
 		<servlet-class>org.sakaiproject.imagegallery.web.ReasonableRsacServlet</servlet-class>
 		<!--servlet-class>uk.org.ponder.rsf.servlet.ReasonableSpringServlet</servlet-class-->
 		<!--load-on-startup>1</load-on-startup-->
 	</servlet>
-	<!--servlet-mapping>
-		<servlet-name>sakai.imagegallery</servlet-name>
-		<url-pattern>/site/*</url-pattern>
-	</servlet-mapping-->
 
+	<!-- Image streamer -->
 	<servlet>
 		<servlet-name>imagedata</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

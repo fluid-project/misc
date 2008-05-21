@@ -7,20 +7,19 @@
  	<bean id="messageSource" parent="messageSourceParent">
 		<property name="basename" value="classpath:messages" />
 	</bean>
-
-	<!-- Block name conflicts with Spring DispatcherServlet over multipart request handling. -->
-	<!--
-	<bean id="rsfMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
-	<bean id="rsfMultipartResolver" class="org.sakaiproject.imagegallery.web.SwfMultipartResolver"/>
-	-->
-
- 	<bean parent="requestAddressibleParent">
-		<property name="value" value="Image" />
-	</bean>
-
+ 
 	<!-- Control the location of the html templates (default: content/templates/) -->
 	<bean id="templateResolverStrategy" parent="CRITemplateResolverStrategy">
 		<property name="baseDirectory" value=""/>
+	</bean>
+
+	<!-- Use Spring 2 bean scope instead of RSF-specific RSAC.. -->
+	<bean id="Image" class="org.sakaiproject.imagegallery.web.ImageLocator" scope="request">
+		<property name="toolService" ref="org.sakaiproject.imagegallery.service.ImageGalleryService"/>
+		<aop:scoped-proxy/>
+	</bean>
+ 	<bean parent="requestAddressibleParent">
+		<property name="value" value="Image" />
 	</bean>
 
 	<bean id="abstractViewProducer" abstract="true">
@@ -31,24 +30,5 @@
 	<bean class="org.sakaiproject.imagegallery.web.AddInformationToImagesProducer" parent="abstractViewProducer"/>
 	<bean class="org.sakaiproject.imagegallery.web.AddImageProducer" parent="abstractViewProducer"/>
 	<bean class="org.sakaiproject.imagegallery.web.AddImagesProducer" parent="abstractViewProducer"/>
-
-
-	<!-- For RSF's pre-Spring-2 RSAC-based approach. -->
-	<!--
-	<bean id="ImageProxy" parent="RSACBridgeProxy">
-		<property name="targetBeanName" value="Image" />
-	</bean>
-	-->
-
-	<!-- Spring 2 bean scope experimentation below.... -->
-
-	<!--
-		This is an absurdly roundabout approach, but until I'm sure the scoping experiment will work
-		there's no need to waste time on something better.
-	-->
-	<bean id="Image" class="org.sakaiproject.imagegallery.web.ImageLocator" scope="request">
-		<property name="toolService" ref="org.sakaiproject.imagegallery.service.ImageGalleryService"/>
-		<aop:scoped-proxy/>
-	</bean>
 
 </beans>
