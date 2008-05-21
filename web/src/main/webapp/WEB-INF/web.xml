@@ -32,19 +32,6 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	<!-- RequestContextListener won't work to enable Spring request scopes in combo with RSF -->
-	<!--filter>
-		<filter-name>requestContextFilter</filter-name>
-		<filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>requestContextFilter</filter-name>
-		<url-pattern>/site/*</url-pattern>
-	    <dispatcher>REQUEST</dispatcher>
-	    <dispatcher>FORWARD</dispatcher>
-	    <dispatcher>INCLUDE</dispatcher>
-	</filter-mapping-->
-
 	<servlet>
 		<servlet-name>site</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

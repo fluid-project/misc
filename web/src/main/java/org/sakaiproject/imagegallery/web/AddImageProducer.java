@@ -40,7 +40,5 @@ public class AddImageProducer extends AbstractViewProducer implements ViewCompon
 
 	public void fillComponents(UIContainer tofill, ViewParameters viewparams, ComponentChecker checker) {
 		UIInternalLink.make(tofill, "browseImages-link", new SimpleViewParameters(getProducerViewID(BrowseImagesProducer.class)));
-//		UIForm newImageForm = UIForm.make(tofill, "new-image-form");
-//		UICommand.make(newImageForm, "new-image-save", "#{Image.uploadAction}");
 	}
 }
