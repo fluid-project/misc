@@ -1,3 +1,20 @@
+WHAT'S HERE
+
+This is a simple demo of the Fluid Uploader component being used in a
+Java web application. The view technology used is RSF, but the aspects
+most relevant to the Uploader use only HTML, JavaScript, and view-independent
+Spring-MVC. If you want to head straight to the page that holds the Uploader,
+you'll find it at:
+
+web/src/main/webapp/AddImages.html
+
+This Spring-MVC controller handles both standard single-file uploads and
+the files sent from the Uploader component:
+
+web/src/main/java/org/sakaiproject/imagegallery/web/MultiFileUploaderController.java
+
+====
+
 SETTING UP DEVELOPMENT ENVIRONMENT
 
 To build and run the standalone Image Gallery project, all that's currently
@@ -71,18 +88,17 @@ To run against MySQL instead, set an environment variable named
 "STANDALONE_PROPERTIES" to point to a file containing sakai.properties settings:
 
 web> export STANDALONE_PROPERTIES="C:/java/sakaisettings/mysql-sakai/sakai.properties"
-web> mvn -o jetty:run-war
+web> mvn jetty:run-war
 
 ====
 
 SAKAI INTEGRATION
 
-Although started with the intention of creating a Sakai tool, time and
-personnel constraints led to this project being redirected towards
-a basic sample client for the Fluid multi-file uploader component.
-The Sakai integration code as of the switch can be found in the "sakai"
-directory, but hasn't been tested in some time.
+Although we started with the intention of creating a Sakai tool, time and
+personnel constraints led to a drastic reduction in scope. The Sakai
+integration code as of the switch can be found in the "sakai" directory,
+but hasn't been tested in some time.
 
 ===
 
-Ray Davis - 2008-05-19
+Ray Davis - 2008-05-22

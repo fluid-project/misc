@@ -21,6 +21,10 @@
 			fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff",
 			continueAfterUpload: false,		// set to true to automatically go to next page
 			whenFileUploaded: function(fileName, serverResponse) {
+				// Keep track of what's been added in this go-round so that those
+				// images can be shown on the next page. (Alternatively, you
+				// might set up another panel on this page to accumulate thumbnails
+				// as each file is successfully consumed.)
 				jQuery('#new-image-form').append('<input type="hidden" name="imageIds" value="' + serverResponse + '"/>');
 			},
 			whenDone: function() {
