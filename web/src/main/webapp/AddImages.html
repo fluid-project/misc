@@ -20,7 +20,7 @@
         var flashURL = "../../fluid-components/swfupload/swfupload_f9.swf";
 		var settings =   {
 			fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff",
-			continueAfterUpload: false,		// set to true to automatically go to next page
+			continueAfterUpload: true,		// set to true to automatically go to next page
 			whenFileUploaded: function(fileName, serverResponse) {
 				// Keep track of what's been added in this go-round so that those
 				// images can be shown on the next page. (Alternatively, you
@@ -28,6 +28,7 @@
 				// as each file is successfully consumed.)
 				jQuery('#new-image-form').append('<input type="hidden" name="imageIds" value="' + serverResponse + '"/>');
 			},
+			whenCancel: "../BrowseImages",
 			whenDone: function() {
 				jQuery('#new-image-form').submit();
 			},
@@ -80,13 +81,13 @@
 							<tr>
 								<td colspan="1">Total: <span class="fluid-uploader-totalFiles">0</span> files (<span class="fluid-uploader-totalBytes">0 KB</span>)</td>
 								<td colspan="2" align="left"><a class="fluid-uploader-browse">Browse files</a></td>
-		
+
 							</tr>
 						</tfoot>
 					</table>
 				</div>
 			</div>
-			
+
 			<!-- <p class="instructions">After clicking the <em>Browse</em> button, you can select multiple files using the <em>Shift</em> or <em class="fluid-uploader-modifierKey">Control</em> keys.</p> -->
 
 			<div class="fluid-uploader-btns">
@@ -94,7 +95,7 @@
 				<button type="button" class="fluid-uploader-upload default">Upload&#0133;</button>
 				<button type="button" class="fluid-uploader-done">Done</button>
 			</div>
-			
+
 			<div class="fluid-progress">
 				<div class="progress-content">
 					<h2>Uploading Files...</h2>
