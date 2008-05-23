@@ -35,3 +35,11 @@ body {
 	color: #666;
 	font-weight: bolder;
 }
+
+.fluid-uploader {
+	margin-top: 2em;
+	padding: 1em 2em;
+	display: block;
+	clear: both;
+	width: 434px;
+}

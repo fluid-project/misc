@@ -7,6 +7,7 @@
 	<link href="css/tool_base.css" type="text/css" rel="stylesheet" media="all" />
 	<link href="css/tool.css" type="text/css" rel="stylesheet" media="all" />
 	<link href="css/image-gallery.css" rel="stylesheet" type="text/css" />
+	<link href="fluid-components/css/infusion-theme.css" rel="stylesheet" type="text/css" />
 	<link href="fluid-components/css/Uploader.css" rel="stylesheet" type="text/css" />
     <script src="fluid-components/js/jquery/jquery-1.2.3.js" type="text/javascript"></script>
     <script src="fluid-components/js/jquery/jquery.dimensions.js" type="text/javascript"></script>
@@ -51,31 +52,49 @@
 		<li class="inactive-step">Add Information to Images</li>
 	</ol>
 
-	<form id="new-image-form" action="site/AddInformationToImages" class="fluid-uploader" method="get" enctype="multipart/form-data">
+	<form id="new-image-form" action="site/AddInformationToImages" class="fluid-uploader infusion" method="get" enctype="multipart/form-data">
 		<div class="inner-container start">
 			<div>Upload images from your Computer to <em>All Images</em></div>
 
-			<table cellspacing="0" class="fluid-uploader-queue">
-				<caption>File Queue:</caption>
-				<thead>
-					<tr>
-						<th scope="col">File Name</th><th scope="col">Size</th><th scope="col">Status</th><th scope="col">Remove</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="fluid-uploader-row-placeholder"><td class="fileName">&nbsp;</td><td class="fileSize">&nbsp;</td><td class="fileStatus">&nbsp;</td><td class="fileRemove"><button type="button" class="removeFileBtn" /></td></tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="1" align="left"><button type="button" class="targetbtn fluid-uploader-browse" >Browse&#0133;</button></td>
-						<td colspan="3" align="right">Files to upload: <strong class="fluid-uploader-totalFiles">0</strong> (<span class="fluid-uploader-totalBytes">0</span>)</td>
-					</tr>
-				</tfoot>
-			</table>
-			<p class="instructions">After clicking the <em>Browse</em> button, you can select multiple files using the <em>Shift</em> or <em class="fluid-uploader-modifierKey">Control</em> keys.</p>
+			<div class="fluid-scroller-table fluid-uploader-queue">
+				<div class="fluid-scoller-table-head">
+					<table cellspacing="0" cellpadding="0">
+						<caption>File Queue:</caption>
+						<thead>
+							<tr>
+								<th scope="col">File Name</th><th scope="col" class="fileSize">Size</th><th scope="col">&nbsp;</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<div class="fluid-scoller-table-body">
+					<table cellspacing="0">
+						<tbody>
+							<tr class="fluid-uploader-row-placeholder"><td colspan="3"> click <em>Browse files</em> to add files to the queue </td></tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="fluid-scoller-table-foot">
+					<table cellspacing="0" cellpadding="0">
+						<tfoot>
+							<tr>
+								<td colspan="1">Total: <span class="fluid-uploader-totalFiles">0</span> files (<span class="fluid-uploader-totalBytes">0 KB</span>)</td>
+								<td colspan="2" align="left"><a class="fluid-uploader-browse">Browse files</a></td>
+		
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+			
+			<!-- <p class="instructions">After clicking the <em>Browse</em> button, you can select multiple files using the <em>Shift</em> or <em class="fluid-uploader-modifierKey">Control</em> keys.</p> -->
 
-			<button type="button" class="fluid-uploader-cancel bigbtn targetbtn">Cancel</button><button type="button" class="fluid-uploader-upload bigbtn">Upload&#0133;</button><button type="button" class="fluid-uploader-done bigbtn targetbtn">Done</button>
-
+			<div class="fluid-uploader-btns">
+				<button type="button" class="fluid-uploader-cancel cancel">Cancel</button>
+				<button type="button" class="fluid-uploader-upload default">Upload&#0133;</button>
+				<button type="button" class="fluid-uploader-done">Done</button>
+			</div>
+			
 			<div class="fluid-progress">
 				<div class="progress-content">
 					<h2>Uploading Files...</h2>
