@@ -68,7 +68,7 @@
 						</thead>
 					</table>
 				</div>
-				<div class="fluid-scoller-table-body">
+				<div class="fluid-scoller">
 					<table cellspacing="0">
 						<tbody>
 							<tr class="fluid-uploader-row-placeholder"><td colspan="3"> click <em>Browse files</em> to add files to the queue </td></tr>
@@ -91,9 +91,11 @@
 			<!-- <p class="instructions">After clicking the <em>Browse</em> button, you can select multiple files using the <em>Shift</em> or <em class="fluid-uploader-modifierKey">Control</em> keys.</p> -->
 
 			<div class="fluid-uploader-btns">
-				<button type="button" class="fluid-uploader-cancel cancel">Cancel</button>
-				<button type="button" class="fluid-uploader-upload default">Upload&#0133;</button>
-				<button type="button" class="fluid-uploader-done">Done</button>
+				<button type="button" class="fluid-uploader-upload default" >Upload</button>
+				<button type="button" class="fluid-uploader-resume default" >Resume</button>
+				<button type="button" class="fluid-uploader-pause" >Pause</button>
+				<button type="button" class="fluid-uploader-cancel cancel" >Cancel</button>
+				<button type="button" class="fluid-uploader-done" >Done</button>
 			</div>
 
 			<div class="fluid-progress">
@@ -123,6 +125,22 @@
 
 		</div>
 	</form>
+	
+	<div class="fluid-templates">
+
+		<table id="fluid-uploader">
+			
+			<tr id="queue-row-tmplt">
+				<th class="fileName" scope="row">File Name Placeholder</th>
+                <td class="fileSize">0 KB</td>
+                <td class="fileRemove"><button type="button" class="removeFile" title="Remove File" /></td>
+			</tr>
+			
+			<tr id="queue-error-tmplt" class="queue-error-row"><td colspan="3" class="queue-error"></td></tr>
+
+		</table>
+
+	</div>
 
 </div>
 
