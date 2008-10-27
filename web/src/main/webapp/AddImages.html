@@ -46,18 +46,34 @@
         jQuery(function () {
             $("#uploader").load("../../fluid-components/html/templates/Uploader2.html #uploader-contents", null, function () {
                 
-                // Bind the form action.
+                // Add the form action.
                 $("#single-inline-fluid-uploader").attr("action", "site/AddInformationToImages");
                 
                 // Initialize the Uploader.
                 myUpload = fluid.uploader(".fluid-uploader", {
                     uploadManager: {
                         type: "fluid.swfUploadManager",
+                        
                         options: {
                             uploadURL: "../../site/multiFileUpload",
                             flashURL: "../../fluid-components/swfupload/swfupload_f9.swf",
                             fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff",
                             debug: true
+                        },
+                        
+                        listeners: {
+                            afterFileUploaded: function (file, serverData){
+                 				// Keep track of what's been added in this go-round so that those
+                				// images can be shown on the next page. (Alternatively, you
+                				// might set up another panel on this page to accumulate thumbnails
+                				// as each file is successfully consumed.)
+                				jQuery('#new-image-form').append('<input type="hidden" name="imageIds" value="' + 
+                                                                 serverResponse + '"/>');
+                            },
+                            
+                            afterUploadComplete: function () {
+                                jQuery('#new-image-form').submit();
+                            }
                         }
                     }
                 });
