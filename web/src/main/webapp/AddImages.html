@@ -9,12 +9,15 @@
 	<link href="css/image-gallery.css" rel="stylesheet" type="text/css" />
 	<link href="fluid-components/css/infusion-theme.css" rel="stylesheet" type="text/css" />
 	<link href="fluid-components/css/Uploader.css" rel="stylesheet" type="text/css" />
-
+    <link href="fluid-components/css/fluid.layout.css" rel="stylesheet" type="text/css" />
+    
     <script src="fluid-components/js/jquery/jquery-1.2.6.js" type="text/javascript"></script>
 	<script src="fluid-components/js/jquery/jquery.keyboard-a11y.js" type="text/javascript"></script>
     <script src="fluid-components/js/jquery/jARIA.js" type="text/javascript"></script>
+    <script src="fluid-components/js/swfupload/swfobject.js" type="text/javascript"></script>
 	<script src="fluid-components/js/swfupload/swfupload.js" type="text/javascript"></script>
 	<script src="fluid-components/js/fluid/Fluid.js" type="text/javascript"></script>
+    <script src="fluid-components/js/fluid/ProgressiveEnhancement.js" type="text/javascript"></script>
     
     <!-- Uploader dependencies -->
     <script src="fluid-components/js/fluid/uploader/FileQueue.js" type="text/javascript"></script>
@@ -44,13 +47,14 @@
     <script type="text/javascript">
         var myUpload;
         jQuery(function () {
-            $("#uploader").load("../../fluid-components/html/templates/Uploader.html #uploader-contents", null, function () {
+            jQuery("#uploader").load("../../fluid-components/html/templates/Uploader.html #uploader-contents", null, function () {
                 
-                // Add the form action.
-                $("#single-inline-fluid-uploader").attr("action", "site/AddInformationToImages");
+                // Add the form actions.
+                jQuery(".fluid-uploader").attr("action", "site/AddInformationToImages");
+                jQuery(".fl-progressive-enhanceable").attr("action", "site/singleFileUpload");
                 
                 // Initialize the Uploader.
-                myUpload = fluid.uploader(".fluid-uploader", {
+                myUpload = fluid.progressiveEnhanceableUploader(".fluid-uploader", ".fl-progressive-enhanceable", {
                     uploadManager: {
                         type: "fluid.swfUploadManager",
                             
@@ -72,7 +76,7 @@
                             },
                             
                             afterUploadComplete: function () {
-                                jQuery('#new-image-form').submit();
+                                jQuery("#single-inline-fluid-uploader").submit();
                             }
                         }
                     }
