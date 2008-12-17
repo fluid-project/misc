@@ -7,8 +7,8 @@
 	<link href="css/tool_base.css" type="text/css" rel="stylesheet" media="all" />
 	<link href="css/tool.css" type="text/css" rel="stylesheet" media="all" />
 	<link href="css/image-gallery.css" rel="stylesheet" type="text/css" />
-	<link href="fluid-components/css/fluid.reset.css" rel="stylesheet" type="text/css" />
-	<link href="fluid-components/css/fluid.components.uploader.css" rel="stylesheet" type="text/css" />
+    <link href="fluid-components/css/fluid.reset.css" rel="stylesheet" type="text/css" />
+    <link href="fluid-components/css/fluid.components.uploader.css" rel="stylesheet" type="text/css" />
     <link href="fluid-components/css/fluid.layout.css" rel="stylesheet" type="text/css" />
     
     <script src="fluid-components/js/jquery/jquery-1.2.6.js" type="text/javascript"></script>
@@ -60,7 +60,6 @@
                             
                         options: {
                             uploadURL: "../../site/multiFileUpload",
-                            flashURL: "../../fluid-components/flash/swfupload_f9.swf",
                             fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff",
                             debug: true
                         },
@@ -78,6 +77,15 @@
                             afterUploadComplete: function () {
                                 jQuery(".fl-uploader").submit();
                             }
+                        }
+                    },
+                    
+                    decorators: {
+                        type: "fluid.swfUploadSetupDecorator",
+                        options: {
+                            flash9URL: "../../fluid-components/flash/swfupload_f9.swf",
+                            flash10URL: "../../fluid-components/flash/swfupload_f10.swf",
+                            flashButtonImageURL: "../../fluid-components/images/uploader/browse.png"
                         }
                     }
                 });
