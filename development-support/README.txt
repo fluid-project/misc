@@ -59,6 +59,16 @@ using Tomcat. (See http://jira.codehaus.org/browse/JETTY-241 for details.)
 
 ====
 
+USING THE BUILD SHELL SCRIPT
+
+A super-simple shell script has been written to automate the process of cleaning, building and running the Image Gallery application. To run it, use the following command from your image-gallery directory:
+
+development-support/clean-build-run.sh
+
+This script assumes that you've got a copy of Fluid components, checked out as "components" alongside a Sakai master build project as siblings of your image-gallery checkout. If your directory layout is different, edit the REPO, COMPONENTS, and GALLERY variables in the script.
+
+====
+
 DEBUGGING THE APPLICATION FROM ECLIPSE
 
 1. Find the "mvn" or "mvn.bat" script being used.
