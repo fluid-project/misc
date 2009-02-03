@@ -5,7 +5,7 @@
 /*SECTION 1 GENERIC SELECTORS*/
 body{
 	font-family: 'Trebuchet MS',Verdana,Geneva,Arial,Helvetica,sans-serif;
-	font-size: 80%;
+	/* font-size: 80%; // removed because it is in conflict with the fluid-reset.css */
 }	
 
 /*stub in tool_base.css - skinned here */
