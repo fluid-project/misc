@@ -26,6 +26,10 @@ have to build it or import it into Eclipse.
 
 BUILDING AND RUNNING THE APPLICATION
 
+First build Fluid Infusion by running this command:
+
+components> mvn clean install
+
 To build the complete application, test business logic, and
 deploy a copy of the application to your Tomcat server, start
 from the top "image-gallery" folder:
