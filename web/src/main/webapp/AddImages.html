@@ -77,7 +77,9 @@
                         },
                         
                         afterUploadComplete: function () {
-                            jQuery(".fl-uploader").submit();
+                            if (myUpload.uploadManager.queue.getReadyFiles().length === 0) { // we're really really done
+                                 window.location.href = "/sakai-imagegallery2-web/site/BrowseImages/";
+                            }
                         }
                     },
                     
