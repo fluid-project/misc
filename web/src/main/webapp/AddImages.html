@@ -54,7 +54,7 @@
                 jQuery(".fl-progressive-enhanceable").attr("action", "site/singleFileUpload");
                 
                 // Initialize the Uploader.
-                myUpload = fluid.progressiveEnhanceableUploader(".fl-uploader", ".fl-progressive-enhanceable", {
+                myUpload = fluid.progressiveEnhanceableUploader(".fl-uploader", ".fl-ProgEnhance-hide", {
                     uploadManager: {
                         type: "fluid.swfUploadManager",
                             
@@ -78,9 +78,10 @@
                         
                         afterUploadComplete: function () {
                             if (myUpload.uploadManager.queue.getReadyFiles().length === 0) { // we're really really done
-                                 window.location.href = "/sakai-imagegallery2-web/site/BrowseImages/";
+                                window.location.href = "/sakai-imagegallery2-web/site/BrowseImages/";
                             }
                         }
+
                     },
                     
                     decorators: {
