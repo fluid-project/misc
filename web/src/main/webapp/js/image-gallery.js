@@ -1,7 +1,7 @@
-/**
- * @author eli
- */
+/* CSS for the Image-Gallery 2 project */
+
 var myUpload;
+
 var initUploader = function () {  
     jQuery(function () {
         jQuery("#uploader").load("../../fluid-components/html/templates/Uploader.html #uploader-contents", null, function () {
@@ -33,8 +33,9 @@ var initUploader = function () {
                                                          serverResponse + '"/>');
                     },
                     
+          
                     afterUploadComplete: function () {
-                        if (myUpload.uploadManager.queue.getReadyFiles().length === 0 && myUpload.uploadManager.queue.getErrorFiles().length === 0) { // we're really really done
+                        if (myUpload.uploadManager.queue.getReadyFiles().length === 0 && myUpload.uploadManager.queue.getErroredFiles().length === 0) { // we're really really done
                              window.location.href = "/sakai-imagegallery2-web/site/BrowseImages/";
                          }
                     }
