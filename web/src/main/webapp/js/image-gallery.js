@@ -4,7 +4,7 @@ var myUpload;
 
 var initUploader = function () {  
     jQuery(function () {
-        jQuery("#uploader").load("../../fluid-components/html/templates/Uploader.html #uploader-contents", null, function () {
+        jQuery("#uploader").load("../../components/uploader/html/Uploader.html #uploader-contents", null, function () {
             
             // Add the form actions.
             jQuery(".fl-uploader").attr("action", "site/AddInformationToImages");
@@ -16,7 +16,7 @@ var initUploader = function () {
                     type: "fluid.swfUploadManager",
                         
                     options: {
-                        flashURL: "../../fluid-components/flash/swfupload.swf",
+                        flashURL: "../../lib/swfupload/flash/swfupload.swf",
                         uploadURL: "../../site/multiFileUpload",
                         fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff",
                         debug: true
@@ -44,7 +44,7 @@ var initUploader = function () {
                 decorators: {
                     type: "fluid.swfUploadSetupDecorator",
                     options: {
-                        flashButtonImageURL: "../../fluid-components/images/uploader/browse.png"
+                        flashButtonImageURL: "../../components/uploader/images/browse.png"
                     }
                 }
             });
