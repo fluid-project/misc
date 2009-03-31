@@ -1,10 +1,10 @@
-/* CSS for the Image-Gallery 2 project */
+/* Javascript for the Image-Gallery 2 project */
 
 var myUpload;
 
 var initUploader = function () {  
     jQuery(function () {
-        jQuery("#uploader").load("../../components/uploader/html/Uploader.html #uploader-contents", null, function () {
+        jQuery("#uploader").load("../components/uploader/html/Uploader.html #uploader-contents", null, function () {
             
             // Add the form actions.
             jQuery(".fl-uploader").attr("action", "site/AddInformationToImages");
