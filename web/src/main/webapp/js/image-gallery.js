@@ -11,13 +11,13 @@ var initUploader = function () {
             jQuery(".fl-progressive-enhanceable").attr("action", "site/singleFileUpload");
             
             // Initialize the Uploader.
-            myUpload = fluid.progressiveEnhanceableUploader(".fl-uploader", ".fl-ProgEnhance-hide", {
+            myUpload = fluid.progressiveEnhanceableUploader(".flc-uploader", ".fl-ProgEnhance-basic", {
                 uploadManager: {
                     type: "fluid.swfUploadManager",
                         
                     options: {
                         flashURL: "../../lib/swfupload/flash/swfupload.swf",
-                        uploadURL: "../../site/multiFileUpload",
+                        uploadURL: "../../../site/multiFileUpload",
                         fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff",
                         debug: true
                     }
