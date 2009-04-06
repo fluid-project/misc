@@ -1,12 +1,18 @@
 REPO=`pwd`/..
-COMPONENTS=$REPO/components
+COMPONENTS=$REPO/infusion
 GALLERY=$REPO/image-gallery
 
-# Delete the sticky fluid-components directory from image-gallery first.
+# Delete the sticky Infusion directories from image-gallery first.
 cd $GALLERY/web/src/main/webapp/
-rm -rf fluid-components
+rm -rf components
+rm -rf framework
+rm -rf integration-demos
+rm -rf lib
+rm -rf sample-code
+rm -rf standalone-demos
+rm -rf tests 
 
-# Build fluid-components
+# Build Infusion 
 cd $COMPONENTS
 mvn clean install
 
