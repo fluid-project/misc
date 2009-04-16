@@ -43,3 +43,36 @@ body {
 	clear: both;
 	width: 434px;
 }
+
+#image-form {
+    display: block;
+    position: static;
+}
+
+#image-form .image-record {
+	border: 1px dotted #CCC;
+	float: left;
+	text-align: center;
+	margin: 4px;
+	width: 208px;
+}
+
+#image-form .image {
+	margin: 4px 2px;
+}
+
+#image-form .image-description, #image-form .image-title {
+	font-family: Arial;
+}
+
+#image-form .image-description {
+	border: 1px solid #CCC;
+	padding: 4px 6px;
+	font-size: 0.84em;
+	margin: 4px 3px;
+}
+
+#image-form .image-title {
+	margin: 2px 0;
+	font-size: 0.9em;
+}
