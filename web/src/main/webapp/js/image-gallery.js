@@ -42,7 +42,8 @@ var myUpload;
                         // in order for uploads to work in both browsers. Seems to have something to do with
                         // the way Flash handles relative paths.
                         uploadURL: "/sakai-imagegallery2-web/site/multiFileUpload",
-                        fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff",
+                        fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff;*.tif",
+                        fileSizeLimit: "2 MB",
                         debug: true
                     }
                 },
@@ -58,18 +59,22 @@ var myUpload;
                     },
 
                     afterUploadComplete: function () {
-                        if (myUpload.uploadManager.queue.getReadyFiles().length === 0 && myUpload.uploadManager.queue.getErroredFiles().length === 0) { // we're really really done
-                            myUpload.container.submit();
+                        if (myUpload.uploadManager.queue.getReadyFiles().length === 0 && myUpload.uploadManager.queue.getErroredFiles().length === 0) { 
+                            // we're really really done
+                            // display the meta data editing page after a brief delay so that the user can see that the upload is complete
+                            var delay = setTimeout(function(){
+                                 myUpload.container.submit();
+                            },2000);
                         }
                     }
                 },
                 
-                decorators: {
+                decorators: [{
                     type: "fluid.swfUploadSetupDecorator",
                     options: {
                         flashButtonImageURL: "../../components/uploader/images/browse.png"
                     }
-                }
+                }]
             });
             customizeUploaderForImageGallery();
         });
