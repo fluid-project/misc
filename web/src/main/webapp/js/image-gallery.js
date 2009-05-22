@@ -76,6 +76,12 @@ var myUpload;
                     }
                 }]
             });
+            
+            // add a clickToDegrade decorator. 
+            fluid.uploader.clickToDegrade(myUpload, {
+                enhanceable: $(".fl-ProgEnhance-basic")
+            });
+            
             customizeUploaderForImageGallery();
         });
     };
