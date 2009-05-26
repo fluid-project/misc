@@ -24,8 +24,8 @@ var myUpload;
         $("#uploader").load("../../components/uploader/html/Uploader.html #uploader-contents", null, function () {
         
             // Show the Uploader's markup immediately, since we're not using progressive enhancement.
-            $(".fl-ProgEnhance-basic").hide();
-            $(".fl-ProgEnhance-enhanced").show();
+            $(".fl-progEnhance-basic").hide();
+            $(".fl-progEnhance-enhanced").show();
                     
             // Add the form action.
             $(".flc-uploader").attr("action", "site/AddInformationToImages");
