@@ -159,7 +159,7 @@
     <dependency>
       <groupId>org.fluidproject</groupId>
       <artifactId>fluid-components</artifactId>
-      <version>1.2-SNAPSHOT</version>
+      <version>1.1.2</version>
       <type>war</type>
     </dependency>
     <dependency>
