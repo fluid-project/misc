@@ -43,7 +43,6 @@ var myUpload;
                         // the way Flash handles relative paths.
                         uploadURL: "/sakai-imagegallery2-web/site/multiFileUpload",
                         fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff;*.tif",
-                        fileSizeLimit: "2 MB",
                         debug: true
                     }
                 },

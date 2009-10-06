@@ -1,5 +1,5 @@
 REPO=`pwd`/..
-COMPONENTS=$REPO/infusion
+COMPONENTS=$REPO/fluid-all/infusion
 GALLERY=$REPO/image-gallery
 
 # Delete the sticky Infusion directories from image-gallery first.
