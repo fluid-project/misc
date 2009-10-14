@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        
+    	<title>Scroller</title>
+    	
+    	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+    	<meta name="apple-mobile-web-app-capable" content="yes" />
+    	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        
+      	<!-- Links to the basic FSS style sheets -->
+      	<link type="text/css" rel="stylesheet" href="../../framework/fss/css/fss-layout.css" />
+        <link type="text/css" rel="stylesheet" href="../../framework/fss/css/fss-transitions.css" />
+        <link type="text/css" rel="stylesheet" href="../../framework/fss/css/fss-text.css" />
+      	<link type="text/css" rel="stylesheet" href="../../framework/fss/css/fss-mobile-iphone-layout.css" />
+        <link type="text/css" rel="stylesheet" href="../../framework/fss/css/fss-mobile-iphone-theme.css" />
+      	<link type="text/css" rel="stylesheet" href="../../components/screenNavigator/css/ScreenNavigator.css" />	
+
+        <script type="text/javascript" src="../../lib/jquery/core/js/jquery.js"></script>
+        <script type="text/javascript" src="../../framework/core/js/Fluid.js"></script>
+        <script type="text/javascript" src="../../framework/core/js/FluidDOMUtilities.js"></script>
+        <script type="text/javascript" src="../../framework/core/js/DataBinding.js"></script>
+
+      	<script type="text/javascript" src="../../components/screenNavigator/js/ScreenNavigator.js"></script>      	
+      	<script type="text/javascript" src="../js/iscroll.js"></script>      	
+    </head>
+    
+    <body>
+
+        <!-- View are dynamically added -->
+        <div class="flc-screenNavigator-view-container">
+        	<div class="fl-screenNavigator-view">
+        		
+				<!-- BEGIN VIEW -->
+				
+				<div class="flc-screenNavigator-navbar fl-navbar fl-table">
+				    <div class="fl-table-row">
+				    	<h1 class="fl-table-cell">Start</h1>
+				    </div>
+				</div>
+				
+				<div class="fl-screenNavigator-scroll-container"> 
+					<div class="fl-panel" id="scroller">
+	
+					    <h1 class="fl-note fl-bevel-white">Mobile FSS: iPhone Theme examples</h1>
+					
+					    <p class="fl-panel fl-note fl-bevel-white fl-font-size-80">
+					        Your currently looking at Mobile FSS with the iPhone theme.
+					    </p>
+					    <p class="fl-panel fl-note fl-bevel-white fl-font-size-80">
+					        Most navigation is laid out as list items. 
+					        Features are layered on top of basic lists. 
+					        Follow the links below for more information on how to build up list interfaces.
+					    </p>
+					
+					    <h2 class="fl-note fl-bevel-white">Build Your Own</h2>    
+					    <ol class="fl-list">
+					        <li><a href="#">Interactive List Builder<div class="fl-link-summary">Not yet available</div></a></li>
+					    </ol>
+					
+					    <h2 class="fl-note fl-bevel-white">Basic Lists</h2>
+					    <ol class="fl-list">
+					        <li><a href="basic/1.html">View basic premutations</a></li>
+					    </ol>
+					
+					    <h2 class="fl-note fl-bevel-white">Icon Lists</h2>    
+					    <ol class="fl-list">
+					        <li><a href="icon/1.html">View icon premutations</a></li>
+					    </ol>
+					
+					    <h2 class="fl-note fl-bevel-white">Thumbnail Lists</h2>    
+					    <ol class="fl-list">
+					        <li><a href="thumb/1.html">View thumbnail premutations</a></li>
+					    </ol>
+						
+					</div>
+				</div>
+				
+				
+				
+				<!-- END VIEW -->
+				
+        	</div>
+        </div>
+
+        <script type="text/javascript">
+            var myContentManager;
+            jQuery().ready(function () {
+	            myContentManager = fluid_1_2.screenNavigator("body",{
+                    startUrl: "start.html"
+                });
+            }); 
+        </script>
+		<script type="text/javascript">
+			var myScroll;
+			
+			function loaded() {
+				
+				setTimeout( function() {
+					document.ontouchmove = function(e) { e.preventDefault(); return false; }
+					myScroll = new iScroll( document.getElementById('scroller') );
+				}, 100);
+				
+			}
+			
+			window.addEventListener('load', loaded, true);
+		</script>
+    </body>
+</html>
