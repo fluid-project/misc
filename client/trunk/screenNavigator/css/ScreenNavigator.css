@@ -1,0 +1,88 @@
+
+.fl-screenNavigator-view {
+    position:absolute;
+    width:100%;
+    z-index:100;    
+    -webkit-transform: translateX(0%);		
+}
+
+.fl-screenNavigator-scroll-container {
+	position:relative;	/* needed */
+	z-index:1;			/* needed and important */
+	/*overflow:hidden;*/	/* suggested */
+	height:200px;	
+}
+
+/* 
+ * Height of scrollable container is needed
+ * in landscape/portrait 
+ * with/without bottom tab bar
+ * 480 * 320
+ */
+/* Use this demo http://www.thecssninja.com/css/iphone-orientation-css */
+/*
+ *  Portrait 
+@media screen and (max-width: 320px)
+{
+    h1 span:nth-child(1) { display: inline; }
+}
+ Landscape 
+@media screen and (min-width: 321px)
+{
+    h1 span:nth-child(2) { display: inline; }
+}
+ * 
+ */
+.fl-screenNavigator-scroll-container {
+	height:480px;		/* default portrait */
+}
+
+.fl-navbar ~ .fl-screenNavigator-scroll-container {
+	height:435px;		/* portrait + navbar */
+}
+
+.fl-navbar ~ .fl-tabs-functionBar ~ .fl-screenNavigator-scroll-container {
+	height:390px;		/* portrait + navbar + bottom tab bar */
+}
+
+[orientation*=landscape] .fl-screenNavigator-scroll-container {
+	height:320px;		/* default landscape */
+}
+
+[orientation*=landscape] .fl-navbar ~ .fl-screenNavigator-scroll-container {
+	height:275px;		/* landscape + navbar */
+}
+
+[orientation*=landscape] .fl-navbar ~ .fl-tabs-functionBar ~ .fl-screenNavigator-scroll-container {
+	height:230px;		/* landscape + navbar + bottom tab bar */
+}
+
+.fl-screenNavigator-hide-right {
+    -webkit-transform: translateX(100%);
+}
+.fl-screenNavigator-hide-left {
+    -webkit-transform: translateX(-100%);
+}
+.fl-screenNavigator-fadeout {
+	-webkit-animation-name: fadeOut;
+    -webkit-animation-duration: 0.75s;
+    -webkit-animation-iteration-count: 1;
+}
+
+
+.fl-screenNavigator-alert {	
+	position:fixed;
+	height:100px;
+	bottom:0;
+	width:80%;
+	left:10%;
+	opacity:1; 
+	background: rgba(0,0,0,.5);
+	color:#fff;
+	-webkit-transform: translateY(0%);
+	-webkit-transition: -webkit-transform,opacity 1s,1s ease-out;
+}
+.fl-screenNavigator-hideAlert {
+	-webkit-transform: translateY(100%);
+	opacity:0; 
+}
