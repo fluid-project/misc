@@ -1,0 +1,59 @@
+.fl-description {
+    position:relative;
+}
+.fl-description-hide {
+	max-height: 60px;
+}
+
+.fl-description-show {
+	max-height: 1000px;
+}
+
+.fl-description-content {
+	overflow: hidden;
+    margin-right: 32px;
+    margin-left: 5px;
+}
+
+.fl-description-togglerCollapse {
+    background-image: url("../images/collapse.png");  
+}
+
+.fl-description-togglerExpand {
+    background-image: url("../images/expand.png");
+}
+
+.fl-description .fl-icon {
+    height: 20px;
+    width: 20px;
+    position:absolute;
+    bottom:0;
+    right:0;
+}
+
+.fl-theme-iphone .fl-description .fl-icon {
+    -webkit-border-radius:10px;
+    border:1px solid #fff;
+    background-image: -webkit-gradient(radial, 50% 80%, 0, 50% 100%, 22, 
+        from(#0097cb),
+        color-stop(0.5, #0077a0),
+        color-stop(0.5, #4b9ed3),
+        to(#bce7ff)
+    );
+    -webkit-box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 2px;    
+}
+.fl-theme-iphone .fl-description-togglerCollapse::after,
+.fl-theme-iphone .fl-description-togglerExpand::after {
+    text-indent:0;
+    position:absolute;
+    color:#fff;
+    top:0px;
+    left:0px;
+    text-shadow: rgba(33,11,170,.5) 0px 0px 4px;
+}
+.fl-theme-iphone .fl-description-togglerCollapse::after {
+    content: url(../images/minus.png);
+}
+.fl-theme-iphone .fl-description-togglerExpand::after {    
+    content: url(../images/plus.png);
+}

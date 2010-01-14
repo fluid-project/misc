@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+		<title>Cabinet Demo</title>
+
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-layout.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-text.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-transitions.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-mobile-iphone-layout.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-mobile-iphone-theme.css" />
+        <link type="text/css" rel="stylesheet" href="../css/Cabinet.css" />
+
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/jquery/core/js/jquery.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/jquery/ui/js/ui.core.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/jquery/plugins/delegate/js/jquery.delegate.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/core/js/jquery.keyboard-a11y.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/core/js/Fluid.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/core/js/FluidDOMUtilities.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/core/js/DataBinding.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/renderer/js/fluidParser.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/renderer/js/fluidRenderer.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/fastXmlPull/js/fastXmlPull.js"></script>  
+        <script type="text/javascript" src="../../navigationList/js/NavigationList.js"></script> 
+        <script type="text/javascript" src="../js/Cabinet.js"></script>
+	</head>
+    
+	<body class="fl-theme-iphone">
+	    <div class="cabinet">
+            <div class="flc-cabinet-drawer">
+                <div class="flc-cabinet-handle">
+                    <h2 class="flc-cabinet-header">Header</h2>
+                </div>
+                <div class="flc-cabinet-contents">
+                    <p>Some contents in a paragraph</p>
+                </div>
+            </div>
+            <div class="flc-cabinet-drawer">
+                <div class="flc-cabinet-handle">
+                    <h2 class="flc-cabinet-header">Header</h2>
+                </div>
+                <div class="flc-cabinet-contents">
+                    <p>Some other contents</p>
+                </div>
+            </div>
+            <div class="flc-cabinet-drawer">
+                <div class="flc-cabinet-handle fl-cabinet-headerWithDescription">
+                    <h2 class="flc-cabinet-header">Header</h2>
+                    <span class="fl-font-size-80">Description</span>
+                </div>
+                <div class="flc-navigationList flc-cabinet-contents">
+                    <ul class="flc-nagivationList-listGroup">
+                        <li class="flc-navigationList-items">
+                            <a class="flc-navigationList-link">
+                                <img class="flc-navigationList-image"/>
+                                <span class="flc-navigationList-titleText">title/category</span>
+                                <span class="flc-navigationList-descriptionText">description</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            
+            var navigationListOptions = {
+                links: [{
+                    target: "../../navigationList/images/Artifacts-.jpg",
+                    image: "../../navigationList/images/Artifacts-.jpg",
+                    title: "Title",
+                    description: "Description"
+                }, {
+                    target: "../../navigationList/images/Snuffbox.jpg",
+                    image: "../../navigationList/images/Snuffbox.jpg",
+                    title: "Title",
+                    description: "Description"
+                }, {
+                    target: "../../navigationList/images/Snuffbox.jpg",
+                    image: "../../navigationList/images/Snuffbox.jpg",
+                    title: "Title",
+                    description: "Description"
+                }, {
+                    target: "http://build.fluidproject.org",
+                    title: "Category",
+                    size: 100
+                }]
+            };
+            
+            fluid.navigationList($(".flc-navigationList"), navigationListOptions);
+            fluid.cabinet(".cabinet");
+        </script>
+	</body>
+</html>

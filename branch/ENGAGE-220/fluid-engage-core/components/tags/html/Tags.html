@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <link rel="stylesheet" type="text/css" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-reset.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-layout.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-mobile-iphone-layout.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-mobile-iphone-theme.css" />
+        
+        <link rel="stylesheet" type="text/css" href="../css/Tags.css" />
+
+		<title>Tags</title>
+
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/jquery/core/js/jquery.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/core/js/Fluid.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/fastXmlPull/js/fastXmlPull.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/renderer/js/fluidParser.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/renderer/js/fluidRenderer.js"></script>
+        <script type="text/javascript" src="../js/Tags.js"></script>
+	</head>
+    
+	<body class="fl-theme-iphone">
+	    <div class="tags"></div>
+        
+        <script type="text/javascript">
+            fluid.tags(".tags", {
+                tags: ["book", "paperback", "green"],
+                templateURL: "TagsTemplate.html"
+            });
+
+        </script>
+	</body>
+</html>

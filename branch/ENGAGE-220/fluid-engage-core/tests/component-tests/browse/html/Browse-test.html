@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Browse Tests</title>
+    
+    <link rel="Stylesheet" media="screen" href="../../../../../fluid-infusion/src/webapp/tests/lib/qunit/css/testsuite.css" />
+    
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/lib/jquery/core/js/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/tests/lib/qunit/js/testrunner.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/tests/test-core/jqUnit/js/jqUnit.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/lib/jquery/ui/js/ui.core.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/lib/jquery/plugins/delegate/js/jquery.delegate.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/core/js/jquery.keyboard-a11y.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/core/js/Fluid.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/core/js/FluidDOMUtilities.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/core/js/DataBinding.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/renderer/js/fluidParser.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/renderer/js/fluidRenderer.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/lib/fastXmlPull/js/fastXmlPull.js"></script>  
+    <script type="text/javascript" src="../../../../components/cabinet/js/Cabinet.js"></script>
+    <script type="text/javascript" src="../../../../components/navigationList/js/NavigationList.js"></script>
+    <script type="text/javascript" src="../../../../components/description/js/Description.js"></script>
+
+    <!--  javascript files you are testing here -->
+    <script type="text/javascript" src="../../../../components/browse/js/Browse.js"></script>
+    
+
+    <!--  javascript tests here -->
+    <script type="text/javascript" src="../js/BrowseTests.js"></script>
+
+    
+</head>
+
+<body id="body">
+    <h1 id="header">Browse Tests</h1>
+    <h2 id="banner"></h2>
+    <h2 id="userAgent"></h2>
+    <ol id="tests"></ol>
+
+    <!-- Test HTML -->
+    <div id="main" style="display: none;">
+        <div class="fl-navbar fl-table">
+            <h1 class="flc-browse-title fl-table-cell">Title</h1>
+        </div>
+        <div class="flc-browse-descriptionContainer">
+            <p class="flc-browse-description">
+                Description
+            </p>
+        </div>
+        <div class="flc-browse-contents">
+            <div class="flc-cabinet-drawer">
+                <div class="flc-cabinet-handle">
+                    <h2 class="flc-cabinet-header">Header</h2>
+                    <span class="flc-cabinet-headerDescription fl-font-size-80">Description</span>
+                </div>
+                <div class="flc-navigationList flc-cabinet-contents">
+                    <ul class="flc-nagivationList-listGroup">
+                        <li class="flc-navigationList-items">
+                            <a class="flc-navigationList-link">
+                                <img class="flc-navigationList-image"/>
+                                <span class="flc-navigationList-titleText">title/category</span>
+                                <span class="flc-navigationList-descriptionText">description</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

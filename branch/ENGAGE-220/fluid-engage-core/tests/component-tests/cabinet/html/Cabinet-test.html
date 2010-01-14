@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Cabinet Tests</title>
+    
+    <link rel="Stylesheet" media="screen" href="../../../../../fluid-infusion/src/webapp/tests/lib/qunit/css/testsuite.css" />
+    
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/lib/jquery/core/js/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/tests/lib/qunit/js/testrunner.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/tests/test-core/jqUnit/js/jqUnit.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/lib/jquery/ui/js/ui.core.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/lib/jquery/plugins/delegate/js/jquery.delegate.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/core/js/jquery.keyboard-a11y.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/core/js/Fluid.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/core/js/FluidDOMUtilities.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/core/js/DataBinding.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/renderer/js/fluidParser.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/renderer/js/fluidRenderer.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/lib/fastXmlPull/js/fastXmlPull.js"></script>  
+
+    <!--  javascript files you are testing here -->
+    <script type="text/javascript" src="../../../../components/cabinet/js/Cabinet.js"></script>
+
+    <!--  javascript tests here -->
+    <script type="text/javascript" src="../js/CabinetTests.js"></script>
+
+    
+</head>
+
+<body id="body">
+    <h1 id="header">Cabinet Tests</h1>
+    <h2 id="banner"></h2>
+    <h2 id="userAgent"></h2>
+    <ol id="tests"></ol>
+
+    <!-- Test HTML -->
+    <div id="main" style="display: none;">
+        <div class="cabinet">
+            <div class="flc-cabinet-drawer">
+                <div class="flc-cabinet-handle">
+                    <h2 class="flc-cabinet-header">Header</h2>
+                </div>
+                <div class="flc-cabinet-contents">
+                    <p>Some contents in a paragraph</p>
+                </div>
+            </div>
+            <div class="flc-cabinet-drawer">
+                <div class="flc-cabinet-handle">
+                    <h2 class="flc-cabinet-header">Header</h2>
+                </div>
+                <div class="flc-cabinet-contents">
+                    <p>Some other contents</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

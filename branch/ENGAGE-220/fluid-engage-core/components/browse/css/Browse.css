@@ -1,0 +1,45 @@
+@-webkit-keyframes spinner {
+    from {
+        -webkit-transform: rotate(0deg);
+        -webkit-animation-timing-function:linear;
+    } 
+    to {
+        -webkit-transform: rotate(-360deg);
+        -webkit-animation-timing-function:linear;
+    }
+}
+
+
+.fl-browse-shortenText {
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    height: 1.2em;
+    display: block;
+}
+
+.fl-browse-loading .fl-browse-loadMessage {
+    display: block;
+    text-align:center;
+    margin-top:100px;
+}
+
+.fl-browse-spinner {
+    -webkit-animation-name:spinner;
+    -webkit-animation-iteration-count:infinite;
+    -webkit-animation-duration:1s;
+    
+    width:50px;
+    height:50px;
+    margin:10px auto;
+    background-color:#fff;
+    
+    -webkit-mask-box-image: url(../images/spinner_large_mask.png);
+    
+}
+
+.fl-browse-loadMessage,
+.fl-browse-loading  .fl-browse-contents, 
+.fl-browse-loading .fl-browse-descriptionContainer {
+    display: none;
+}

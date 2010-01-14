@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr" id="html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Tags Tests</title>
+    
+    <link rel="Stylesheet" media="screen" href="../../../../../fluid-infusion/src/webapp/tests/lib/qunit/css/testsuite.css" />
+    
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/lib/jquery/core/js/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/tests/lib/qunit/js/testrunner.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/tests/test-core/jqUnit/js/jqUnit.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/core/js/Fluid.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/lib/fastXmlPull/js/fastXmlPull.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/renderer/js/fluidParser.js"></script>
+    <script type="text/javascript" src="../../../../../fluid-infusion/src/webapp/framework/renderer/js/fluidRenderer.js"></script>
+
+    <!--  javascript files you are testing here -->
+    <script type="text/javascript" src="../../../../components/tags/js/Tags.js"></script>
+
+    <!--  javascript tests here -->
+    <script type="text/javascript" src="../js/TagsTests.js"></script>
+
+    
+</head>
+
+<body id="body">
+    <h1 id="header">Tags Tests</h1>
+    <h2 id="banner"></h2>
+    <h2 id="userAgent"></h2>
+    <ol id="tests"></ol>
+
+    <!-- Test HTML -->
+    <div id="main" style="display: none;">
+        <div class="tags"></div>
+        <div class="tags-no-template">
+            <h2 class="flc-tags-title">Tags Title</h2> <a class="flc-tags-edit" href="#">edit</a>
+            <span class="flc-tags-tag">
+                <span class="flc-tags-tagName">tag</span> 
+                <a class="flc-tags-remove" href="#">remove</a>,
+            </span>
+            <input class="flc-tags-editField" type="textfield" />
+        </div>
+    </div>
+</body>
+</html>

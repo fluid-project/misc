@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+		<title>Browse Demo</title>
+        
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-layout.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-text.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-transitions.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-mobile-layout.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-mobile-theme-iphone.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-engage-core/components/description/css/Description.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-engage-core/components/cabinet/css/Cabinet.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-engage-core/components/navigationList/css/NavigationList.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-engage-core/components/browse/css/Browse.css" />
+
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/jquery/core/js/jquery.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/jquery/ui/js/ui.core.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/jquery/plugins/delegate/js/jquery.delegate.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/core/js/jquery.keyboard-a11y.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/json/js/json2.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/core/js/Fluid.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/core/js/FluidDOMUtilities.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/core/js/DataBinding.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/renderer/js/fluidParser.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/renderer/js/fluidRenderer.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/fastXmlPull/js/fastXmlPull.js"></script> 
+        <script type="text/javascript" src="../../../../fluid-engage-core/components/description/js/Description.js"></script>
+        <script type="text/javascript" src="../../../../fluid-engage-core/components/cabinet/js/Cabinet.js"></script> 
+        <script type="text/javascript" src="../../../../fluid-engage-core/components/navigationList/js/NavigationList.js"></script>
+        <script type="text/javascript" src="../../../../fluid-engage-core/components/browse/js/Browse.js"></script> 
+        <script type="text/javascript" src="../../../../fluid-engage-core/framework/js/loadData.js"></script>
+        
+	</head>
+	<body class="flc-browse fl-theme-iphone fl-browse-loading">
+	    <div class="fl-navbar fl-table">
+	        <h1 class="flc-browse-title fl-table-cell"></h1>
+        </div>
+        
+        <!-- loading message -->
+        <div class="fl-browse-loadMessage fl-note fl-bevel-white">
+            Loading...
+            <div class="fl-browse-spinner"></div>
+        </div>
+        
+	    <div class="flc-browse-descriptionContainer fl-browse-descriptionContainer">
+	        <p class="flc-browse-description">
+                Description
+            </p>
+	    </div>
+        <div class="flc-browse-contents fl-browse-contents">
+            <div class="flc-cabinet-drawer">
+                <div class="flc-cabinet-handle">
+                    <h2 class="flc-cabinet-header">Header</h2>
+                    <span class="flc-cabinet-headerDescription fl-font-size-80">Description</span>
+                </div>
+                <div class="flc-navigationList flc-cabinet-contents">
+                    <ul class="flc-nagivationList-listGroup">
+                        <li class="flc-navigationList-items">
+                            <a class="flc-navigationList-link">
+                                <img class="flc-navigationList-image" src="../../../../fluid-engage-core/components/browse/images/no_image_64x64.png"/>
+                                <span class="flc-navigationList-titleText">title/category</span>
+                                <span class="flc-navigationList-descriptionText">description</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            fluid.engage.initComponentWithDataFeed(window.location, "fluid.browse", ".flc-browse");
+        </script>
+	</body>
+</html>
