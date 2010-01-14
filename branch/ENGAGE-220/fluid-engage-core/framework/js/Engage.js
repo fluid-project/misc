@@ -32,7 +32,26 @@ fluid = fluid || {};
         return typeof value === "string";
     };
     
-    fluid.engage.collections = {
+    var wrap = function (value, tag) {
+		return "<" + tag + ">" + value + "</" + tag + ">";
+	};
+//	var removeMeta = function (object) {
+//		return JSON.stringify(object).contains("XStandard") ? {} : object;
+//	};
+	var buildHTML = function (value) {
+		var node = value.strong ? (value.strong.em ? wrap(wrap(value.strong.em, "em"), "strong") : value.strong) : "";
+		var nodetext = value.nodetext ? value.nodetext : "";
+		for (var key in value) {
+			if (value.hasOwnProperty(key)) {
+				if (!(key === "nodetext" || key === "br" || key === "strong")) {
+					node = node + wrap(value[key] instanceof Object ? buildHTML(value[key]) : value[key], key);
+				}
+			}
+		}
+		return node + nodetext;
+	};
+    
+    fluid.engage.specs = {
         mmi: {
             dataSpec: {
                 "category": "Collection category",
@@ -215,12 +234,207 @@ fluid = fluid || {};
                     return tryFunc(getArtist, value);
                 }
             }
+        },
+        mccord_exhibitions: {
+        	dataSpec: {
+        		"isCurrent": "value.isCurrent",
+        		"title": "key",
+        		"displayDate": "value.displayDate",
+        		"endDate": "value.endDate",
+        		"image": {
+                    "path": "value.image",
+                    "func": "getExhibitionImage"
+                }
+        	},
+        	mappers: {
+        		getExhibitionImage: function (value) {
+        			var getImage = function () {
+        				return "http://www.mccord-museum.qc.ca" + $.makeArray(value.small)[0].nodetext;
+        			};
+        			return tryFunc(getImage, value);
+        		}
+        	}
+        },
+        mccord_exhibitions_view: {
+        	dataSpec: {
+        		"isCurrent": "value.isCurrent",
+        		"title": "key",
+        		"displayDate": "value.displayDate",
+        		"endDate": "value.endDate",
+        		"image": {
+                    "path": "value.image",
+                    "func": "getExhibitionImage"
+                },
+                "introduction": {
+                	"path": "value.introduction",
+                	"func": "getIntroduction"
+                },
+                "content": {
+                	"path": "value.content",
+                	"func": "getContent"
+                },
+                "catalogueSize": "value.catalogueSize"
+        	},
+        	mappers: {
+        		getContent: function (value) {
+	        		var buildContent = function (value) {
+	        			var content = value.h2 ? value.h2 : "";
+        				if (value.p) {
+        					if (typeof(value.p) === "string") {
+        						content = content + wrap(value.p, "p")
+        					}
+        					else {
+	        					for (var i in value.p) {
+	        						content = content + wrap(buildHTML(value.p[i]), "p")
+	        					}
+        					}
+        				}
+        				return content ? content : undefined; 
+	        		};
+	        		return tryFunc(buildContent, value, "");
+	        	},
+        		getIntroduction: function (value) {
+        			var buildIntro = function (value) {
+        				var intro = "";        				
+        				if (value.p) {
+        					if (typeof(value.p) === "string") {
+        						intro = intro + wrap(value.p, "p")
+        					}
+        					else {
+	        					for (var i in value.p) {
+	        						intro = intro + wrap(buildHTML(value.p[i]), "p")
+	        					}
+        					}
+        					return intro;
+        				}
+        				return intro ? intro : undefined;
+        			};
+        			return tryFunc(buildIntro, value, "");
+        		},
+        		getExhibitionImage: function (value) {
+        			var getImage = function () {
+        				if ($.makeArray(value.large)[0].height) {
+        					return "http://www.mccord-museum.qc.ca" + $.makeArray(value.large)[0].nodetext;
+        				}
+        				else if ($.makeArray(value.medium)[0].height) {
+        					return "http://www.mccord-museum.qc.ca" + $.makeArray(value.medium)[0].nodetext;
+        				}
+        				return "http://www.mccord-museum.qc.ca" + $.makeArray(value.small)[0].nodetext;
+        			};
+        			return tryFunc(getImage, value);
+        		}
+        	}
+        },
+        mccord_exhibitions_catalogue: {
+        	dataSpec: {
+        		"title": "key",
+	    		"viewAll": "value.viewAll",
+	            "sections": {
+	            	"path": "value.sections",
+	            	"func": "formatSections"
+	            }
+	    	},
+	    	mappers: {
+	    		formatSections: function (value) {
+	    			var getSectionImage = function (value) {
+	    				value = $.makeArray(value)[0];
+	    				if ($.makeArray(value.small)[0].height) {
+        					return "http://www.mccord-museum.qc.ca" + $.makeArray(value.small)[0].nodetext;
+        				}
+        				else if ($.makeArray(value.medium)[0].height) {
+        					return "http://www.mccord-museum.qc.ca" + $.makeArray(value.medium)[0].nodetext;
+        				}
+        				return "http://www.mccord-museum.qc.ca" + $.makeArray(value.large)[0].nodetext;
+	    			};
+	    			var getSectionIntroduction = function (value) {
+        				var intro = "";
+        				var p = value.p;
+        				if (p) {
+        					if (typeof(p) === "string") {
+        						intro = intro + wrap(p, "p")
+        					}
+        					else {
+	        					for (var i in value.p) {
+	        						intro = intro + wrap(buildHTML(p[i]), "p")
+	        					}
+        					}
+        					return intro;
+        				}
+        				return intro;
+	        		};
+		    		var format = function (value) {
+		    			var sections = [];
+		    			fluid.transform(value, function (val) {
+		    				sections.push({
+	    						sectionTitle: val.sectionTitle,
+	    						sectionSize: val.sectionSize,
+	    						sectionImage: getSectionImage(val.sectionImage),
+	    						sectionIntroduction: getSectionIntroduction(val.sectionIntroduction)
+	    					});
+	    				});
+		    			return sections;
+	    			};
+	    			return tryFunc(format, value);
+	    		}
+	    	}
+        },
+        mccord_exhibitions_catalogueArtifacts: {
+        	dataSpec: {
+        		"exhibitionTitle": "key.exhibitTitle",
+        		"sectionTitle": "key.sectionTitle",
+        		"sectionIntroduction": {
+        			"path": "value.sectionIntroduction",
+        			"func": "getSectionIntroduction"
+        		},
+        		"sectionArtifacts": {
+	            	"path": "value.sectionArtifacts",
+	            	"func": "formatSectionArtifacts"
+	            }
+	    	},
+	    	mappers: {
+	    		getSectionIntroduction: function (value) {
+		    		var getIntroduction = function (value) {
+	    				var intro = "";
+	    				var p = value.p;
+	    				if (p) {
+	    					if (typeof(p) === "string") {
+	    						intro = intro + wrap(p, "p")
+	    					}
+	    					else {
+	        					for (var i in value.p) {
+	        						intro = intro + wrap(buildHTML(p[i]), "p")
+	        					}
+	    					}
+	    					return intro;
+	    				}
+	    				return intro;
+	        		};
+	        		return tryFunc(getIntroduction, value);
+		    	},
+	    		formatSectionArtifacts: function (value) {
+	    			var getImage = function (thumbnail) {
+	    				return $.makeArray(thumbnail)[0].nodetext;
+	    			};
+	    			var format = function (data) {
+	    				var t = $.map(data, function (value) {
+	    					return {
+	    						target: "../artifacts/view.html?db=mccord&q=" + value.accessnumber,
+	    						image: getImage(value.thumbnail),
+	    						title: value.title.substring(value.title.indexOf(':') + 2),
+	    						description: "Descr"
+	    					};
+	    				});
+	    				return t;
+	    			};
+	    			return tryFunc(format, value);
+	    		}
+	    	}
         }
     };
     
     fluid.engage.mapModel = function (model, dbName, spec) {
         
-        spec = spec || fluid.engage.collections;
+        spec = spec || fluid.engage.specs;
         
         var normalizedModel = {};
         

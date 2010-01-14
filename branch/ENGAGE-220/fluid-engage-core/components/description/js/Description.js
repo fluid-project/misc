@@ -121,8 +121,10 @@ fluid = fluid || {};
         
 		if (needToggle(that)) {
 			that.locate("content").addClass(that.options.styles.descriptionCollapsed);
-			addToggler(that);
-			setUpToggler(that);
+			if (that.options.enableToggle) {
+				addToggler(that);
+				setUpToggler(that);
+			}
 		}
 	};
 	
@@ -179,6 +181,7 @@ fluid = fluid || {};
 			toggler: ".flc-description-toggler"
 		},
 		collapsedHeight: 60, //this also has to be specified in the css file in the .fl-description-hide class
-		model: "Description Information"
+		model: "Description Information",
+		enableToggle: true
 	});
 })(jQuery);

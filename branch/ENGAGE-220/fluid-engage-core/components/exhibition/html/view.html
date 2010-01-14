@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <title>Exhibition</title>
+        
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-layout.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-text.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-transitions.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-mobile-layout.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-infusion/src/webapp/framework/fss/css/fss-mobile-theme-iphone.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-engage-core/components/navigationList/css/NavigationList.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-engage-core/components/cabinet/css/Cabinet.css" />
+        <link type="text/css" rel="stylesheet" href="../../../../fluid-engage-core/components/exhibition/css/Exhibition.css" />
+        
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/jquery/core/js/jquery.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/jquery/ui/js/ui.core.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/jquery/plugins/delegate/js/jquery.delegate.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/core/js/jquery.keyboard-a11y.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/json/js/json2.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/core/js/Fluid.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/core/js/FluidDOMUtilities.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/core/js/DataBinding.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/renderer/js/fluidParser.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/renderer/js/fluidRenderer.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/fastXmlPull/js/fastXmlPull.js"></script>
+        
+        <script type="text/javascript" src="../../../../fluid-engage-core/components/exhibition/js/ExhibitionView.js"></script>
+        <script type="text/javascript" src="../../../../fluid-engage-core/components/navigationList/js/NavigationList.js"></script>
+        <script type="text/javascript" src="../../../../fluid-engage-core/components/cabinet/js/Cabinet.js"></script>
+        <script type="text/javascript" src="../../../../fluid-engage-core/framework/js/loadData.js"></script>
+    </head>   
+    <body class="fl-theme-iphone">
+        <div class="fl-exhibition flc-exhibition-container" />
+        <script type="text/javascript">
+            fluid.engage.initComponentWithDataFeed(window.location, "fluid.exhibition", ".flc-exhibition-container");
+        </script>
+    </body>
+</html>
