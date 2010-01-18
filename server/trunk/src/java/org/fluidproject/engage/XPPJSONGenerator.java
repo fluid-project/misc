@@ -17,7 +17,7 @@ import uk.org.ponder.util.UniversalRuntimeException;
 
 public class XPPJSONGenerator {
 
-    private Map root = new HashMap();
+    public Map root = new HashMap();
     private MXParser parser;
 
     public void parseStream(InputStream xmlstream) {

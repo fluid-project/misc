@@ -6,10 +6,12 @@ package org.fluidproject.engage;
 import java.io.FileInputStream;
 
 public class XMLtoJSON {
-  public static final String[] files = { "ENGAGE-90-test.xml", "Cartoon.xml", "Headdress.xml",
-      "Photograph.xml", "Snuffbox.xml" };
+  public static final String[] files = {
+    "ENGAGE-246-test.xml",
+  //  "ENGAGE-90-test.xml", "Cartoon.xml", "Headdress.xml", "Photograph.xml", "Snuffbox.xml" 
+    };
 
-  public static final String dir = "src/webapp/mapping/testdata/artifacts/";
+  public static final String dir = "bin/testdata/artifacts/";
 
   public static final int reps = 1000;
 
