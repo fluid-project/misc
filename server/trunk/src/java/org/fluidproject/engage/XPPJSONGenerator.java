@@ -19,7 +19,14 @@ public class XPPJSONGenerator {
 
     public Map root = new HashMap();
     private MXParser parser;
+    private TagPatternEntry[] entries;
 
+    public XPPJSONGenerator() {}
+    
+    public XPPJSONGenerator(List patterns) {
+        this.entries = TagPatterns.compilePatterns(patterns); 
+    }
+    
     public void parseStream(InputStream xmlstream) {
         parser = new MXParser();
         try {
@@ -27,10 +34,13 @@ public class XPPJSONGenerator {
             parser.setInput(xmlstream, "UTF-8");
             while (true) {
                 int token = parser.nextToken();
-                if (token == XmlPullParser.END_DOCUMENT)
+                if (token == XmlPullParser.END_DOCUMENT) {
                     break;
-
+                }
                 switch (token) {
+                case XmlPullParser.COMMENT:
+                    parser.next();
+                    break;
                 case XmlPullParser.START_TAG:
                     boolean isempty = parser.isEmptyElementTag();
                     processTagStart(parser, isempty);
