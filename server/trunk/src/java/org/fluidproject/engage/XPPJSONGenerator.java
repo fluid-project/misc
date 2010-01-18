@@ -69,6 +69,7 @@ public class XPPJSONGenerator {
     private CharWrap w = new CharWrap();
 
     private List stack = ListUtil.instance(root);
+    private boolean inMatch = false;
 
     private void processTagStart(XmlPullParser parser, boolean isempty) {
         int attrs = parser.getAttributeCount();
@@ -80,10 +81,42 @@ public class XPPJSONGenerator {
             String attrvalue = parser.getAttributeValue(i);
             topush.put(attrname, attrvalue);
         }
-        push(topush);
-        stack.add(topush);
-        if (isempty) {
-            stack.remove(stack.size() - 1);
+        if (entries != null) {
+            if (!inMatch) {
+                inMatch = TagPatterns.processTagStart(entries, stack, parser.getName());
+            }
+            else if (inMatch) {
+                processDefaultTag(XmlPullParser.START_TAG, parser);
+            }
+        }
+        if (!inMatch) {
+            push(topush);
+            stack.add(topush);
+            if (isempty) {
+                stack.remove(stack.size() - 1);
+            }
+        }
+    }
+
+    private void processTagEnd(XmlPullParser parser) {
+        boolean endMatch = false;
+        if (entries != null) {
+            if (inMatch) {
+                endMatch = TagPatterns.processTagEnd(entries, stack, parser.getName());
+                if (endMatch) {
+                    inMatch = false;
+                }
+                else {
+                    processDefaultTag(XmlPullParser.END_TAG, parser);
+                }
+            }
+        }
+        if (!inMatch) {
+            if (!endMatch) {
+                stack.remove(stack.size() - 1);
+            }
+            push(w.toString().trim());
+            w.clear();
         }
     }
 
@@ -131,12 +164,6 @@ public class XPPJSONGenerator {
             char[] chars = parser.getTextCharacters(limits);
             w.append(chars, limits[0], limits[1]);
         }
-    }
-
-    private void processTagEnd(XmlPullParser parser) {
-        stack.remove(stack.size() - 1);
-        push(w.toString().trim());
-        w.clear();
     }
 
 }
