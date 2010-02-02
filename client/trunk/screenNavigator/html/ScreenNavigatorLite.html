@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <title>Screen Navigator Lite</title>
+
+        <link rel="apple-touch-icon" href="../../../../fluid-engage-core/components/home/images/apple-touch-icon.png"/>
+
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/lib/jquery/core/js/jquery.js"></script>
+        <script type="text/javascript" src="../../../../fluid-infusion/src/webapp/framework/core/js/Fluid.js"></script>
+        <script type="text/javascript" src="../js/ScreenNavigatorLite.js"></script>
+    </head>
+    <body class="fl-theme-iphone fl-home-white-background">
+        <input id="url" type="text" value="http://localhost:8080/home/home.html"/> <button>Go</button>
+        
+        <script type="text/javascript">
+            var sn = fluid.engage.screenNavigatorLite();
+            $("button").click(function () {
+                sn.injectPage($("#url").val());
+            });
+        </script>
+    </body>
+</html>
