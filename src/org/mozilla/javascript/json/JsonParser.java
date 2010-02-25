@@ -70,7 +70,7 @@ public class JsonParser {
 
     public synchronized Object parseValue(String json) throws ParseException {
         if (json == null) {
-            throw new ParseException("Input string may not be null");
+            throwParseException("Input string may not be null");
         }
         pos = 0;
         length = json.length();
@@ -78,7 +78,7 @@ public class JsonParser {
         Object value = readValue();
         consumeWhitespace();
         if (pos < length) {
-            throw new ParseException("Expected end of stream at char " + pos);
+            throwParseException("Expected end of stream at char " + pos);
         }
         return value;
     }
@@ -113,10 +113,11 @@ public class JsonParser {
                 case '-':
                     return readNumber(c);
                 default:
-                    throw new ParseException("Unexpected token: " + c);
+                    throwParseException("Unexpected token: " + c);
             }
         }
-        throw new ParseException("Empty JSON string");
+        throwParseException("Empty JSON string");
+        return null; // unreachable
     }
 
     private Object readObject() throws ParseException {
@@ -132,13 +133,13 @@ public class JsonParser {
                     return object;
                 case ',':
                     if (!needsComma) {
-                        throw new ParseException("Unexpected comma in object literal");
+                        throwParseException("Unexpected comma in object literal");
                     }
                     needsComma = false;
                     break;
                 case '"':
                     if (needsComma) {
-                        throw new ParseException("Missing comma in object literal");
+                        throwParseException("Missing comma in object literal");
                     }
                     id = readString();
                     consume(':');
@@ -155,11 +156,12 @@ public class JsonParser {
                     needsComma = true;
                     break;
                 default:
-                    throw new ParseException("Unexpected token in object literal");
+                    throwParseException("Unexpected token in object literal");
             }
             consumeWhitespace();
         }
-        throw new ParseException("Unterminated object literal");
+        throwParseException("Unterminated object literal");
+        return null; // unreachable
     }
 
     private Object readArray() throws ParseException {
@@ -174,21 +176,22 @@ public class JsonParser {
                     return cx.newArray(scope, list.toArray());
                 case ',':
                     if (!needsComma) {
-                        throw new ParseException("Unexpected comma in array literal");
+                        throwParseException("Unexpected comma in array literal");
                     }
                     needsComma = false;
                     pos += 1;
                     break;
                 default:
                     if (needsComma) {
-                        throw new ParseException("Missing comma in array literal");
+                        throwParseException("Missing comma in array literal");
                     }
                     list.add(readValue());
                     needsComma = true;
             }
             consumeWhitespace();
         }
-        throw new ParseException("Unterminated array literal");
+        throwParseException("Unterminated array literal");
+        return null; // unreachable
     }
 
     private String readString() throws ParseException {
@@ -196,12 +199,12 @@ public class JsonParser {
         while (pos < length) {
             char c = src.charAt(pos++);
             if (c <= '\u001F') {
-                throw new ParseException("String contains control character");
+                throwParseException("String contains control character");
             }
             switch(c) {
                 case '\\':
                     if (pos >= length) {
-                        throw new ParseException("Unterminated string");
+                        throwParseException("Unterminated string");
                     }
                     c = src.charAt(pos++);
                     switch (c) {
@@ -231,17 +234,17 @@ public class JsonParser {
                             break;
                         case 'u':
                             if (length - pos < 5) {
-                                throw new ParseException("Invalid character code: \\u" + src.substring(pos));
+                                throwParseException("Invalid character code: \\u" + src.substring(pos));
                             }
                             try {
                                 b.append((char) Integer.parseInt(src.substring(pos, pos + 4), 16));
                                 pos += 4;
                             } catch (NumberFormatException nfx) {
-                                throw new ParseException("Invalid character code: " + src.substring(pos, pos + 4));
+                                throwParseException("Invalid character code: " + src.substring(pos, pos + 4));
                             }
                             break;
                         default:
-                            throw new ParseException("Unexcpected character in string: '\\" + c + "'");
+                            throwParseException("Unexcpected character in string: '\\" + c + "'");
                     }
                     break;
                 case '"':
@@ -251,7 +254,8 @@ public class JsonParser {
                     break;
             }
         }
-        throw new ParseException("Unterminated string literal");
+        throwParseException("Unterminated string literal");
+        return null; // unreachable
     }
 
     private Number readNumber(char first) throws ParseException {
@@ -280,7 +284,7 @@ public class JsonParser {
                     if (c == '0'
                             && numLength > i + 1
                             && Character.isDigit(num.charAt(i + 1))) {
-                        throw new ParseException("Unsupported number format: " + num);
+                        throwParseException("Unsupported number format: " + num);
                     }
                     break;
                 }
@@ -293,8 +297,9 @@ public class JsonParser {
                 return Double.valueOf(dval);
             }
         } catch (NumberFormatException nfe) {
-            throw new ParseException("Unsupported number format: " + num);
+            throwParseException("Unsupported number format: " + num);
         }
+        return null; // unreachable
     }
 
     private Boolean readTrue() throws ParseException {
@@ -302,7 +307,7 @@ public class JsonParser {
                 || src.charAt(pos) != 'r'
                 || src.charAt(pos + 1) != 'u'
                 || src.charAt(pos + 2) != 'e') {
-            throw new ParseException("Unexpected token: t");
+            throwParseException("Unexpected token: t");
         }
         pos += 3;
         return Boolean.TRUE;
@@ -314,7 +319,7 @@ public class JsonParser {
                 || src.charAt(pos + 1) != 'l'
                 || src.charAt(pos + 2) != 's'
                 || src.charAt(pos + 3) != 'e') {
-            throw new ParseException("Unexpected token: f");
+            throwParseException("Unexpected token: f");
         }
         pos += 4;
         return Boolean.FALSE;
@@ -325,7 +330,7 @@ public class JsonParser {
                 || src.charAt(pos) != 'u'
                 || src.charAt(pos + 1) != 'l'
                 || src.charAt(pos + 2) != 'l') {
-            throw new ParseException("Unexpected token: n");
+            throwParseException("Unexpected token: n");
         }
         pos += 3;
         return null;
@@ -350,16 +355,24 @@ public class JsonParser {
     private void consume(char token) throws ParseException {
         consumeWhitespace();
         if (pos >= length) {
-            throw new ParseException("Expected " + token + " but reached end of stream");
+            throwParseException("Expected " + token + " but reached end of stream");
         }
         char c = src.charAt(pos++);
         if (c == token) {
             return;
         } else {
-            throw new ParseException("Expected " + token + " found " + c);
+            throwParseException("Expected " + token + " found " + c);
         }
     }
 
+    private void throwParseException(String message) throws ParseException {
+        int backpos = Math.max(pos - 15, 0);
+        String previous = " Just read: \"" + src.substring(backpos, pos) + "\"";
+        int frontpos = Math.min(pos + 15, length);
+        String next = " Still to read: \"" + src.substring(pos, frontpos) + "\"";
+        throw new ParseException(message + previous + next);
+    }
+    
     public static class ParseException extends Exception {
         ParseException(String message) {
             super(message);
