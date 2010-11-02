@@ -32,21 +32,27 @@ var myUpload;
             
             // Initialize the Uploader.
             myUpload = fluid.uploader(".flc-uploader", {
-                uploadManager: {
-                    type: "fluid.swfUploadManager",
-                        
-                    options: {
-                        flashURL: "../../lib/swfupload/flash/swfupload.swf",
-                        
-                        // FLUID-2464: For some reason, we seem to have to use an absolute-ish path
-                        // in order for uploads to work in both browsers. Seems to have something to do with
-                        // the way Flash handles relative paths.
-                        uploadURL: "/sakai-imagegallery2-web/site/multiFileUpload",
-                        fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff;*.tif",
-                        debug: true
-                    }
+                queueSettings: {
+                    // FLUID-2464: For some reason, we seem to have to use an absolute-ish path
+                    // in order for uploads to work in both browsers. Seems to have something to do with
+                    // the way Flash handles relative paths.
+                    uploadURL: "/sakai-imagegallery2-web/site/multiFileUpload",
+                    fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff;*.tif",
                 },
                 
+                components: {
+                    uploadStrategy: {
+                        type: "fluid.uploader.swfUpload",
+                        options: {
+                            flashMovieSettings: {
+                                flashURL: "../../lib/swfupload/flash/swfupload.swf",
+                                flashButtonImageURL: "../../components/uploader/images/browse.png",
+                                debug: true
+                            }
+                        }
+                    }
+                },
+
                 listeners: {
                     onFileSuccess: function (file, serverData){
          				// Keep track of what's been added in this go-round so that those
@@ -58,22 +64,17 @@ var myUpload;
                     },
 
                     afterUploadComplete: function () {
-                        if (myUpload.uploadManager.queue.getReadyFiles().length === 0 && myUpload.uploadManager.queue.getErroredFiles().length === 0) { 
+                        if (myUpload.queue.getReadyFiles().length === 0 && 
+                            myUpload.queue.getErroredFiles().length === 0) { 
                             // we're really really done
-                            // display the meta data editing page after a brief delay so that the user can see that the upload is complete
+                            // display the meta data editing page after a brief delay so that the user 
+                            // can see that the upload is complete
                             var delay = setTimeout(function(){
                                  myUpload.container.submit();
                             },2000);
                         }
                     }
-                },
-                
-                decorators: [{
-                    type: "fluid.swfUploadSetupDecorator",
-                    options: {
-                        flashButtonImageURL: "../../components/uploader/images/browse.png"
-                    }
-                }]
+                }
             });
                      
             customizeUploaderForImageGallery();
