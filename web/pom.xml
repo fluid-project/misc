@@ -118,12 +118,21 @@
       </snapshots>
     </repository>
     <repository>
-      <id>media-berkeley-edu-dev</id>
-      <name>Local UC Berkeley Repo</name>
+      <id>sakai-ibiblio-mirror</id>
+      <name>Sakai Ibiblio Mirror Repo</name>
       <layout>default</layout>
-      <url>http://svn.media.berkeley.edu/maven2</url>
+      <url>http://source.sakaiproject.org/maven2-ibiblio</url>
       <snapshots>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>default</id>
+      <name>Maven Repository Switchboard</name>
+      <layout>default</layout>
+      <url>http://repo1.maven.org/maven2</url>
+      <snapshots>
+        <enabled>false</enabled>
       </snapshots>
     </repository>
   </repositories>
