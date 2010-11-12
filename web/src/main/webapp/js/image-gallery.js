@@ -42,7 +42,7 @@ var myUpload;
                 
                 components: {
                     uploadStrategy: {
-                        type: "fluid.uploader.swfUpload",
+                        type: "fluid.uploader.swfUploadStrategy",
                         options: {
                             flashMovieSettings: {
                                 flashURL: "../../lib/swfupload/flash/swfupload.swf",
