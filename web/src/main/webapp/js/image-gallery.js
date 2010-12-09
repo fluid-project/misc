@@ -41,8 +41,7 @@ var myUpload;
                 },
                 
                 components: {
-                    uploadStrategy: {
-                        type: "fluid.uploader.swfUploadStrategy",
+                    strategy: {
                         options: {
                             flashMovieSettings: {
                                 flashURL: "../../lib/swfupload/flash/swfupload.swf",
@@ -54,15 +53,6 @@ var myUpload;
                 },
 
                 listeners: {
-                    onFileSuccess: function (file, serverData){
-         				// Keep track of what's been added in this go-round so that those
-        				// images can be shown on the next page. (Alternatively, you
-        				// might set up another panel on this page to accumulate thumbnails
-        				// as each file is successfully consumed.)
-        				myUpload.container.append('<input type="hidden" name="imageIds" value="' + 
-                                                         serverData + '"/>');
-                    },
-
                     afterUploadComplete: function () {
                         if (myUpload.queue.getReadyFiles().length === 0 && 
                             myUpload.queue.getErroredFiles().length === 0) { 
@@ -76,7 +66,15 @@ var myUpload;
                     }
                 }
             });
-                     
+
+            // Keep track of what's been added in this go-round so that those
+            // images can be shown on the next page. (Alternatively, you
+            // might set up another panel on this page to accumulate thumbnails
+            // as each file is successfully consumed.           
+            myUpload.events.afterFileComplete.addListener(function (file){
+                myUpload.container.append('<input type="hidden" name="imageIds" value="' + 
+                                            myUpload.queue.getUploadedFiles().length + '"/>');
+            });
             customizeUploaderForImageGallery();
         });
     };
@@ -84,6 +82,7 @@ var myUpload;
     var customizeUploaderForImageGallery = function () {
         var formElement = myUpload.container;
         formElement.attr("action", "../AddInformationToImages");
+        formElement.attr("enctype", "multipart/form-data");
     };
     
     // Initialize the Uploader as soon as the DOM is ready.
