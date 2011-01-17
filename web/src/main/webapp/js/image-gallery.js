@@ -37,7 +37,7 @@ var myUpload;
                     // in order for uploads to work in both browsers. Seems to have something to do with
                     // the way Flash handles relative paths.
                     uploadURL: "/sakai-imagegallery2-web/site/multiFileUpload",
-                    fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff;*.tif",
+                    fileTypes: "*.gif;*.jpeg;*.jpg;*.png;*.tiff;*.tif"
                 },
                 
                 components: {
