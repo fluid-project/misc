@@ -21,7 +21,7 @@ var myUpload;
      * Initializes the Infusion Uploader for the AddImages page.
      */
     gallery.initUploader = function () {
-        $("#uploader").load("../../components/uploader/html/Uploader.html #uploader-contents", null, function () {
+        $("#uploader").load("../../components/uploader/html/Uploader.html .flc-uploader", null, function () {
         
             // Show the Uploader's markup immediately, since we're not using progressive enhancement.
             $(".fl-progEnhance-basic").hide();
