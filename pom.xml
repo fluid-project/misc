@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>master</artifactId>
+    <groupId>org.sakaiproject</groupId>
+    <version>SNAPSHOT</version>
+    <relativePath>master/pom.xml</relativePath>
+  </parent>
+  <name>Fluid Image Gallery 2 Continuum Build</name>
+  <groupId>org.sakaiproject</groupId>
+  <artifactId>base</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+    <module>master</module>
+    <module>fluid-components</module>
+    <module>image-gallery</module>
+  </modules>
+</project>
